@@ -4,7 +4,6 @@ import com.github.platform.core.auth.annotation.NoLogin;
 import com.github.platform.core.auth.annotation.RequiredLogin;
 import com.github.platform.core.auth.annotation.RequiredRoles;
 import com.github.platform.core.auth.configuration.properties.AuthProperties;
-import com.github.platform.core.auth.constants.AuthTypeEnum;
 import com.github.platform.core.auth.entity.LoginUserInfo;
 import com.github.platform.core.auth.service.IAuthorizationService;
 import com.github.platform.core.auth.service.ITokenService;
@@ -19,21 +18,19 @@ import com.github.platform.core.standard.constant.SymbolConstant;
 import com.github.platform.core.standard.exception.NoAuthForDataOptException;
 import com.github.platform.core.standard.exception.NoLoginException;
 import com.github.platform.core.standard.util.Base64;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -42,7 +39,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 /**
  * 基于 Spring Aop 的注解鉴权
  *
- * @author wangxiaozhou
+ * @author yxkong
  */
 @Slf4j
 @Aspect
@@ -192,7 +189,7 @@ public class AuthorizeAspect {
         String loginStr = httpRequest.getHeader(HeaderConstant.LOGIN_INFO);
 
         if (StringUtils.isNotBlank(loginStr)) {
-            loginStr = new String(Base64Utils.decodeUrlSafe(loginStr.getBytes()));
+            loginStr = new String(Base64.decodeUrlSafe(loginStr.getBytes()));
             if (log.isTraceEnabled()){
                 log.trace("通过网关过来请求的,uri:{},loginInfoStr:{}", httpRequest.getRequestURI(),loginStr);
             }

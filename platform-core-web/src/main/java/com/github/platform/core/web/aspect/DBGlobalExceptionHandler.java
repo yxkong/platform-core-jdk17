@@ -10,6 +10,8 @@ import com.github.platform.core.standard.exception.InfrastructureException;
 import com.github.platform.core.standard.util.ExceptionUtil;
 import com.github.platform.core.standard.util.ResultBeanUtil;
 import com.github.platform.core.web.util.RequestHolder;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
@@ -21,9 +23,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 数据库异常处理

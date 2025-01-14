@@ -1,4 +1,4 @@
-package com.github.platform.core.sleuth.configuration.filter;
+package com.github.platform.core.tracing.configuration.filter;
 
 import java.util.Arrays;
 

@@ -2,11 +2,11 @@ package com.github.platform.core.web.interceptor;
 
 import com.github.platform.core.loadbalancer.holder.GrayLabel;
 import com.github.platform.core.loadbalancer.holder.RequestHeaderHolder;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 灰度拦截器

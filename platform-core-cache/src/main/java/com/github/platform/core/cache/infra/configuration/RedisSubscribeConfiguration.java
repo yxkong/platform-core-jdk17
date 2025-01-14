@@ -13,7 +13,7 @@ import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * redis订阅配置

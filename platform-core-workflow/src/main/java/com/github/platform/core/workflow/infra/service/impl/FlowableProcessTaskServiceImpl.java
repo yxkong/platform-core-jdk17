@@ -4,7 +4,6 @@ import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.workflow.infra.service.IProcessTaskService;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.TaskService;
-import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricActivityInstanceQuery;
 import org.flowable.engine.history.HistoricProcessInstance;

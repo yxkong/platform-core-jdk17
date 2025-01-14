@@ -6,13 +6,16 @@ import com.github.platform.core.workflow.infra.listener.GlobalEventListener;
 import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.flowable.common.engine.api.delegate.event.FlowableEventDispatcher;
 import org.flowable.common.engine.impl.event.FlowableEventDispatcherImpl;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.ProcessEngine;
+import org.flowable.engine.TaskService;
 import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.flowable.spring.boot.EngineConfigurationConfigurer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * flowable 配置
@@ -33,9 +36,11 @@ public class FlowableConfiguration implements EngineConfigurationConfigurer<Spri
     }
 
     @Override
-    public void configure(SpringProcessEngineConfiguration springProcessEngineConfiguration) {
+    public void configure(SpringProcessEngineConfiguration configuration) {
+        // 禁用异步执行器（根据需要配置）
+        configuration.setAsyncExecutorActivate(true);
         FlowableEventDispatcher dispatcher = new FlowableEventDispatcherImpl();
-        globalEventListener.setRuntimeService(springProcessEngineConfiguration.getRuntimeService());
+        globalEventListener.setRuntimeService(configuration.getRuntimeService());
         // 添加全局启动事件监听
         dispatcher.addEventListener(globalEventListener, FlowableEngineEventType.PROCESS_STARTED);
         //添加全局流程完成监听器
@@ -51,7 +56,7 @@ public class FlowableConfiguration implements EngineConfigurationConfigurer<Spri
         // 添加全局任务创建监听器
         dispatcher.addEventListener(globalEventListener, FlowableEngineEventType.TASK_CREATED);
         dispatcher.addEventListener(globalEventListener, FlowableEngineEventType.TASK_COMPLETED);
-        springProcessEngineConfiguration.setEventDispatcher(dispatcher);
+        configuration.setEventDispatcher(dispatcher);
 
     }
 }

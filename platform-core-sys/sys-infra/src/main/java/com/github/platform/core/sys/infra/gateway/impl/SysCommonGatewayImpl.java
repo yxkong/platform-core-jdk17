@@ -13,7 +13,7 @@ import com.github.platform.core.sys.domain.gateway.*;
 import com.github.platform.core.sys.domain.model.user.UserEntity;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

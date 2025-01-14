@@ -9,6 +9,7 @@ import com.github.platform.core.common.service.DefaultDomainEventServiceImpl;
 import com.github.platform.core.common.service.IDomainEventService;
 import com.github.platform.core.common.service.IPublishService;
 import com.github.platform.core.common.service.impl.EventPublishServiceImpl;
+import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.common.utils.IdWorker;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class SpringBootConfiguration {
     @ConditionalOnProperty(name = PropertyConstant.CON_SNOWFLAKE_ENABLED, havingValue = "true")
     public IdWorker idWorker(IdWorkerProperties idWorkerProperties) throws Exception {
         List<String> cluster = idWorkerProperties.getCluster();
+        if (CollectionUtil.isEmpty(cluster)){
+            return new IdWorker();
+        }
         int skip = idWorkerProperties.getSkip();
         if (cluster == null) {
             cluster = new ArrayList<>();

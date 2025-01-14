@@ -6,7 +6,7 @@ import com.github.platform.core.schedule.domain.dto.SysJobLogDto;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**

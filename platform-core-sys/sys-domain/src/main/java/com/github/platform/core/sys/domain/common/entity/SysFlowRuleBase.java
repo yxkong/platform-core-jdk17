@@ -1,10 +1,11 @@
 package com.github.platform.core.sys.domain.common.entity;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+
 import com.github.platform.core.common.entity.BaseAdminEntity;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * 状态机配置规则模型实体

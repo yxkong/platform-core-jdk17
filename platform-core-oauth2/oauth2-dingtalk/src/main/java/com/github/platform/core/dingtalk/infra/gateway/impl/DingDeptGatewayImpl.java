@@ -9,7 +9,7 @@ import com.github.platform.core.dingtalk.infra.convert.DingDeptInfraConvert;
 import com.github.platform.core.persistence.mapper.dingding.DingDeptMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 /**
  * 钉钉部门网关层实现

@@ -19,7 +19,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 /**
@@ -52,7 +52,11 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
-    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager)
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
+            }
+    )
     public SysCascadeDto insert(SysCascadeContext context) {
         SysCascadeBase record = sysCascadeConvert.toSysCascadeBase(context);
         sysCascadeMapper.insert(record);
@@ -87,8 +91,8 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     @Caching(
             evict = {
                     @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.id",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':'+ #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager)
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':'+ #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
             }
     )
     public Pair<Boolean, SysCascadeDto> update(SysCascadeContext context) {
@@ -98,6 +102,13 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':'+ #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
+            }
+    )
     public int delete(SysCascadeContext context) {
         return sysCascadeMapper.deleteById(context.getId());
     }

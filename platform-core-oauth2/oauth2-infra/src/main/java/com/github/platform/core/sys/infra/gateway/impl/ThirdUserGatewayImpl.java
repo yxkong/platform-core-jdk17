@@ -16,7 +16,7 @@ import com.github.platform.core.sys.domain.model.user.ThirdUserEntity;
 import com.github.platform.core.sys.infra.convert.SysThirdUserInfraConvert;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 

@@ -1,9 +1,10 @@
 package com.github.platform.core.workflow.domain.common.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import com.github.platform.core.common.entity.BaseAdminEntity;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
 public class FormInfoBase extends BaseAdminEntity   {
     /** 表单编号 */
     @Schema(description = "表单编号")

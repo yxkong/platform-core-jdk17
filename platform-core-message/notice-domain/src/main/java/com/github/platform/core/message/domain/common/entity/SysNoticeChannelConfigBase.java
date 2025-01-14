@@ -1,10 +1,10 @@
 package com.github.platform.core.message.domain.common.entity;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import com.github.platform.core.common.entity.BaseAdminEntity;
-import javax.validation.constraints.*;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.LocalDateTime;
 
 /**
  * 通知通道配置模型实体

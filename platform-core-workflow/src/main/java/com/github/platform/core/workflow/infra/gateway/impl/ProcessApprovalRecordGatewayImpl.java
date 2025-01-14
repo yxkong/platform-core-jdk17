@@ -13,8 +13,8 @@ import com.github.platform.core.common.gateway.BaseGatewayImpl;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 /**
 * 流程审批记录网关层实现

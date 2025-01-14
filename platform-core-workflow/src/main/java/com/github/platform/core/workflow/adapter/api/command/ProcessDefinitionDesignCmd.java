@@ -1,12 +1,12 @@
 package com.github.platform.core.workflow.adapter.api.command;
 
 import com.github.platform.core.common.utils.SignUtil;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 流程设计
@@ -18,21 +18,21 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("流程设计")
+@Schema(name ="流程设计")
 public class ProcessDefinitionDesignCmd {
-    @ApiModelProperty(value = "流程id",required=true)
+    @Schema(description = "流程id",required=true)
     @NotNull(message = "流程编号为空")
     private String id;
     /**
      * 审批流编号
      */
-    @ApiModelProperty(value = "流程编号",required=true)
+    @Schema(description = "流程编号",required=true)
     private String processNo;
 
     /**
      * 审批流文件
      */
-    @ApiModelProperty(value = "流程文件",required=true)
+    @Schema(description = "流程文件",required=true)
     @NotEmpty(message = "流程文件为空")
     private String processFile;
 

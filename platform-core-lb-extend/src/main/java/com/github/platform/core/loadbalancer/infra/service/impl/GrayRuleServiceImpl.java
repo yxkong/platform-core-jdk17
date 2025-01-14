@@ -7,7 +7,7 @@ import com.github.platform.core.loadbalancer.infra.service.IGrayRuleService;
 import com.github.platform.core.persistence.mapper.GrayRuleMapper;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 

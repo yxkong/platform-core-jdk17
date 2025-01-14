@@ -1,9 +1,9 @@
 package com.github.platform.core.code.adpter.api.command;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.validation.constraints.*;
 import java.util.List;
 
 /**

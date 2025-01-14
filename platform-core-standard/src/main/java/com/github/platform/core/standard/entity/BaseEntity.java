@@ -3,11 +3,11 @@ package com.github.platform.core.standard.entity;
 import com.github.platform.core.standard.validate.Modify;
 import com.github.platform.core.standard.validate.Rest;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

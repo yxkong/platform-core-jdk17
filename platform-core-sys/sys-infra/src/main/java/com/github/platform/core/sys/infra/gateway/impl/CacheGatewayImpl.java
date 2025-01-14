@@ -4,7 +4,7 @@ package com.github.platform.core.sys.infra.gateway.impl;//package com.github.pla
 //import org.springframework.stereotype.Service;
 //import com.github.platform.core.common.utils.CollectionUtil;
 //
-//import javax.annotation.Resource;
+//import jakarta.annotation.Resource;
 //import java.text.SimpleDateFormat;
 //import java.time.LocalDateTime;
 //import java.util.*;

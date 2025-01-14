@@ -3,7 +3,7 @@ package ${infraPackage}.service.impl;
 import ${domainPackage}.common.entity.${entityName}Base;
 import ${mapperPackage}.${entityName}Mapper;
 import ${infraPackage}.service.I${entityName}Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

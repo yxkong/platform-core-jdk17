@@ -11,6 +11,7 @@ import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.gateway.domain.gateway.IConfigGateway;
 import com.github.platform.core.gateway.infra.utils.WebUtil;
 import com.github.platform.core.standard.constant.HeaderConstant;
+import com.github.platform.core.standard.util.Base64;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -96,7 +97,7 @@ public class SysAuthFilter extends GatewayFilterBase implements GatewayFilter {
         String requestIp = WebUtil.getIpAddr(exchange.getRequest());
         ServerHttpRequest request = exchange.getRequest().mutate()
                 //将请求登录信息放入请求头
-                .header(HeaderConstant.LOGIN_INFO, Base64Utils.encodeToUrlSafeString(JsonUtils.toJson(loginUserInfo).getBytes()))
+                .header(HeaderConstant.LOGIN_INFO, Base64.encodeToUrlSafeString(JsonUtils.toJson(loginUserInfo).getBytes()))
                 .header(HeaderConstant.TOKEN, token)
                 //将用户的真实ip放入到请求头
                 .header(HeaderConstant.IP_HEADER_X_FORWARDED_FOR, requestIp)

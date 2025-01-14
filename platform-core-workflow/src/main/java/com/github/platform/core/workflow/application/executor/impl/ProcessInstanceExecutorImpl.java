@@ -29,7 +29,7 @@ import com.github.platform.core.workflow.infra.service.IProcessInstanceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 /**

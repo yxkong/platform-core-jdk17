@@ -6,7 +6,7 @@ import ${domainPackage}.dto.${entityName}Dto;
 import ${domainPackage}.gateway.I${entityName}Gateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 /**
  * ${apiAlias}执行器
  * @website <a href="https://www.5ycode.com/">5ycode</a>

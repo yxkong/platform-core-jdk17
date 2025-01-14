@@ -48,25 +48,21 @@ public class IdWorker {
 
     /**
      * 构造函数
-     *
      * @throws Exception
      */
-    public IdWorker() throws Exception {
-        // 获取当前服务器的机器id start
-        String cluster = System.getProperty("cluster");
-        String[] strings = cluster.split(",");
-        String ip = "";
-        ip = IPUtil.getLocalHostAddress();
-        int index = 0;
-        for (int j = 0; j < strings.length; j++) {
-            if (ip.equals(strings[j])) {
-                index = j + 1;
-            }
+    public IdWorker()throws Exception {
+        // 获取 Pod 名称
+        String podName = System.getenv("POD_NAME");
+        if (podName == null || !podName.matches(".*-\\d+$")) {
+            throw new RuntimeException("Invalid podName: " + podName);
         }
-        // 获取当前服务器的机器id end
-
-        this.workerId = index;
+        String workerIdStr = podName.substring(podName.lastIndexOf('-') + 1);
+        this.workerId = Integer.parseInt(workerIdStr);
+        if (this.workerId < 0) {
+            throw new RuntimeException("Invalid workerId: " + this.workerId);
+        }
     }
+
 
     /**
      * 构造函数

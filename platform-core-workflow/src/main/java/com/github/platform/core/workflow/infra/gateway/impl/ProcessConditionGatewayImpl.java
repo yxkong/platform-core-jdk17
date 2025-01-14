@@ -13,7 +13,7 @@ import com.github.platform.core.common.gateway.BaseGatewayImpl;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 /**
 * 流程条件网关层实现

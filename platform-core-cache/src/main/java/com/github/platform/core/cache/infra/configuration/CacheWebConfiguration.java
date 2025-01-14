@@ -3,13 +3,13 @@ package com.github.platform.core.cache.infra.configuration;
 import com.github.platform.core.cache.infra.configuration.properties.CacheProperties;
 import com.github.platform.core.cache.infra.interceptor.RepeatSubmitInterceptor;
 import com.github.platform.core.cache.infra.service.ICacheService;
+import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.Resource;
 
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 

@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -184,15 +184,20 @@ public class SysCascadeExecutorImpl extends SysExecutor implements ISysCascadeEx
     @Override
     public void delete(Long id) {
         /**此处是为了再gateway上做多条件缓存，如果有必要，先查，后设置值*/
-        SysCascadeContext context = SysCascadeContext.builder().id(id).build();
+
         SysCascadeDto dto = sysCascadeGateway.findById(id);
+        SysCascadeContext context = SysCascadeContext.builder().id(id).parentId(dto.getParentId()).code(dto.getCode()).tenantId(dto.getTenantId()).build();
         int d = sysCascadeGateway.delete(context);
         List<SysCascadeDto> list = sysCascadeGateway.findByParentId(dto.getParentId());
         if (CollectionUtil.isEmpty(list)){
-            sysCascadeGateway.update(SysCascadeContext.builder().id(dto.getParentId()).leaf(StatusEnum.ON.getStatus()).build());
+            //父级缓存未更新
+            dto = sysCascadeGateway.findById(dto.getParentId());
+            context = SysCascadeContext.builder().id(id).parentId(dto.getParentId()).code(dto.getCode()).tenantId(dto.getTenantId()).leaf(StatusEnum.ON.getStatus()).build();
+            sysCascadeGateway.update(context);
         }
         if (d <=0 ){
             throw exception(ResultStatusEnum.COMMON_DELETE_ERROR);
         }
     }
+
 }

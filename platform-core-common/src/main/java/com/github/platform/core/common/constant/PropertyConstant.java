@@ -65,8 +65,8 @@ public interface PropertyConstant {
     String CON_GATEWAY_ROUTE_TYPE = "platform.gateway.route.type";
     /**http请求日志打印*/
     String CON_HTTP_TRACE_ENABLED = "platform.http.trace.enabled";
-    /**sleuth tracing */
-    String CON_SLEUTH_TRACING_ENABLED = "platform.sleuth.tracing.enabled";
+    /**tracing */
+    String CON_TRACING_ENABLED = "platform.tracing.enabled";
     /**验证码配置*/
     String DATA_KAPTCHA = "platform.kaptcha";
 

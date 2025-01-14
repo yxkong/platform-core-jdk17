@@ -8,7 +8,7 @@ import com.github.platform.core.workflow.application.executor.strategy.RoleStrat
 import com.github.platform.core.workflow.domain.context.FlwRoleQueryContext;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

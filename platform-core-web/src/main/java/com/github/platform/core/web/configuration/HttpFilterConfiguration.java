@@ -3,6 +3,7 @@ package com.github.platform.core.web.configuration;
 import com.github.platform.core.common.configuration.property.PlatformProperties;
 import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.web.filter.HttpTraceLogFilter;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -10,7 +11,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
 
 /**
  * http trace日志

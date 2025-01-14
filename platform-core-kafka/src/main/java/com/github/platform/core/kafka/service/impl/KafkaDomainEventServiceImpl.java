@@ -13,6 +13,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * kafka件发送事件
@@ -60,8 +61,13 @@ public class KafkaDomainEventServiceImpl extends AbstractDomainEventService {
 
     @Override
     public void publishMq(String content, String topic) {
-        kafkaTemplate.send(topic, content).addCallback(result -> {
-        }, e -> log.error("发送kafka数据失败!msg:{}, topic = {}", content, topic, e));
+        kafkaTemplate.send(topic, content).whenComplete((result, ex) -> {
+            if (ex == null) {
+                log.info("发送kafka数据成功.topic={}, msg={}", topic, content);
+            } else {
+                log.error("发送kafka数据失败.topic={}, msg={}", topic, content, ex);
+            }
+        });
     }
 
     public void publishUseKafka(MsgContent msgContent, String topic) {
@@ -71,14 +77,19 @@ public class KafkaDomainEventServiceImpl extends AbstractDomainEventService {
     private void publishUseKafka(MsgContent msgContent, String topic, String key) {
         msgContent.setServiceName(serviceName);
         String data = JsonUtils.toJson(msgContent);
-        ListenableFuture<SendResult<Object, Object>> listenableFuture = null;
+        CompletableFuture<SendResult<Object, Object>> listenableFuture = null;
         if (StringUtils.isBlank(key)) {
             listenableFuture = kafkaTemplate.send(topic, data);
         } else {
             listenableFuture = kafkaTemplate.send(topic, key, data);
         }
-        listenableFuture.addCallback((t) -> log.info("发送kafka数据成功.topic={},msg={}", topic, data),
-                throwable -> log.error("发送kafka数据失败.topic={},msg={}", topic, data, throwable));
+        listenableFuture.whenComplete((result, ex) -> {
+            if (ex == null) {
+                log.info("发送kafka数据成功.topic={}, msg={}", topic, data);
+            } else {
+                log.error("发送kafka数据失败.topic={}, msg={}", topic, data, ex);
+            }
+        });
     }
 
 }

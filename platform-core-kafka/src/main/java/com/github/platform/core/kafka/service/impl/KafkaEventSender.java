@@ -7,7 +7,7 @@ import com.github.platform.core.standard.entity.event.DomainEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * kafka发送

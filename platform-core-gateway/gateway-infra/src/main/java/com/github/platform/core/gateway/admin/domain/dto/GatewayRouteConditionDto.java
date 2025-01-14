@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+
 /**
  * 网关路由条件传输实体
  * @website <a href="https://www.5ycode.com/">5ycode</a>
@@ -21,4 +24,9 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @Schema(description = "网关路由条件传输实体")
 public class GatewayRouteConditionDto extends GatewayRouteConditionBase {
+    protected List<String> typeAndName;
+
+    public List<String> getTypeAndName() {
+        return List.of(this.type,this.name);
+    }
 }

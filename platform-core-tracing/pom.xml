@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.platform</groupId>
+        <artifactId>platform-core</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>platform-core-tracing</artifactId>
+    <description>追踪模块，springboot使用sleuth，springboot3.0中移除了对sleuth的支持，可以使用skywalking</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.platform</groupId>
+            <artifactId>platform-core-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.platform</groupId>
+            <artifactId>platform-core-kafka</artifactId>
+        </dependency>
+
+        <!-- 用于收集应用程序的度量数据-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
+        </dependency>
+        <!-- 用于与分布式追踪工具Brave集成-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <!-- 用于收集客户端请求的度量数据-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
+        </dependency>
+        <!-- 用于将Brave跟踪数据报告到Zipkin跟踪系统的库上 -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+        <!-- 将micrometer 桥接到opentelemetry -->
+<!--        <dependency>-->
+<!--            <groupId>io.micrometer</groupId>-->
+<!--            <artifactId>micrometer-tracing-bridge-otel</artifactId>-->
+<!--        </dependency>-->
+        <!-- 将链路追踪导入到zipkin -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-zipkin</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

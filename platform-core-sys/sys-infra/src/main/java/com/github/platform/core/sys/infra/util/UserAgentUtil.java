@@ -2,9 +2,9 @@ package com.github.platform.core.sys.infra.util;
 
 import com.github.platform.core.web.util.RequestHolder;
 import eu.bitwalker.useragentutils.UserAgent;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * UserAgent 工具类

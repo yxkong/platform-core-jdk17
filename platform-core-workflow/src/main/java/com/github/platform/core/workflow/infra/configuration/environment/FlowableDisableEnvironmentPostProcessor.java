@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class FlowableDisableEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
-    public static final int DEFAULT_ORDER = Ordered.HIGHEST_PRECEDENCE + 20;
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -24,11 +23,15 @@ public class FlowableDisableEnvironmentPostProcessor implements EnvironmentPostP
         if (isEnabled(environment)) {
             // 关闭自动创建表及更新表
             source.put("flowable.database-schema-update", ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE);
+            source.put("flowable.process.enabled", true);
+            source.put("flowable.app.enabled", false);
+            source.put("flowable.eventregistry.enabled", false);
         } else {
             source.put("flowable.process.enabled", false);
             source.put("flowable.app.enabled", false);
             source.put("flowable.eventregistry.enabled", false);
         }
+
         source.put("flowable.cmmn.enabled", false);
         source.put("flowable.content.enabled", false);
         source.put("flowable.dmn.enabled", false);
@@ -41,7 +44,7 @@ public class FlowableDisableEnvironmentPostProcessor implements EnvironmentPostP
 
     @Override
     public int getOrder() {
-        return DEFAULT_ORDER;
+        return Ordered.HIGHEST_PRECEDENCE - 1;
     }
 
     protected Boolean isEnabled(ConfigurableEnvironment environment) {

@@ -5,6 +5,9 @@ import com.github.platform.core.sys.domain.common.entity.SysCascadeBase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
+
 /**
  * 级联表增加或修改
  * @website <a href="https://www.5ycode.com/">5ycode</a>

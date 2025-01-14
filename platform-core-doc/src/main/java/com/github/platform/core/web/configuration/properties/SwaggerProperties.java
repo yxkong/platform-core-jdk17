@@ -4,11 +4,6 @@ import com.github.platform.core.common.constant.PropertyConstant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-import springfox.documentation.service.RequestParameter;
-import springfox.documentation.service.ResponseMessage;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * swagger属性配置
@@ -55,13 +50,5 @@ public class SwaggerProperties {
      */
     private String scanPackage;
 
-    /**
-     * 添加Request head参数
-     */
-    private Map<String, RequestParameter> globleRequestParams = new LinkedHashMap<>();
-    /**
-     * 添加Response head参数
-     */
-    private Map<String, ResponseMessage> globleResponseMessage = new LinkedHashMap<>();
 
 }

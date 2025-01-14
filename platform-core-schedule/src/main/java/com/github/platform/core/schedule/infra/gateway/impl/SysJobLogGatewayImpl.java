@@ -14,7 +14,7 @@ import com.github.platform.core.standard.entity.dto.PageBean;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 /**
 * 任务执行日志网关层实现

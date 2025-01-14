@@ -16,7 +16,7 @@ package com.github.platform.core.gateway.infra.exception;
 //import org.springframework.http.codec.ServerCodecConfigurer;
 //import org.springframework.web.reactive.result.view.ViewResolver;
 //
-//import javax.annotation.Resource;
+//import jakarta.annotation.Resource;
 //import java.util.Collections;
 //import java.util.List;
 //

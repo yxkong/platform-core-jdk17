@@ -5,6 +5,7 @@ import com.github.platform.core.cloud.properties.NacosEnvProperties;
 import com.github.platform.core.cloud.service.PullConfigToEnvService;
 import com.github.platform.core.cloud.service.impl.NacosConfigToEnvService;
 import com.github.platform.core.common.constant.PropertyConstant;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -13,7 +14,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import com.github.platform.core.common.utils.CollectionUtil;
 
-import javax.annotation.PostConstruct;
 
 /**
  * 解析yaml文件到Environment

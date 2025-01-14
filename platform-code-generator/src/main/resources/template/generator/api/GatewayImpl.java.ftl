@@ -8,7 +8,7 @@ import ${infraPackage}.convert.${entityName}InfraConvert;
 import ${mapperPackage}.${entityName}Mapper;
 import com.github.platform.core.common.gateway.BaseGatewayImpl;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 /**

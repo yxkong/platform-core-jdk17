@@ -9,7 +9,7 @@ import com.github.platform.core.workflow.application.executor.strategy.UserStrat
 import com.github.platform.core.workflow.domain.context.UserQueryContext;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

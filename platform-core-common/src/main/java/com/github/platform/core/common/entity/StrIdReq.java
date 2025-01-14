@@ -2,10 +2,10 @@ package com.github.platform.core.common.entity;
 
 import com.github.platform.core.common.utils.SignUtil;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * 加密主键id

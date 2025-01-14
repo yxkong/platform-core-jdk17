@@ -9,7 +9,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,32 +26,36 @@ public class KafkaServiceImpl implements IKafkaService {
     private KafkaTemplate<String, String> kafkaTemplate;
     @Override
     public void asyncSend(String topic, String key, String data) {
-        ListenableFuture<SendResult<String, String>> listenableFuture ;
+        CompletableFuture<SendResult<String, String>> future ;
         if (StringUtils.isEmpty(key)) {
-            listenableFuture = kafkaTemplate.send(topic, data);
+            future = kafkaTemplate.send(topic, data);
         } else {
-            listenableFuture = kafkaTemplate.send(topic, key, data);
+            future = kafkaTemplate.send(topic, key, data);
         }
-        listenableFuture.addCallback((t) -> log.info("推送成功数据到topic={},msg={},offset:{}", topic, data,t.getRecordMetadata().hasOffset()),
-                throwable -> log.error("推送失败数据到topic={},msg={}", topic, data, throwable));
+        future.whenComplete((result, ex) -> {
+            if (ex == null) {
+                log.info("推送成功数据到 topic={}, msg={}, offset={}", topic, data, result.getRecordMetadata().offset());
+            } else {
+                log.error("推送失败数据到 topic={}, msg={}", topic, data, ex);
+            }
+        });
     }
 
     @Override
     public Pair<Boolean,String> syncSend(String topic, String key, String data) {
-        CompletableFuture<SendResult<String, String>> future = null;
+        CompletableFuture<SendResult<String, String>> future;
         if (StringUtils.isEmpty(key)) {
-            future = kafkaTemplate.send(topic, data).completable();
+            future = kafkaTemplate.send(topic, data);
         } else {
-            future = kafkaTemplate.send(topic, key, data).completable();
+            future = kafkaTemplate.send(topic, key, data);
         }
-        return future.handle((r,e)->{
-            if (Objects.isNull(e)){
-                log.info("推送数据到topic={}成功.msg={}", topic, data);
-                return Pair.of(true,"推送成功！");
-            } else {
-                log.error("推送数据到topic={}失败.,msg={}", topic, data, e);
-                return  Pair.of(false,e.getMessage());
-            }
-        }).join();
+        try {
+            SendResult<String, String> result = future.get();
+            log.info("推送数据到 topic={} 成功. msg={}", topic, data);
+            return Pair.of(true, "推送成功！");
+        } catch (Exception e) {
+            log.error("推送数据到 topic={} 失败. msg={}", topic, data, e);
+            return Pair.of(false, e.getMessage());
+        }
     }
 }

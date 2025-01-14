@@ -4,7 +4,7 @@ import com.github.platform.core.auth.configuration.properties.AuthProperties;
 import com.github.platform.core.gateway.domain.gateway.IConfigGateway;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 配置中心实现的动态路由

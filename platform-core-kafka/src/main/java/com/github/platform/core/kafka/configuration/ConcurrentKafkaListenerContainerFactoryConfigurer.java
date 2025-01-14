@@ -67,7 +67,7 @@ public class ConcurrentKafkaListenerContainerFactoryConfigurer {
         PropertyMapper map = PropertyMapper.get();
         KafkaProperties.Listener properties = this.properties.getListener();
         map.from(properties::getConcurrency).whenNonNull().to(factory::setConcurrency);
-        map.from(() -> this.messageConverter).whenNonNull().to(factory::setMessageConverter);
+        map.from(() -> this.messageConverter).whenNonNull().to(factory::setRecordMessageConverter);
         map.from(() -> this.replyTemplate).whenNonNull().to(factory::setReplyTemplate);
         map.from(properties::getType).whenEqualTo(KafkaProperties.Listener.Type.BATCH).toCall(() -> factory.setBatchListener(true));
     }

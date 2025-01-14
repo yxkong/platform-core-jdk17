@@ -1,6 +1,5 @@
 package com.github.platform.core.kafka;
 
-import brave.Tracing;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.kafka.entity.BigDataMsgContent;
@@ -38,7 +37,8 @@ public class BigDataSaveClient {
 
     private static String getTraceId() {
         try {
-            return Tracing.currentTracer().currentSpan().context().traceIdString();
+//            return Tracing.currentTracer().currentSpan().context().traceIdString();
+            return null;
         } catch (Exception var1) {
             return null;
         }

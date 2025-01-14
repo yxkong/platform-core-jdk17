@@ -26,7 +26,7 @@ import com.github.platform.core.sys.domain.model.user.UserEntity;
 import com.github.platform.core.sys.domain.service.SysUserService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

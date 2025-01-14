@@ -17,7 +17,7 @@ import com.github.platform.core.workflow.infra.convert.FormInfoInfraConvert;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 /**

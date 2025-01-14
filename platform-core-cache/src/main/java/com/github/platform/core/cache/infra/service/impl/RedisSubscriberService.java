@@ -7,19 +7,19 @@ import com.github.platform.core.common.utils.ApplicationContextHolder;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.entity.dto.CommonPublishDto;
+import jakarta.annotation.Resource;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
  * redis订阅者服务
  * @author: yxkong
- * @date: 2023/9/8 2:57 PM
+ * @date: 2023/9/8 2:57 PMR
  * @version: 1.0
  */
 @Service

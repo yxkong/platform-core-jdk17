@@ -1,20 +1,22 @@
 package com.github.platform.core.kafka.configuration;
 
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaConsumerFactoryCustomizer;
 import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryCustomizer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
-import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.LoggingProducerListener;
 import org.springframework.kafka.support.ProducerListener;
 import org.springframework.kafka.support.converter.RecordMessageConverter;
 
-import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 业务kafka
@@ -25,14 +27,16 @@ import javax.annotation.Resource;
  */
 @Configuration
 @ConditionalOnProperty(prefix = "spring.kafka.biz", name = "enabled", havingValue = "true")
-public class BizKafkaAutoConfiguration {
+public class BizKafkaAutoConfiguration implements Ordered {
+
     @Resource
     private BizKafkaProperties bizProperties;
 
     @Bean(name = "bizKafkaTemplate")
     public KafkaTemplate<Object, Object> bizKafkaTemplate(ProducerFactory<Object, Object> bizKafkaProducerFactory,
                                                           ProducerListener<Object, Object> bizKafkaProducerListener,
-                                                          ObjectProvider<RecordMessageConverter> messageConverter) {
+                                                          ObjectProvider<RecordMessageConverter> messageConverter
+                                                         ) {
         KafkaTemplate<Object, Object> kafkaTemplate = new KafkaTemplate<>(bizKafkaProducerFactory);
         messageConverter.ifUnique(kafkaTemplate::setMessageConverter);
         kafkaTemplate.setProducerListener(bizKafkaProducerListener);
@@ -40,22 +44,20 @@ public class BizKafkaAutoConfiguration {
         return kafkaTemplate;
     }
 
-    /**
-     * 生产者的配置
-     */
     @Bean(name = "bizKafkaProducerListener")
     public ProducerListener<Object, Object> bizKafkaProducerListener() {
         return new LoggingProducerListener<>();
     }
 
     @Bean(name = "bizKafkaProducerFactory")
-    public ProducerFactory<Object, Object> bizKafkaProducerFactory(ObjectProvider<DefaultKafkaProducerFactoryCustomizer> customizers) {
-        DefaultKafkaProducerFactory<Object, Object> factory = new DefaultKafkaProducerFactory<>(kafkaProperties().buildProducerProperties());
+    public ProducerFactory<Object, Object> bizKafkaProducerFactory(ObjectProvider<DefaultKafkaProducerFactoryCustomizer> customizers, ObjectProvider<SslBundles> sslBundles) {
+        Map<String, Object> producerProperties = kafkaProperties().buildProducerProperties(sslBundles.getIfAvailable());
+        DefaultKafkaProducerFactory<Object, Object> factory = new DefaultKafkaProducerFactory<>(producerProperties);
         String transactionIdPrefix = kafkaProperties().getProducer().getTransactionIdPrefix();
         if (transactionIdPrefix != null) {
             factory.setTransactionIdPrefix(transactionIdPrefix);
         }
-        customizers.orderedStream().forEach((customizer) -> customizer.customize(factory));
+        customizers.orderedStream().forEach(customizer -> customizer.customize(factory));
         return factory;
     }
 
@@ -81,7 +83,6 @@ public class BizKafkaAutoConfiguration {
         bizKafkaListenerContainerFactoryConfigurer.configure(factory, bizKafkaConsumerFactory);
         return factory;
     }
-
     /**
      * 消费者的配置
      *
@@ -89,22 +90,29 @@ public class BizKafkaAutoConfiguration {
      * @return
      */
     @Bean(name = "bizKafkaConsumerFactory")
-    public ConsumerFactory<?, ?> bizKafkaConsumerFactory(ObjectProvider<DefaultKafkaConsumerFactoryCustomizer> customizers) {
-        DefaultKafkaConsumerFactory<Object, Object> factory = new DefaultKafkaConsumerFactory<>(kafkaProperties().buildConsumerProperties());
-        customizers.orderedStream().forEach((customizer) -> customizer.customize(factory));
+    public ConsumerFactory<?, ?> bizKafkaConsumerFactory(ObjectProvider<DefaultKafkaConsumerFactoryCustomizer> customizers, ObjectProvider<SslBundles> sslBundles) {
+        Map<String, Object> consumerProperties = kafkaProperties().buildConsumerProperties(sslBundles.getIfAvailable());
+        DefaultKafkaConsumerFactory<Object, Object> factory = new DefaultKafkaConsumerFactory<>(consumerProperties);
+        customizers.orderedStream().forEach(customizer -> customizer.customize(factory));
         return factory;
     }
 
     @Bean(name = "bizKafkaAdmin")
-    public KafkaAdmin bizKafkaAdmin() {
-        KafkaAdmin kafkaAdmin = new KafkaAdmin(kafkaProperties().buildAdminProperties());
-        kafkaAdmin.setFatalIfBrokerNotAvailable(kafkaProperties().getAdmin().isFailFast());
-        return kafkaAdmin;
+    public KafkaAdmin bizKafkaAdmin(ObjectProvider<SslBundles> sslBundles) {
+        Map<String, Object> adminProperties = kafkaProperties().buildAdminProperties(sslBundles.getIfAvailable());
+        return new KafkaAdmin(adminProperties);
     }
+
 
     private KafkaProperties kafkaProperties() {
         KafkaProperties kafkaProperties = this.bizProperties.getKafkaProperties();
-        kafkaProperties.setBootstrapServers(this.bizProperties.getBizBootstrapServers());
+        kafkaProperties.setBootstrapServers(this.bizProperties.getBootstrapServers());
         return kafkaProperties;
     }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
+    }
 }
+

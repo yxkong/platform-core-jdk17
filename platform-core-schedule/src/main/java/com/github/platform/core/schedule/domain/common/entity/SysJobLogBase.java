@@ -1,8 +1,9 @@
 package com.github.platform.core.schedule.domain.common.entity;
 import com.github.platform.core.common.entity.BaseAdminEntity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 

@@ -8,7 +8,7 @@ import com.github.platform.core.workflow.domain.gateway.ICustomFormDataGateway;
 import com.github.platform.core.workflow.domain.gateway.IFormInfoGateway;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

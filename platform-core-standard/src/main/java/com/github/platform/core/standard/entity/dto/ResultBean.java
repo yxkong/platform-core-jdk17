@@ -53,6 +53,10 @@ public class ResultBean<T> implements Serializable {
     @Schema(description = "请求返回时间")
     private Long timestamp = System.currentTimeMillis();
 
+    public static boolean isValidKey(String key) {
+        return STATUS.equals(key) || MESSAGE.equals(key) || TIMESTAMP.equals(key) || DATA.equals(key);
+    }
+
     /**
      * 格式化message
      *

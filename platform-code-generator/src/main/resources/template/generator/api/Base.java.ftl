@@ -2,7 +2,7 @@ package ${domainPackage}.common.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import com.github.platform.core.standard.entity.BaseEntity;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 <#if hasLocalDateTime>
 import java.time.LocalDateTime;

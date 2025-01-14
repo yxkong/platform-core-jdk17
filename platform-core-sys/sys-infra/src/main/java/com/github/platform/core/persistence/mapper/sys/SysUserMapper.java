@@ -4,7 +4,7 @@ import com.github.platform.core.sys.domain.common.entity.SysUserBase;
 import com.github.platform.core.sys.domain.dto.SysUserDto;
 import org.apache.ibatis.annotations.Param;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
 

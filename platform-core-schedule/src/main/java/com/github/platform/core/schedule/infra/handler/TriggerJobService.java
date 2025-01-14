@@ -10,7 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * 更新job任务处理器

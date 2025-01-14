@@ -21,7 +21,7 @@ package com.github.platform.core.monitor.infra.aspect;//package com.github.platf
 //import org.springframework.expression.spel.support.StandardEvaluationContext;
 //import org.springframework.stereotype.Component;
 //
-//import javax.annotation.Resource;
+//import jakarta.annotation.Resource;
 //import java.util.Objects;
 //
 ///**

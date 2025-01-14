@@ -5,13 +5,13 @@ import com.github.platform.core.common.entity.BaseAdminEntity;
 import com.github.platform.core.workflow.domain.constant.InstanceStatusEnum;
 import com.github.platform.core.workflow.domain.constant.ProcessTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**

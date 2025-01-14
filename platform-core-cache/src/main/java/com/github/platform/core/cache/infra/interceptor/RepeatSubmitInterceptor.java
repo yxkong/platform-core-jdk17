@@ -10,13 +10,13 @@ import com.github.platform.core.standard.constant.HeaderConstant;
 import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.constant.SymbolConstant;
 import com.github.platform.core.standard.util.ResultBeanUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;

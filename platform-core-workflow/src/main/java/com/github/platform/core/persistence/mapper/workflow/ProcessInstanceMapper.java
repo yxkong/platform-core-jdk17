@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
 * 流程实例 mappper

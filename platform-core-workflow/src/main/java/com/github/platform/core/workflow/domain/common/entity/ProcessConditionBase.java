@@ -1,8 +1,8 @@
 package com.github.platform.core.workflow.domain.common.entity;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import com.github.platform.core.common.entity.BaseAdminEntity;
-import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 

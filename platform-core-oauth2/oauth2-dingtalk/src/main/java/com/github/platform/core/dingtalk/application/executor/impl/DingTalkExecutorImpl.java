@@ -15,7 +15,7 @@ import com.github.platform.core.standard.util.LocalDateUtil;
 import com.github.platform.core.sys.domain.common.entity.SysThirdUserBase;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

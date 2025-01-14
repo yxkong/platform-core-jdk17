@@ -10,21 +10,23 @@ import com.github.platform.core.standard.entity.dto.ResultBean;
 import com.github.platform.core.standard.exception.*;
 import com.github.platform.core.standard.util.ResultBeanUtil;
 import com.github.platform.core.web.util.RequestHolder;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -43,6 +45,10 @@ public class GlobalExceptionHandler extends ExceptionHandlerBase{
 
     @Resource
     private PlatformProperties properties;
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        return new ResponseEntity<>("Endpoint not found", HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultBean<?> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e,
                                                                 HttpServletRequest request) {

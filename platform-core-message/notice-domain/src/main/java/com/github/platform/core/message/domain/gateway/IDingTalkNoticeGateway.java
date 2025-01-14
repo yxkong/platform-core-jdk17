@@ -7,7 +7,7 @@ import com.github.platform.core.message.dingtalk.feign.dto.DingDeptDto;
 import com.github.platform.core.message.dingtalk.feign.dto.DingUserDto;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 

@@ -3,6 +3,7 @@ package com.github.platform.core.cache.infra.configuration;
 import com.github.platform.core.cache.infra.configuration.properties.RedissonProperties;
 import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.common.utils.StringUtils;
+import jakarta.annotation.Resource;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
@@ -11,12 +12,10 @@ import org.redisson.config.Config;
 import org.redisson.config.SingleServerConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 /**

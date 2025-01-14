@@ -12,6 +12,8 @@ import com.github.platform.core.standard.constant.HeaderConstant;
 import com.github.platform.core.standard.entity.common.LoginInfo;
 import com.github.platform.core.standard.exception.NoAuthForDataOptException;
 import com.github.platform.core.standard.exception.NoLoginException;
+import com.github.platform.core.standard.util.Base64;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,10 +24,8 @@ import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -155,7 +155,7 @@ public class AuthorizeAspect {
             if (log.isTraceEnabled()){
                 log.trace("通过网关请求的,uri:{},loginInfoStr:{}", httpRequest.getRequestURI(),loginStr);
             }
-            return new String(Base64Utils.decodeUrlSafe(loginStr.getBytes()));
+            return new String(Base64.decodeUrlSafe(loginStr.getBytes()));
         }
         // 记录没有从网关请求的ip和接口
         String token = httpRequest.getHeader(HeaderConstant.TOKEN);

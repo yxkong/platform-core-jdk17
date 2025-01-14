@@ -3,16 +3,25 @@ package com.github.platform.core.standard.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author yxkong
  * @Description: Base64编码解码
  */
-public class Base64  {
+public class Base64 {
 
     private static final char[] LEGALCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
-
-
+    public static byte[] encodeUrlSafe(byte[] src) {
+        return src.length == 0 ? src : java.util.Base64.getUrlEncoder().encode(src);
+    }
+    public static String encodeToUrlSafeString(byte[] src) {
+        return new String(encodeUrlSafe(src), StandardCharsets.UTF_8);
+    }
+    public static byte[] decodeUrlSafe(byte[] src) {
+        return src.length == 0 ? src : java.util.Base64.getUrlDecoder().decode(src);
+    }
     /**
      * 使用系统base64
      * @param data

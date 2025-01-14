@@ -14,7 +14,7 @@ import com.github.platform.core.workflow.infra.convert.FormDataInfraConvert;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 /**
 * 表单数据网关层实现
