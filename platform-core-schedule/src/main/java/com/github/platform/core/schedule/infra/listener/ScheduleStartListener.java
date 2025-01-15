@@ -21,8 +21,8 @@ import java.util.List;
 @Slf4j
 public class ScheduleStartListener implements ApplicationListener<ApplicationReadyEvent> {
 
-    private SysJobMapper sysJobMapper;
-    private  ScheduleManager scheduleManager;
+    private final SysJobMapper sysJobMapper;
+    private final ScheduleManager scheduleManager;
 
     public ScheduleStartListener(SysJobMapper sysJobMapper, ScheduleManager scheduleManager) {
         this.sysJobMapper = sysJobMapper;
@@ -34,7 +34,7 @@ public class ScheduleStartListener implements ApplicationListener<ApplicationRea
             log.warn("项目启动，加载定时任务");
         }
         try {
-            //查询所有状态为1（启用的任务）
+            //查询所有任务
             List<SysJobBase> list = sysJobMapper.findListBy(null);
             if (CollectionUtil.isEmpty(list)){
                 if (log.isWarnEnabled()){

@@ -1,6 +1,5 @@
 package com.github.platform.core.schedule.infra.configuration;
 
-import com.github.platform.core.auth.util.LoginInfoUtil;
 import com.github.platform.core.schedule.domain.common.entity.SysJobBase;
 import com.github.platform.core.schedule.domain.constant.JobDataEnum;
 import com.github.platform.core.schedule.infra.handler.JobHandlerExecutor;
