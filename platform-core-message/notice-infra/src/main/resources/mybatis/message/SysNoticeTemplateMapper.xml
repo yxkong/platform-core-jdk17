@@ -106,7 +106,7 @@
 		select <include refid="BaseColumnList" /> from t_sys_notice_template t where t.id=#{id}
 	</select>
 	<select id="findByTempNo" resultMap="BaseResultMap">
-		select <include refid="BaseColumnList" /> from t_sys_notice_template t where t.tempNo=#{tempNo}
+		select <include refid="BaseColumnList" /> from t_sys_notice_template t where t.temp_no=#{tempNo}
 	</select>
 	<select id="findEventType" resultMap="BaseResultMap">
 		select <include refid="BaseColumnList" /> from t_sys_notice_template t where t.event_type=#{eventType} and t.tenant_id = #{tenantId} limit 1

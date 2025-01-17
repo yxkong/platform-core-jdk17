@@ -10,6 +10,7 @@
 		<id column="app_secret" property="appSecret" />
 		<id column="token_key" property="tokenKey" />
 		<id column="host" property="host" />
+		<id column="port" property="port" />
 		<id column="config" property="config" />
 		<id column="tenant_id" property="tenantId" />
 		<id column="status" property="status" />
@@ -26,6 +27,7 @@
 		t.app_key,
 		t.app_secret,
 		t.host,
+		t.port,
 		t.token_key,
 		t.config,
 		t.tenant_id,
@@ -45,6 +47,7 @@
 			<if test="appKey != null  and appKey != ''">app_key,</if>
 			<if test="appSecret != null  and appSecret != ''">app_secret,</if>
 			<if test="host != null  and host != ''">host,</if>
+			<if test="port != null ">port,</if>
 			<if test="tokenKey != null  and tokenKey != ''">token_key,</if>
 			<if test="config != null  and config != ''">config,</if>
 			<if test="tenantId != null ">tenant_id,</if>
@@ -61,6 +64,7 @@
 			<if test="appKey != null  and appKey != ''">#{appKey},</if>
 			<if test="appSecret != null  and appSecret != ''">#{appSecret},</if>
 			<if test="host != null  and host != ''">#{host},</if>
+			<if test="port != null ">#{port},</if>
 			<if test="tokenKey != null  and tokenKey != ''">#{tokenKey},</if>
 			<if test="config != null  and config != ''">#{config},</if>
 			<if test="tenantId != null ">#{tenantId},</if>
@@ -80,6 +84,7 @@
 			<if test="appKey != null  and appKey != ''">app_key = #{appKey},</if>
 			<if test="appSecret != null  and appSecret != ''">app_secret = #{appSecret},</if>
 			<if test="host != null  and host != ''">host = #{host},</if>
+			<if test="port != null ">port = #{port},</if>
 			<if test="tokenKey != null  and tokenKey != ''">token_key = #{tokenKey},</if>
 			<if test="config != null  and config != ''">config = #{config},</if>
 			<if test="tenantId != null ">tenant_id = #{tenantId},</if>

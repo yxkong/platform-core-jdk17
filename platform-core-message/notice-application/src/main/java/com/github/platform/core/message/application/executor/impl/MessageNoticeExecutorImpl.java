@@ -14,11 +14,11 @@ import com.github.platform.core.standard.constant.StatusEnum;
 import com.github.platform.core.standard.entity.context.MessageNoticeContext;
 import com.github.platform.core.standard.entity.event.DomainEvent;
 import com.github.platform.core.standard.util.LocalDateTimeUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Map;
 import java.util.Objects;
 
@@ -47,12 +47,13 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
             noticeContext.getNoticeChannelInfo().setChannelType(noticeProperties.getChannelType());
         }
         Long logId =  null;
+        //幂等处理，并插入日志记录
         SysNoticeEventLogDto dto = sysNoticeEventLogGateway.findByMsgId(domainEvent.getMsgId());
         if(Objects.isNull(dto)){
             logId = logRecord(domainEvent, noticeContext);
         } else {
-            // 已经发送成功的，不再处理
             if (dto.isOn()){
+                log.warn("消息：{} 已经发送成功，不需要再处理！",dto.getId());
                 return true;
             }
             logId = dto.getId();

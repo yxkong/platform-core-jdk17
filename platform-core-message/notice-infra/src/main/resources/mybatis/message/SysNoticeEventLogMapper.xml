@@ -117,6 +117,7 @@
 				and t.create_time <![CDATA[<=]]> #{searchEndTime}
 			</if>
 		</where>
+		order by t.id desc
 	</select>
 	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeEventLogBase">
 		select count(t.id) from t_sys_notice_event_log t
