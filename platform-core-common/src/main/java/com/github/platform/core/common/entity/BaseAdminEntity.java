@@ -54,6 +54,12 @@ public class BaseAdminEntity extends BaseEntity {
     @Schema(description = "结束时间")
     protected String searchEndTime;
     @JsonIgnore
+    @Schema(description = "开始日期")
+    protected String searchStart;
+    @JsonIgnore
+    @Schema(description = "结束日期")
+    protected String searchEnd;
+    @JsonIgnore
     @Schema(description = "扩展参数")
     private Map<String, Object> params;
 
