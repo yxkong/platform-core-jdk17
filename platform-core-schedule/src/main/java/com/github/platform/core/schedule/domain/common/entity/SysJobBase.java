@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import com.github.platform.core.common.entity.BaseAdminEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
 * 任务管理模型实体
@@ -28,7 +29,7 @@ public class SysJobBase extends BaseAdminEntity   {
     /** 处理器bean名称 */
     @Schema(description = "处理器bean名称")
     protected String beanName;
-    @Schema(description = "任务类型")
+    @Schema(description = "任务类型：1本地单实例，0远程，2多实例")
     @NotNull(message = "任务类型（jobType）不能为空")
     protected Integer jobType;
     /** 处理器参数 */
@@ -64,19 +65,25 @@ public class SysJobBase extends BaseAdminEntity   {
     /**子任务id，以逗号,分隔*/
     @Schema(description = "子任务id，以逗号,分隔")
     protected String subJobIds;
-
     /**
      * 是否回调
      * @return
      */
     @JsonIgnore
     public boolean isCallBack(){
-        return JobTypeEnum.CALLBACK.getType().equals(this.jobType);
+        return Objects.equals(JobTypeEnum.CALLBACK.getType(),this.jobType);
     }
 
     @JsonIgnore
     public boolean isEnable(){
         return JobStatusEnum.NORMAL.getStatus().equals(this.status);
     }
-
+    /**
+     * 是否多实例
+     * @return
+     */
+    @JsonIgnore
+    public boolean isMultiInstance(){
+        return this.isCallBack() || Objects.equals(JobTypeEnum.MULTI_INSTANCE.getType(),this.jobType)  ;
+    }
 }

@@ -83,6 +83,7 @@ public class BaseAdminEntity extends BaseEntity {
     /**
      * 设置主键id为null
      */
+    @JsonIgnore
     public void setIdNull() {
         this.strId = null;
         this.id = null;
@@ -95,6 +96,7 @@ public class BaseAdminEntity extends BaseEntity {
     public boolean isOff(){
         return Objects.equals(StatusEnum.OFF.getStatus(),this.status);
     }
+    @JsonIgnore
     public boolean statusIsNull(){
         return Objects.isNull(this.status);
     }

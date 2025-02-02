@@ -18,17 +18,5 @@ import java.util.Objects;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 public class SysJobContext extends SysJobBase {
-    /**
-     * 是否多实例
-     */
-    private Integer multiInstance;
 
-    /**
-     * 是否多实例
-     * @return
-     */
-    @JsonIgnore
-    public boolean isMultiInstance(){
-        return this.isCallBack() || (Objects.nonNull(this.multiInstance) && Objects.equals(this.multiInstance,1))  ;
-    }
 }
