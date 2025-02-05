@@ -12,6 +12,46 @@
   - CMMN ：Case Management Model Notation 案例管理模型符号 
   - DMN： Decision Model Notation 决策模型符号
 - 本模块目前只支持BPMN，如果需要支持DMN、CMMN，需要引入相关jar包。
+### 升级到最新版
+```sql
+-- flowable升级兼容springboot3.x
+update ACT_GE_PROPERTY set VALUE_ = '7.1.0.2' where NAME_ = 'schema.version';
+update ACT_GE_PROPERTY set VALUE_ = '6.8.1.0' where NAME_ = 'common.schema.version';
+
+alter table ACT_RU_VARIABLE add column META_INFO_ varchar(4000);
+alter table ACT_HI_VARINST add column META_INFO_ varchar(4000);
+update ACT_GE_PROPERTY set VALUE_ = '7.0.1.0' where NAME_ = 'common.schema.version';
+
+alter table ACT_RU_TASK add column (
+    STATE_ varchar(255), 
+    IN_PROGRESS_TIME_ datetime(3), 
+    IN_PROGRESS_STARTED_BY_ varchar(255),
+    CLAIMED_BY_ varchar(255), 
+    SUSPENDED_TIME_ datetime(3), 
+    SUSPENDED_BY_ varchar(255), 
+    IN_PROGRESS_DUE_DATE_ datetime(3));
+
+alter table ACT_HI_TASKINST add column (
+    STATE_ varchar(255), 
+    IN_PROGRESS_TIME_ datetime(3), 
+    IN_PROGRESS_STARTED_BY_ varchar(255),
+    CLAIMED_BY_ varchar(255), 
+    SUSPENDED_TIME_ datetime(3), 
+    SUSPENDED_BY_ varchar(255), 
+    COMPLETED_BY_ varchar(255), 
+    IN_PROGRESS_DUE_DATE_ datetime(3));
+update ACT_GE_PROPERTY set VALUE_ = '7.0.1.1' where NAME_ = 'common.schema.version';
+
+alter table ACT_RU_EVENT_SUBSCR add column SCOPE_DEFINITION_KEY_ varchar(255);
+update ACT_GE_PROPERTY set VALUE_ = '7.1.0.0' where NAME_ = 'common.schema.version';
+
+-- create index ACT_IDX_ACT_HI_TSK_LOG_TASK on ACT_HI_TSK_LOG(TASK_ID_);
+create index ACT_IDX_EVENT_SUBSCR_EXEC_ID on ACT_RU_EVENT_SUBSCR(EXECUTION_ID_);
+create index ACT_IDX_EVENT_SUBSCR_PROC_ID on ACT_RU_EVENT_SUBSCR(PROC_INST_ID_);
+
+update ACT_GE_PROPERTY set VALUE_ = '7.1.0.2' where NAME_ = 'common.schema.version';
+
+```
 
 ### 业务端使用：
 • 创建表（sql目录下 business.sql为业务数据表，flowable-47.sql为flowable原生表）
