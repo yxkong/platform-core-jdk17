@@ -43,7 +43,6 @@ public class SysTokenServiceImpl implements ITokenService {
     public String getLoginInfoStr(String token) {
         return tokenCacheGateway
                 .map(gateway -> gateway.findByToken(token))
-                .filter(Objects::nonNull)
                 .map(TokenCacheEntity::getLoginInfo)
                 .orElse(null);
     }
