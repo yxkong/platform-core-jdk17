@@ -5,7 +5,6 @@ import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.workflow.domain.context.ProcessDetailQueryContext;
 import com.github.platform.core.workflow.domain.context.ProcessQueryContext;
 import com.github.platform.core.workflow.domain.dto.*;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -71,7 +70,7 @@ public interface IProcessExecutor {
      * @return
      */
     @Cacheable(cacheNames = {CacheConstant.c12h}, key = "'pm:p:' + #bizNo + ':' + #taskKey", cacheManager = CacheConstant.cacheManager, unless = "#result == null or #result.size() == 0")
-    Map<String,String> getTaskExtendProperty(String bizNo,String taskKey);
+    Map<String,String> getNodeExtendProperty(String bizNo, String taskKey);
 
     /**
      * 查询流程表单
