@@ -4,7 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 <#if queryHasLocalDateTime>
-    import java.time.LocalDateTime;
+import java.time.LocalDateTime;
+</#if>
+<#if queryHasLocalDate>
+import java.time.LocalDate;
 </#if>
 /**
  * ${apiAlias}查询基类

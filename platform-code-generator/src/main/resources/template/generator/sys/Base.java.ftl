@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 <#if hasLocalDateTime>
 import java.time.LocalDateTime;
 </#if>
+<#if hasLocalDate>
+import java.time.LocalDate;
+</#if>
 <#if hasBigDecimal>
 import java.math.BigDecimal;
 </#if>
