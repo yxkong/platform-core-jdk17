@@ -10,5 +10,11 @@ import com.github.platform.core.standard.entity.event.DomainEvent;
  */
 public interface IMessageNoticeExecutor {
 
-    boolean execute(DomainEvent domainEvent);
+    /**
+     * 消息通知处理器
+     * @param domainEvent
+     * @param validate
+     * @return
+     */
+    boolean execute(DomainEvent domainEvent,boolean validate);
 }
