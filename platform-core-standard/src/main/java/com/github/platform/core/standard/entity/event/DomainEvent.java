@@ -46,9 +46,11 @@ public class DomainEvent implements Serializable {
     private String msg;
     @Schema(description = "消息的租户")
     private Integer tenantId;
-
+    @Builder.Default
     private UserInfo userInfo = new UserInfo();
+    @Builder.Default
     private AppInfo appInfo = new AppInfo();
+    @Builder.Default
     private HandlerInfo handlerInfo = new HandlerInfo();
 
 
