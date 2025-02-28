@@ -25,6 +25,12 @@ public @interface TrackChange {
      * B 的 @TrackChange 中的 merge 填写 固定值ignore 表示忽略
      */
     String merge() default "";
+
+    /**
+     * 合并符号，默认为空
+     */
+    String separator() default "";
+
     /**时间格式*/
     String dateFormat() default "";
     /**排序,默认100*/

@@ -46,42 +46,46 @@ public class TrackChangeManager {
         isNew = original == null;
         for (Field field : clazz.getDeclaredFields()) {
             TrackChange trackChange = field.getAnnotation(TrackChange.class);
-            if (Objects.isNull(trackChange )) {
+            if (trackChange == null) {
                 continue;
             }
-            try{
+            try {
                 field.setAccessible(true);
-                // 如果是新增，原始值设置为 null
                 Object originalValue = isNew ? null : field.get(this.original);
                 Object modifiedValue = field.get(this.modified);
-                // 如果目标值为null，不处理
-                if (Objects.isNull(modifiedValue) || "".equals(modifiedValue.toString())){
+                // 对于非合并字段，如果修改值为null或空字符串则跳过；合并字段则不跳过，便于后续合并判断
+                if ((modifiedValue == null || "".equals(modifiedValue.toString()))
+                        && StringUtils.isEmpty(trackChange.merge())) {
                     continue;
                 }
-                // 判断是否需要记录变化
-                boolean hasChanged = isNew || !Objects.equals(originalValue, modifiedValue) || StringUtils.isNotEmpty(trackChange.merge()) || Objects.equals(trackChange.merge(),"ignore");
+                // 判断是否需要记录变化：
+                // 如果是新增操作，或者原值和新值不等，或者该字段为合并对象（merge = "ignore"）则认为有变化
+                boolean hasChanged = isNew || !Objects.equals(originalValue, modifiedValue)
+                        || "ignore".equals(trackChange.merge());
                 if (hasChanged) {
-                    TrackChangeRecord trackChangeRecord = new TrackChangeRecord(
+                    TrackChangeRecord record = new TrackChangeRecord(
                             field.getName(),
                             trackChange.compare(),
                             trackChange.merge(),
+                            trackChange.separator(),
                             originalValue,
                             modifiedValue,
                             trackChange.remark(),
                             trackChange.dateFormat(),
                             trackChange.sort()
                     );
-                    changes.add(trackChangeRecord);
+                    changes.add(record);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
+                log.error("TrackChangeManager initChanges error for field " + field.getName(), e);
             }
         }
-        // 检查是否需要继续处理父类
-        if (!shouldContinueWithSuperclass(clazz)) {
-            return;
+        // 递归处理父类，但只处理有限层级
+        if (shouldContinueWithSuperclass(clazz)) {
+            initChanges(clazz.getSuperclass());
         }
-        initChanges(clazz.getSuperclass());
     }
+
     private boolean shouldContinueWithSuperclass(Class<?> clazz) {
         return !Objects.equals(clazz.getSuperclass(), Object.class) &&
                 !Objects.equals(clazz.getSuperclass(), Serializable.class) &&
@@ -125,7 +129,6 @@ public class TrackChangeManager {
                         appendExistingChange(sb, prefixSplit, s, originalValue, modifiedValue, mergeCache);
                     }
                 });
-
         return !sb.isEmpty() ? sb.substring(prefixSplit.length()) : sb.toString();
     }
 
@@ -142,38 +145,49 @@ public class TrackChangeManager {
                                       Object originalValue, Object modifiedValue, Map<String, TrackChangeRecord> mergeCache) {
         if (StringUtils.isNotEmpty(s.getMerge())) {
             TrackChangeRecord merge = mergeCache.get(s.getMerge());
-            if (merge != null && hasMergedChanged(s, merge)) {
-                sb.append(prefixSplit)
-                        .append(s.getRemark())
-                        .append("由【")
-                        .append(s.getOriginalValue())
-                        .append(SymbolConstant.colon)
-                        .append(merge.getOriginalValue())
-                        .append("】变为：【")
-                        .append(s.getModifiedValue())
-                        .append(SymbolConstant.colon)
-                        .append(merge.getModifiedValue())
-                        .append("】");
-            }
-        } else {
-            if (s.isCompare()) {
-                sb.append(prefixSplit)
-                        .append(s.getRemark())
-                        .append("由【")
-                        .append(originalValue)
-                        .append("】变为：【")
-                        .append(modifiedValue)
-                        .append("】");
-            } else {
-                if (Objects.nonNull(modifiedValue)) {
+            if (merge != null) {
+                // 如果任一字段变化，则认为合并后有变化
+                if (hasMergedChanged(s, merge)) {
                     sb.append(prefixSplit)
                             .append(s.getRemark())
-                            .append(SymbolConstant.colon)
-                            .append(modifiedValue);
+                            .append("由【")
+                            .append(s.getOriginalValue())
+                            .append(s.getSeparator())
+                            .append(merge.getOriginalValue())
+                            .append("】变为：【")
+                            .append(s.getModifiedValue())
+                            .append(s.getSeparator())
+                            .append(merge.getModifiedValue())
+                            .append("】");
                 }
+            } else {
+                // 如果合并字段记录不存在，则单独处理当前字段变化
+                appendNormal(sb, prefixSplit, s, originalValue, modifiedValue);
+            }
+        } else {
+            appendNormal(sb, prefixSplit, s, originalValue, modifiedValue);
+        }
+    }
+
+    private static void appendNormal(StringBuilder sb, String prefixSplit, TrackChangeRecord s, Object originalValue, Object modifiedValue) {
+        if (s.isCompare()) {
+            sb.append(prefixSplit)
+                    .append(s.getRemark())
+                    .append("由【")
+                    .append(originalValue)
+                    .append("】变为：【")
+                    .append(modifiedValue)
+                    .append("】");
+        } else {
+            if (modifiedValue != null) {
+                sb.append(prefixSplit)
+                        .append(s.getRemark())
+                        .append(SymbolConstant.colon)
+                        .append(modifiedValue);
             }
         }
     }
+
 
     private boolean hasMergedChanged(TrackChangeRecord s, TrackChangeRecord merge) {
         return !Objects.equals(s.getOriginalValue(), s.getModifiedValue()) ||

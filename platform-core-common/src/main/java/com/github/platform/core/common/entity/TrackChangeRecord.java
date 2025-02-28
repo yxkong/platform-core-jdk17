@@ -20,6 +20,8 @@ public class TrackChangeRecord {
     private boolean compare;
     /**合并*/
     private String merge;
+    /**分隔符*/
+    private String separator;
     /**原值*/
     private Object originalValue;
     /**新值*/
