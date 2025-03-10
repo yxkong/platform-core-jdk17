@@ -33,7 +33,7 @@ public class SysConfigExecutorImpl extends SysExecutor implements ISysConfigExec
 
     @Override
     public void insert(SysConfigContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         gateway.insert(context);
     }
     @Override

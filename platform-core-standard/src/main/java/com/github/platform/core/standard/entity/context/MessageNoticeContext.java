@@ -28,6 +28,9 @@ public class MessageNoticeContext  implements Serializable {
     private String tempNo;
     /**消息标题*/
     private String title;
+    private String channelType;
+    private Boolean validate;
+    private Long logId;
     /**接收人*/
     @Builder.Default
     private List<String> recipient = new ArrayList<>();

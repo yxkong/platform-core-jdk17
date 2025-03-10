@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.platform.core.persistence.mapper.message.SysNoticeSendLogMapper">
+
+	<!--数据库字段与属性映射-->
+	<resultMap type="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase" id="BaseResultMap">
+		<id column="id" property="id" />
+		<id column="log_id" property="logId" />
+		<id column="send_type" property="sendType" />
+		<id column="title" property="title" />
+		<id column="recipient" property="recipient" />
+		<id column="carbon_copy" property="carbonCopy" />
+		<id column="content" property="content" />
+		<id column="tenant_id" property="tenantId" />
+		<id column="status" property="status" />
+		<id column="create_by" property="createBy" />
+		<id column="create_time" property="createTime" />
+		<id column="update_by" property="updateBy" />
+		<id column="update_time" property="updateTime" />
+		<id column="remark" property="remark" />
+    </resultMap>
+	<!--通用查询字段封装-->
+    <sql id="BaseColumnList">
+		t.id,
+		t.log_id,
+		t.send_type,
+		t.title,
+		t.recipient,
+		t.carbon_copy,
+		t.content,
+		t.tenant_id,
+		t.status,
+		t.create_by,
+		t.create_time,
+		t.update_by,
+		t.update_time,
+		t.remark
+    </sql>
+
+	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
+		insert into t_sys_notice_send_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null ">id,</if>
+			<if test="logId != null ">log_id,</if>
+			<if test="sendType != null  and sendType != ''">send_type,</if>
+			<if test="title != null  and title != ''">title,</if>
+			<if test="recipient != null  and recipient != ''">recipient,</if>
+			<if test="carbonCopy != null  and carbonCopy != ''">carbon_copy,</if>
+			<if test="content != null  and content != ''">content,</if>
+			<if test="tenantId != null ">tenant_id,</if>
+			<if test="status != null ">status,</if>
+			<if test="createBy != null  and createBy != ''">create_by,</if>
+			<if test="createTime != null ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''">update_by,</if>
+			<if test="updateTime != null ">update_time,</if>
+			<if test="remark != null  and remark != ''">remark,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null ">#{id},</if>
+			<if test="logId != null ">#{logId},</if>
+			<if test="sendType != null  and sendType != ''">#{sendType},</if>
+			<if test="title != null  and title != ''">#{title},</if>
+			<if test="recipient != null  and recipient != ''">#{recipient},</if>
+			<if test="carbonCopy != null  and carbonCopy != ''">#{carbonCopy},</if>
+			<if test="content != null  and content != ''">#{content},</if>
+			<if test="tenantId != null ">#{tenantId},</if>
+			<if test="status != null ">#{status},</if>
+			<if test="createBy != null  and createBy != ''">#{createBy},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''">#{remark},</if>
+		</trim>
+	</insert>
+	
+	<update id="updateById" parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
+		update t_sys_notice_send_log
+		<set>
+			<if test="logId != null ">log_id = #{logId},</if>
+			<if test="sendType != null  and sendType != ''">send_type = #{sendType},</if>
+			<if test="title != null  and title != ''">title = #{title},</if>
+			<if test="recipient != null  and recipient != ''">recipient = #{recipient},</if>
+			<if test="carbonCopy != null  and carbonCopy != ''">carbon_copy = #{carbonCopy},</if>
+			<if test="content != null  and content != ''">content = #{content},</if>
+			<if test="tenantId != null ">tenant_id = #{tenantId},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="updateTime != null ">update_time = #{updateTime},</if>
+			<if test="remark != null  and remark != ''">remark = #{remark},</if>
+		</set>
+		where id = #{id}
+	</update>
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="BaseColumnList" /> from t_sys_notice_send_log t where t.id=#{id}
+	</select>
+	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select <include refid="BaseColumnList" /> from t_sys_notice_send_log t
+		<where>
+			<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+				#{id}
+			</foreach>
+		</where>
+		limit 200
+	</select>
+	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
+		select 
+		<include refid="BaseColumnList" />
+		from t_sys_notice_send_log t
+		<where>
+			<if test="logId != null "> and t.log_id = #{logId}</if>
+			<if test="searchStartTime != null">
+				and t.create_time <![CDATA[>=]]> #{searchStartTime}
+			</if>
+			<if test="searchEndTime != null">
+				and t.create_time <![CDATA[<=]]> #{searchEndTime}
+			</if>
+		</where>
+	</select>
+	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
+		select count(t.id) from t_sys_notice_send_log t
+		<where>
+			<if test="logId != null "> and t.log_id = #{logId}</if>
+			<if test="searchStartTime != null">
+				and t.create_time <![CDATA[>=]]> #{searchStartTime}
+			</if>
+			<if test="searchEndTime != null">
+				and t.create_time <![CDATA[<=]]> #{searchEndTime}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Long">
+		delete from t_sys_notice_send_log where id = #{id}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.lang.Long">
+		<!--没有传入数据抛异常，不会全删-->
+		<if test="ids != null and ids.length>0">
+			delete from t_sys_notice_send_log
+			<where>
+				<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+					#{id}
+				</foreach>
+			</where>
+		</if>
+	</delete>
+</mapper>

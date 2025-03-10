@@ -49,7 +49,7 @@ public class SysFlowRuleExecutorImpl extends SysExecutor implements ISysFlowRule
     */
     @Override
     public String insert(SysFlowRuleContext context){
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         SysFlowRuleDto record = sysFlowRuleGateway.insert(context);
         if (Objects.isNull(record.getId())){
             throw exception(ResultStatusEnum.COMMON_INSERT_ERROR);

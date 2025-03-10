@@ -4,8 +4,9 @@ import com.github.platform.core.common.utils.ApplicationContextHolder;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.common.utils.VelocityUtil;
 import com.github.platform.core.message.application.executor.IMessageNoticeSender;
+import com.github.platform.core.message.domain.context.SysNoticeSendLogContext;
 import com.github.platform.core.message.domain.dto.SysNoticeTemplateDto;
-import com.github.platform.core.standard.constant.SymbolConstant;
+import com.github.platform.core.message.domain.gateway.ISysNoticeSendLogGateway;
 import com.github.platform.core.standard.entity.context.MessageNoticeContext;
 import com.github.platform.core.standard.entity.event.DomainEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import java.util.Objects;
 @Slf4j
 public abstract class AbstractMessageNoticeSender implements IMessageNoticeSender {
     @Override
-    public boolean send(DomainEvent domainEvent, MessageNoticeContext noticeContext, SysNoticeTemplateDto templateDto) {
+    public boolean send(ISysNoticeSendLogGateway noticeSendLogGateway,DomainEvent domainEvent, MessageNoticeContext noticeContext, SysNoticeTemplateDto templateDto) {
         List<String> recipient = noticeContext.getRecipient();
         if (Objects.isNull(recipient)){
             recipient = new ArrayList<>();
@@ -43,7 +44,18 @@ public abstract class AbstractMessageNoticeSender implements IMessageNoticeSende
         context.put("hasGroup", StringUtils.isNotEmpty(groupId));
         String title = VelocityUtil.stringTemplateMerge(context, "noticeTitle:"+templateDto.getId(), templateDto.getTitle());
         String content = VelocityUtil.stringTemplateMerge(context, "noticeText:"+templateDto.getId() , templateDto.getContext());
-        return sendMessage(users,templateDto.getCarbonCopy(),title,content,groupId, domainEvent.getTenantId());
+        boolean message = sendMessage(users, templateDto.getCarbonCopy(), title, content, groupId, domainEvent.getTenantId());
+        long count = noticeSendLogGateway.findByCount(noticeContext.getLogId());
+        if (count > 0L && !noticeContext.getValidate()){
+            log.warn("logId:{} 已经发送成功，不再发送",noticeContext.getLogId());
+            return false;
+        }
+        SysNoticeSendLogContext sendLogContext = SysNoticeSendLogContext.builder()
+                .logId(noticeContext.getLogId()).title(title).content(content).recipient(String.join(", ", users)).carbonCopy(templateDto.getCarbonCopy())
+                .sendType(noticeContext.getChannelType()).status(message ? 1 : 0)
+                .build();
+        noticeSendLogGateway.insert(sendLogContext);
+        return message;
     }
 
     private static String getGroupId(MessageNoticeContext noticeContext) {

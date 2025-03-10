@@ -85,13 +85,13 @@ public class SysUserExecutorImpl extends SysExecutor implements ISysUserExecutor
      */
     @Override
     public UserEntity insert(RegisterContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         SysUserService userService = new SysUserService(userGateway);
         return userService.addUser(context);
     }
-    private Integer getTenantId(RegisterContext context) {
-        if (AuthUtil.isSuperAdmin() ){
-            return Objects.nonNull(context)?context.getTenantId():null;
+    private Integer getMustTenantId(RegisterContext context) {
+        if (AuthUtil.isSuperAdmin() && Objects.nonNull(context) && Objects.nonNull(context.getTenantId())){
+            return context.getTenantId();
         }
         return LoginUserInfoUtil.getTenantId();
     }
@@ -105,8 +105,8 @@ public class SysUserExecutorImpl extends SysExecutor implements ISysUserExecutor
     @Override
     public void update(RegisterContext context) {
         SysUserService userService = new SysUserService(userGateway);
-        //修改用户信息
-        context.setTenantId(getTenantId(context));
+        //修改用户租户，临时
+        context.setTenantId(getMustTenantId(context));
         userService.editUser(context);
 
         userGateway.reloadToken(context.getUserName(),context.getTenantId());

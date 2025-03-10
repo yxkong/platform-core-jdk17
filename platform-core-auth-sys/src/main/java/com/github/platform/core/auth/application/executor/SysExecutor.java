@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class SysExecutor extends BaseExecutor  {
     /**
-     * 获取租户id,
+     * 获取租户id,（适用于查询）
      *  只有管理员可以指定租户id，否则获取当前登录用的租户id
      * @param entity
      * @param <T>
@@ -30,7 +30,7 @@ public class SysExecutor extends BaseExecutor  {
         return LoginUserInfoUtil.getTenantId();
     }
     /**
-     * 获取租户id,
+     * 获取租户id,（适用于新增）
      *  只有管理员可以指定租户id，否则获取当前登录用的租户id
      * @param entity
      * @param <T>

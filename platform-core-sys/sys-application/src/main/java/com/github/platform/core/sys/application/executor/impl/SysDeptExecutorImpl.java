@@ -40,7 +40,7 @@ public class SysDeptExecutorImpl extends SysExecutor implements ISysDeptExecutor
 
     @Override
     public void insert(SysDeptContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         deptGateway.insert(context);
     }
 

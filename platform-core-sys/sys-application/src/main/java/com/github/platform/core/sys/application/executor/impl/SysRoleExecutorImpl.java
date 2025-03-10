@@ -61,7 +61,7 @@ public class SysRoleExecutorImpl extends SysExecutor implements IRoleExecutor {
     @Transactional(rollbackFor = Exception.class)
     public void addRole(SysRoleContext context) {
         context.setId(null);
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         String key = context.getKey();
         String loginName = LoginUserInfoUtil.getLoginName();
         // 校验当前租户是否存在当前角色

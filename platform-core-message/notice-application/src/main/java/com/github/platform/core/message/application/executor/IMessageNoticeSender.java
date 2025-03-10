@@ -1,6 +1,7 @@
 package com.github.platform.core.message.application.executor;
 
 import com.github.platform.core.message.domain.dto.SysNoticeTemplateDto;
+import com.github.platform.core.message.domain.gateway.ISysNoticeSendLogGateway;
 import com.github.platform.core.standard.entity.context.MessageNoticeContext;
 import com.github.platform.core.standard.entity.event.DomainEvent;
 
@@ -18,5 +19,5 @@ public interface IMessageNoticeSender {
      * @param templateDto
      * @return
      */
-    boolean send(DomainEvent domainEvent, MessageNoticeContext noticeContext, SysNoticeTemplateDto templateDto);
+    boolean send(ISysNoticeSendLogGateway noticeSendLogGateway,DomainEvent domainEvent, MessageNoticeContext noticeContext, SysNoticeTemplateDto templateDto);
 }

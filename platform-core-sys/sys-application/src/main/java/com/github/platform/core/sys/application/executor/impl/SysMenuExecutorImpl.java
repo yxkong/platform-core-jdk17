@@ -63,7 +63,7 @@ public class SysMenuExecutorImpl extends SysExecutor implements IMenuExecutor {
     }
     @Override
     public void insert(SysMenuContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         menuGateway.insert(context);
     }
     @Override

@@ -41,7 +41,7 @@ public class SysDictExecutorImpl extends SysExecutor implements ISysDictExecutor
 
     @Override
     public void insert(SysDictContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         SysDictTypeDto dictType = dictTypeGateway.findByType(context.getDictType(),context.getTenantId());
         if (Objects.isNull(dictType)){
             throw exception(SysInfraResultEnum.DICT_TYPE_NOT_FOUND);

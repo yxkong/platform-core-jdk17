@@ -41,7 +41,7 @@ public class ${entityName}ExecutorImpl extends SysExecutor implements I${entityN
     */
     @Override
     public String insert(${entityName}Context context){
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         ${entityName}Dto record = ${lowerEntityName}Gateway.insert(context);
         if (Objects.isNull(record.getId())){
             throw exception(ResultStatusEnum.COMMON_INSERT_ERROR);

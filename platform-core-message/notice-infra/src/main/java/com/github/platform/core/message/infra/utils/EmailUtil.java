@@ -69,7 +69,7 @@ public class EmailUtil {
 
             // 发送邮件
             mailSender.send(mimeMessage);
-            log.info("邮件发送成功，主题: {}", subject);
+            log.warn("邮件发送成功，主题: {} 内容：{}", subject,content);
             return true;
         } catch (Exception e) {
             log.error("邮件发送失败，主题：{} 原因: {}",subject, e.getMessage(), e);

@@ -427,8 +427,8 @@ public class SysUserGatewayImpl extends BaseGatewayImpl implements ISysUserGatew
     }
 
     @Override
-    public List<SysUserDto> fuzzySearch(String key, Integer teantId) {
-        return sysUserMapper.fuzzySearch(key,teantId);
+    public List<SysUserDto> fuzzySearch(String key, Integer tenantId) {
+        return sysUserMapper.fuzzySearch(key,tenantId);
     }
 
     @Override

@@ -429,7 +429,11 @@
 		<if test="roleKeys != null and roleKeys.size() > 0">
 			select  t.id,
 			t.login_name as loginName ,
-			t.user_name as userName
+			t.user_name as userName,
+			t.email,
+			t.mobile,
+			t.tenant_id as tenantId,
+			t.status
 			from t_sys_user t
 			JOIN t_sys_user_role r ON t.id = r.user_id
 			WHERE

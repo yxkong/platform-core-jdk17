@@ -135,7 +135,7 @@ public class SysCascadeExecutorImpl extends SysExecutor implements ISysCascadeEx
     */
     @Override
     public SysCascadeDto insert(SysCascadeContext context){
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         //默认为顶级节点
         String ancestors = "0";
         if (context.getParentId() > DeptConstant.ROOT_ID){

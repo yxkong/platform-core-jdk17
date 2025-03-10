@@ -38,7 +38,7 @@ public class SysDictTypeExecutorImpl extends SysExecutor implements ISysDictType
     }
     @Override
     public void insert(SysDictTypeContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         dictTypeGateway.insert(context);
     }
 

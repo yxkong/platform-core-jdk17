@@ -8,6 +8,7 @@ import com.github.platform.core.message.domain.context.SysNoticeEventLogContext;
 import com.github.platform.core.message.domain.dto.SysNoticeEventLogDto;
 import com.github.platform.core.message.domain.dto.SysNoticeTemplateDto;
 import com.github.platform.core.message.domain.gateway.ISysNoticeEventLogGateway;
+import com.github.platform.core.message.domain.gateway.ISysNoticeSendLogGateway;
 import com.github.platform.core.message.domain.gateway.ISysNoticeTemplateGateway;
 import com.github.platform.core.message.infra.configuration.properties.NoticeProperties;
 import com.github.platform.core.standard.constant.StatusEnum;
@@ -41,6 +42,8 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
     private Map<String, IMessageNoticeSender> senderMap;
     @Resource
     private NoticeProperties noticeProperties;
+    @Resource
+    private ISysNoticeSendLogGateway noticeSendLogGateway;
     @Override
     public boolean execute(DomainEvent domainEvent,boolean validate) {
         MessageNoticeContext noticeContext = JsonUtils.convertValue(domainEvent.getData(),MessageNoticeContext.class) ;
@@ -53,33 +56,29 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         if(Objects.isNull(dto)){
             logId = logRecord(domainEvent, noticeContext);
         } else {
-            if (dto.isOn() && validate){
-                log.warn("消息：{} 已经发送成功，不需要再处理！",dto.getId());
-                return true;
-            }
             logId = dto.getId();
         }
         SysNoticeTemplateDto templateDto = getSysNoticeTemplateDto(noticeContext, domainEvent);
-
+        noticeContext.setLogId(logId);
         if (Objects.isNull(templateDto)){
             updateLog(logId,null, StatusEnum.ERROR.getStatus(), "对应模板不存在！");
             log.error("eventType:{} 租户：{} 对应的模板不存在",noticeContext.getEventType(),domainEvent.getTenantId());
             return false;
         }
         String channelType = Objects.nonNull(noticeContext.getNoticeChannelInfo().getChannelType()) ? noticeContext.getNoticeChannelInfo().getChannelType(): templateDto.getChannelType();
+        noticeContext.setChannelType(channelType);
         // 查到通道
         IMessageNoticeSender messageNoticeSender = senderMap.get(channelType+"MessageNoticeSender");
         if (Objects.isNull(messageNoticeSender)){
-            updateLog(logId,null, StatusEnum.ERROR.getStatus(), "对应通道实现不存在！");
+            updateLog(logId,null, null, "无发送通道！");
             log.error("channelType:{} 租户：{} 对应的通道实现不存在",channelType,domainEvent.getTenantId());
             return false;
         }
         try {
-            boolean send = messageNoticeSender.send(domainEvent, noticeContext, templateDto);
-            if (send){
-                updateLog(logId, domainEvent.getMsgId(), StatusEnum.ON.getStatus(), "");
-            }
-            return send;
+            return messageNoticeSender.send(noticeSendLogGateway,domainEvent, noticeContext, templateDto);
+//            if (send){
+//                updateLog(logId, domainEvent.getMsgId(), StatusEnum.ON.getStatus(), "");
+//            }
         } catch (Exception e){
             updateLog(logId,domainEvent.getMsgId(), StatusEnum.ERROR.getStatus(), e.getMessage());
             log.error("eventType:{} 租户：{} 通道：{} 发送失败！",noticeContext.getEventType(),domainEvent.getTenantId(),channelType,e);

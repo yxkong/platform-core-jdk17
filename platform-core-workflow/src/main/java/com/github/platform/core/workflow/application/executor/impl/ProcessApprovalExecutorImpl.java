@@ -16,16 +16,21 @@ import com.github.platform.core.workflow.domain.context.ApprovalContext;
 import com.github.platform.core.workflow.domain.context.ProcessApprovalRecordContext;
 import com.github.platform.core.workflow.domain.dto.ProcessApprovalRecordDto;
 import com.github.platform.core.workflow.domain.dto.ProcessInstanceDto;
-import com.github.platform.core.workflow.domain.gateway.*;
+import com.github.platform.core.workflow.domain.gateway.IProcessApprovalGateway;
+import com.github.platform.core.workflow.domain.gateway.IProcessApprovalRecordGateway;
+import com.github.platform.core.workflow.domain.gateway.IProcessInstanceGateway;
 import com.github.platform.core.workflow.infra.service.IProcessInstanceService;
 import com.github.platform.core.workflow.infra.service.IProcessTaskService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.identitylink.api.IdentityLinkInfo;
 import org.flowable.task.api.Task;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 流程审批执行器
@@ -75,9 +80,6 @@ public class ProcessApprovalExecutorImpl extends BaseExecutor implements IProces
         /** ①校验任务类型是否实现*/
         ProcessOptTypeEnum optType = context.getOptTypeEnum();
         IProcessApprovalGateway approvalGateway = ApplicationContextHolder.getBean(optType.getBean(), IProcessApprovalGateway.class);
-        if (Objects.isNull(optType)){
-            throw exception(WorkflowApplicationEnum.PROCESS_TASK_EXECUTE_NOT_FOUND);
-        }
         ProcessInstanceDto instanceDto = context.getProcessInstanceDto();
         if (Objects.isNull(instanceDto)){
             instanceDto = instanceGateway.findByInstanceId(context.getInstanceId());
@@ -92,10 +94,8 @@ public class ProcessApprovalExecutorImpl extends BaseExecutor implements IProces
         if (Objects.isNull(task)){
             throw exception(WorkflowApplicationEnum.PROCESS_TASK_NOT_EXIST);
         }
-
         /** ③根据策略执行任务*/
         approvalGateway.execute(processTaskService,task,context);
-
         /** ④抄送用户处理*/
 
 
