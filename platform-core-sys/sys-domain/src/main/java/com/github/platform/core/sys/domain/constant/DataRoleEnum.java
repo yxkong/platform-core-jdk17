@@ -20,7 +20,6 @@ public enum DataRoleEnum {
         this.desc = desc;
     }
     public static DataRoleEnum of(String role){
-        System.out.println(role);
         for (DataRoleEnum value : DataRoleEnum.values()) {
             if(value.roleKey.equals(role)){
                 return value;

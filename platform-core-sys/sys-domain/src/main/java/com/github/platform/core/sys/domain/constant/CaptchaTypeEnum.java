@@ -11,6 +11,8 @@ import lombok.Getter;
 @Getter
 public enum CaptchaTypeEnum {
     MATH("math","数学验证"),
+    NUMBER("number","数字验证"),
+    LETTER("letter","字母验证"),
     DEFAULT("default","默认验证")
     ;
 
@@ -20,5 +22,13 @@ public enum CaptchaTypeEnum {
     CaptchaTypeEnum(String type, String desc) {
         this.type = type;
         this.desc = desc;
+    }
+    public static CaptchaTypeEnum of(String captcha){
+        for (CaptchaTypeEnum value : CaptchaTypeEnum.values()) {
+            if(value.type.equals(captcha)){
+                return value;
+            }
+        }
+        return CaptchaTypeEnum.MATH;
     }
 }

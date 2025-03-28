@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public enum VerifyTypeEnum {
     DEFAULT("default","默认策略，直接通过"),
-    CAPTCHA("captcha","图形验证"),
+    CAPTCHA("hutoolCaptcha","图形验证"),
     SMS("sms","短信验证"),
     SLIDING("sliding","滑块验证");
     private String type;

@@ -22,26 +22,14 @@
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <!-- maven 导入 -->
         <dependency>
-            <groupId>cloud.tianai.captcha</groupId>
-            <artifactId>tianai-captcha</artifactId>
-            <version>1.5.1</version>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
         </dependency>
     </dependencies>
 

@@ -16,20 +16,20 @@ import com.github.platform.core.sys.adapter.api.command.account.ModifyPwdCmd;
 import com.github.platform.core.sys.adapter.api.command.account.NormalLoginCmd;
 import com.github.platform.core.sys.adapter.api.command.account.SmsLoginCmd;
 import com.github.platform.core.sys.adapter.api.convert.SysUserAdapterConvert;
-import com.github.platform.core.sys.domain.dto.VerifyCodeResult;
 import com.github.platform.core.sys.application.executor.IAuthExecutor;
-import com.github.platform.core.sys.domain.constant.CaptchaTypeEnum;
 import com.github.platform.core.sys.domain.constant.LoginWayEnum;
 import com.github.platform.core.sys.domain.constant.VerifyTypeEnum;
 import com.github.platform.core.sys.domain.context.LoginContext;
 import com.github.platform.core.sys.domain.context.ModifyPwdContext;
+import com.github.platform.core.sys.domain.dto.VerifyCodeResult;
 import com.github.platform.core.sys.domain.dto.resp.LoginResult;
+import com.github.platform.core.sys.domain.service.VerifyStrategy;
 import com.github.platform.core.sys.infra.constant.SysInfraResultEnum;
-import com.github.platform.core.sys.infra.service.ICaptchaService;
 import com.github.platform.core.web.web.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
 import java.util.Objects;
 
 /**
@@ -53,8 +52,8 @@ import java.util.Objects;
 @RequestMapping(value = "/sys/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class AuthController extends BaseController {
-    @Resource
-    private ICaptchaService captchaService;
+    @Resource(name = "hutoolCaptchaVerifyStrategy")
+    private VerifyStrategy verifyStrategy;
     @Resource
     private SysUserAdapterConvert convert;
     @Resource
@@ -72,7 +71,7 @@ public class AuthController extends BaseController {
     @Operation(summary = "获取图形验证码",tags = {"auth"})
     @PostMapping("/captcha")
     public ResultBean<VerifyCodeResult> captcha() {
-        VerifyCodeResult captchaDto = captchaService.createImage(null, CaptchaTypeEnum.MATH);
+        VerifyCodeResult captchaDto = verifyStrategy.getCode(null);
         return buildSucResp(captchaDto);
     }
 
