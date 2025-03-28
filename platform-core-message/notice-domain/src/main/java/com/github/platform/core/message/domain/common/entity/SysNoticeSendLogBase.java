@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 public class SysNoticeSendLogBase extends BaseAdminEntity   {
-    @Schema(description = "消息日志id")
-    protected Long logId;
+    @Schema(description = "消息事件id")
+    protected Long eventId;
     @Schema(description = "发送类型")
     @NotEmpty(message="发送类型不能为空")
     protected String sendType;

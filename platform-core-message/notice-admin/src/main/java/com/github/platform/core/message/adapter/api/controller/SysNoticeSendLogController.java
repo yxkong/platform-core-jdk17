@@ -5,6 +5,7 @@ import com.github.platform.core.common.entity.StrIdReq;
 import com.github.platform.core.log.infra.annotation.OptLog;
 import com.github.platform.core.message.application.executor.ISysNoticeSendLogExecutor;
 import com.github.platform.core.message.domain.dto.SysNoticeSendLogDto;
+import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.standard.entity.dto.ResultBean;
 import com.github.platform.core.web.web.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,9 +42,9 @@ public class SysNoticeSendLogController extends BaseController{
     @RequiredLogin
     @OptLog(module="sysNoticeSendLog",title="查询通知发送记录列表",persistent = false)
     @Operation(summary = "查询通知发送记录列表",tags = {"sysNoticeSendLog"})
-    @PostMapping("/findByLogId")
-    public ResultBean<List<SysNoticeSendLogDto>> findByLogId(@RequestBody StrIdReq query){
-        List<SysNoticeSendLogDto> list = sysNoticeSendLogExecutor.findListByLogId(query.getId());
+    @PostMapping("/findByEventId")
+    public ResultBean<PageBean<SysNoticeSendLogDto>> findByEventId(@RequestBody StrIdReq query){
+        PageBean<SysNoticeSendLogDto> list = sysNoticeSendLogExecutor.findByEventId(query.getId());
         return buildSucResp(list);
     }
 

@@ -39,8 +39,8 @@ public class SysNoticeSendLogExecutorImpl extends SysExecutor implements ISysNot
     }
 
     @Override
-    public List<SysNoticeSendLogDto> findListByLogId(Long logId) {
-        return sysNoticeSendLogGateway.findListByLogId(logId);
+    public PageBean<SysNoticeSendLogDto> findByEventId(Long eventId) {
+        return sysNoticeSendLogGateway.query(SysNoticeSendLogQueryContext.builder().eventId(eventId).pageNum(1).pageSize(100).build());
     }
 
     /**

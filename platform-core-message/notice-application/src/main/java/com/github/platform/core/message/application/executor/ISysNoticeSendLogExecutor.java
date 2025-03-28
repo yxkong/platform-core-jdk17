@@ -23,11 +23,11 @@ public interface ISysNoticeSendLogExecutor {
     PageBean<SysNoticeSendLogDto> query(SysNoticeSendLogQueryContext context);
 
     /**
-     * 根据logId查询
-     * @param logId
+     * 根据eventId查询
+     * @param eventId
      * @return
      */
-    List<SysNoticeSendLogDto> findListByLogId(Long logId);
+    PageBean<SysNoticeSendLogDto> findByEventId(Long eventId);
     /**
     * 新增通知发送记录
     * @param context 新增上下文

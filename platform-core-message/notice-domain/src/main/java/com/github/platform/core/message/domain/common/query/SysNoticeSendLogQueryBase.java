@@ -19,5 +19,5 @@ import lombok.experimental.SuperBuilder;
 public class SysNoticeSendLogQueryBase extends PageQueryBaseEntity {
     /** 消息日志id */
     @Schema(description = "消息日志id")
-    protected Long logId;
+    protected Long eventId;
 }

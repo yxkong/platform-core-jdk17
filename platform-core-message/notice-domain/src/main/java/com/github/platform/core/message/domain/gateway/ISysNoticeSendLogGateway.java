@@ -25,10 +25,10 @@ public interface ISysNoticeSendLogGateway {
 
     /**
      * 根据logId查询
-     * @param logId
+     * @param eventId
      * @return
      */
-    List<SysNoticeSendLogDto> findListByLogId(Long logId);
+    List<SysNoticeSendLogDto> findByEventId(Long eventId);
     /**
     * 新增通知发送记录
     * @param context 新增上下文
@@ -36,7 +36,7 @@ public interface ISysNoticeSendLogGateway {
     */
     SysNoticeSendLogDto insert(SysNoticeSendLogContext context);
 
-    long findByCount(Long logId);
+    long findByCount(Long eventId);
 
     /**
     * 根据id查询通知发送记录明细

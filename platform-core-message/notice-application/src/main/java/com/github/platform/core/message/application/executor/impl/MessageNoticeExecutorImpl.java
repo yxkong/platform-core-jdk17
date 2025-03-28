@@ -50,18 +50,18 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         if (StringUtils.isEmpty(noticeContext.getNoticeChannelInfo().getChannelType())){
             noticeContext.getNoticeChannelInfo().setChannelType(noticeProperties.getChannelType());
         }
-        Long logId =  null;
+        Long eventId =  null;
         //幂等处理，并插入日志记录
         SysNoticeEventLogDto dto = sysNoticeEventLogGateway.findByMsgId(domainEvent.getMsgId());
         if(Objects.isNull(dto)){
-            logId = logRecord(domainEvent, noticeContext);
+            eventId = logRecord(domainEvent, noticeContext);
         } else {
-            logId = dto.getId();
+            eventId = dto.getId();
         }
         SysNoticeTemplateDto templateDto = getSysNoticeTemplateDto(noticeContext, domainEvent);
-        noticeContext.setLogId(logId);
+        noticeContext.setEventId(eventId);
         if (Objects.isNull(templateDto)){
-            updateLog(logId,null, StatusEnum.ERROR.getStatus(), "对应模板不存在！");
+            updateLog(eventId,null, "没有配置可发送的模板！");
             log.error("eventType:{} 租户：{} 对应的模板不存在",noticeContext.getEventType(),domainEvent.getTenantId());
             return false;
         }
@@ -70,20 +70,11 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         // 查到通道
         IMessageNoticeSender messageNoticeSender = senderMap.get(channelType+"MessageNoticeSender");
         if (Objects.isNull(messageNoticeSender)){
-            updateLog(logId,null, null, "无发送通道！");
+            updateLog(eventId,null,  "无发送通道！");
             log.error("channelType:{} 租户：{} 对应的通道实现不存在",channelType,domainEvent.getTenantId());
             return false;
         }
-        try {
-            return messageNoticeSender.send(noticeSendLogGateway,domainEvent, noticeContext, templateDto);
-//            if (send){
-//                updateLog(logId, domainEvent.getMsgId(), StatusEnum.ON.getStatus(), "");
-//            }
-        } catch (Exception e){
-            updateLog(logId,domainEvent.getMsgId(), StatusEnum.ERROR.getStatus(), e.getMessage());
-            log.error("eventType:{} 租户：{} 通道：{} 发送失败！",noticeContext.getEventType(),domainEvent.getTenantId(),channelType,e);
-            return false;
-        }
+        return messageNoticeSender.send(noticeSendLogGateway,domainEvent, noticeContext, templateDto);
     }
 
     private SysNoticeTemplateDto getSysNoticeTemplateDto(MessageNoticeContext noticeContext, DomainEvent domainEvent) {
@@ -117,11 +108,10 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         return templateDto;
     }
 
-    private void updateLog(Long id,String msgId,Integer status,String remark){
+    private void updateLog(Long id,String msgId,String remark){
         SysNoticeEventLogContext sysNoticeEventLogContext = SysNoticeEventLogContext.builder()
                 .id(id)
                 .msgId(msgId)
-                .status(status)
                 .remark(remark)
                 .build();
         sysNoticeEventLogGateway.update(sysNoticeEventLogContext);

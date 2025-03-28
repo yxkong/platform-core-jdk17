@@ -30,7 +30,7 @@ public class MessageNoticeContext  implements Serializable {
     private String title;
     private String channelType;
     private Boolean validate;
-    private Long logId;
+    private Long eventId;
     /**接收人*/
     @Builder.Default
     private List<String> recipient = new ArrayList<>();

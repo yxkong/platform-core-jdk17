@@ -5,7 +5,7 @@
 	<!--数据库字段与属性映射-->
 	<resultMap type="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase" id="BaseResultMap">
 		<id column="id" property="id" />
-		<id column="log_id" property="logId" />
+		<id column="event_id" property="eventId" />
 		<id column="send_type" property="sendType" />
 		<id column="title" property="title" />
 		<id column="recipient" property="recipient" />
@@ -22,7 +22,7 @@
 	<!--通用查询字段封装-->
     <sql id="BaseColumnList">
 		t.id,
-		t.log_id,
+		t.event_id,
 		t.send_type,
 		t.title,
 		t.recipient,
@@ -41,7 +41,7 @@
 		insert into t_sys_notice_send_log
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null ">id,</if>
-			<if test="logId != null ">log_id,</if>
+			<if test="eventId != null ">event_id,</if>
 			<if test="sendType != null  and sendType != ''">send_type,</if>
 			<if test="title != null  and title != ''">title,</if>
 			<if test="recipient != null  and recipient != ''">recipient,</if>
@@ -57,7 +57,7 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 			<if test="id != null ">#{id},</if>
-			<if test="logId != null ">#{logId},</if>
+			<if test="eventId != null ">#{eventId},</if>
 			<if test="sendType != null  and sendType != ''">#{sendType},</if>
 			<if test="title != null  and title != ''">#{title},</if>
 			<if test="recipient != null  and recipient != ''">#{recipient},</if>
@@ -76,7 +76,7 @@
 	<update id="updateById" parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
 		update t_sys_notice_send_log
 		<set>
-			<if test="logId != null ">log_id = #{logId},</if>
+			<if test="eventId != null ">event_id = #{eventId},</if>
 			<if test="sendType != null  and sendType != ''">send_type = #{sendType},</if>
 			<if test="title != null  and title != ''">title = #{title},</if>
 			<if test="recipient != null  and recipient != ''">recipient = #{recipient},</if>
@@ -109,7 +109,7 @@
 		<include refid="BaseColumnList" />
 		from t_sys_notice_send_log t
 		<where>
-			<if test="logId != null "> and t.log_id = #{logId}</if>
+			<if test="eventId != null "> and event_id = #{eventId}</if>
 			<if test="searchStartTime != null">
 				and t.create_time <![CDATA[>=]]> #{searchStartTime}
 			</if>
@@ -121,7 +121,7 @@
 	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.message.domain.common.entity.SysNoticeSendLogBase">
 		select count(t.id) from t_sys_notice_send_log t
 		<where>
-			<if test="logId != null "> and t.log_id = #{logId}</if>
+			<if test="eventId != null "> and event_id = #{eventId}</if>
 			<if test="searchStartTime != null">
 				and t.create_time <![CDATA[>=]]> #{searchStartTime}
 			</if>

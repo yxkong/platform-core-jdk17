@@ -40,8 +40,8 @@ public class SysNoticeSendLogGatewayImpl extends BaseGatewayImpl implements ISys
     }
 
     @Override
-    public List<SysNoticeSendLogDto> findListByLogId(Long logId) {
-        SysNoticeSendLogBase record = SysNoticeSendLogBase.builder().logId(logId).build();
+    public List<SysNoticeSendLogDto> findByEventId(Long eventId) {
+        SysNoticeSendLogBase record = SysNoticeSendLogBase.builder().eventId(eventId).build();
         List<SysNoticeSendLogBase> list = sysNoticeSendLogMapper.findListBy(record);
         return sysNoticeSendLogConvert.toDtos(list);
     }
@@ -53,8 +53,8 @@ public class SysNoticeSendLogGatewayImpl extends BaseGatewayImpl implements ISys
         return sysNoticeSendLogConvert.toDto(record);
     }
     @Override
-    public long findByCount(Long logId){
-        return  sysNoticeSendLogMapper.findListByCount(SysNoticeSendLogBase.builder().logId(logId).status(StatusEnum.ON.getStatus()).build());
+    public long findByCount(Long eventId){
+        return  sysNoticeSendLogMapper.findListByCount(SysNoticeSendLogBase.builder().eventId(eventId).status(StatusEnum.ON.getStatus()).build());
     }
 
     @Override
