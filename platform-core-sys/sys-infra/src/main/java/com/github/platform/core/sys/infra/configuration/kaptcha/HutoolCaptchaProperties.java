@@ -80,8 +80,11 @@ public class HutoolCaptchaProperties implements Serializable {
         private int size = 30;
         /**
          * 字体样式
+         * PLAIN 普通无装饰样式
+         * BOLD 粗体样式
+         * ITALIC 斜体样式
          */
-        private int style = Font.PLAIN;
+        private int style = Font.BOLD;
         /**
          * 文字透明度
          */
