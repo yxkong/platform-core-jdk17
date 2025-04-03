@@ -4,7 +4,6 @@ import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.persistence.mapper.schedule.SysJobMapper;
 import com.github.platform.core.schedule.domain.common.entity.SysJobBase;
 import com.github.platform.core.schedule.infra.configuration.ScheduleManager;
-import com.github.platform.core.standard.constant.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

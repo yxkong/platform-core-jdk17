@@ -3,6 +3,11 @@ package com.github.platform.core.schedule.infra.configuration;
 import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.common.constant.SpringBeanOrderConstant;
 import com.github.platform.core.persistence.mapper.schedule.SysJobMapper;
+import com.github.platform.core.schedule.domain.constant.JobConstant;
+import com.github.platform.core.schedule.domain.gateway.ISysJobGateway;
+import com.github.platform.core.schedule.domain.gateway.ISysJobLogGateway;
+import com.github.platform.core.schedule.infra.handler.JobHandlerExecutor;
+import com.github.platform.core.schedule.infra.handler.TriggerJobService;
 import com.github.platform.core.schedule.infra.listener.ScheduleStartListener;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
@@ -64,6 +69,10 @@ public class ScheduleJobConfiguration {
     @Bean
     public ScheduleStartListener scheduleStartListener(SysJobMapper sysJobMapper, ScheduleManager scheduleManager){
         return new ScheduleStartListener(sysJobMapper,scheduleManager);
+    }
+    @Bean(JobConstant.TRIGGER_JOB_SERVICE)
+    public TriggerJobService triggerJobService(ScheduleManager scheduleManager){
+        return new TriggerJobService(scheduleManager);
     }
 
     // 配置了应用关闭等待定时任务执行完成

@@ -17,13 +17,13 @@ import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.time.format.DateTimeFormatter;
 
 /**
  * 任务执行器 IJobMonitorHandler 的执行器
- *
  * @DisallowConcurrentExecution 禁止并行执行同一个JobDetail
  * @PersistJobDataAfterExecution 表示当正常执行完Job后, JobDataMap中的数据应该被改动, 以被下一次调用时用
  * @author: yxkong
@@ -35,9 +35,13 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class JobHandlerExecutor extends QuartzJobBean {
     private static final String PARENT = "parent";
-
+    @Value("${platform.schedule.enabled:false}")
+    private boolean scheduleEnabled;
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        if (!scheduleEnabled){
+            return;
+        }
         ISysJobLogGateway sysJobLogGateway = ApplicationContextHolder.getBean(ISysJobLogGateway.class);
         ISysJobGateway sysJobGateway = ApplicationContextHolder.getBean(ISysJobGateway.class);
 
@@ -46,7 +50,9 @@ public class JobHandlerExecutor extends QuartzJobBean {
         executeUser = StringUtils.isEmpty(executeUser) ? JobConstant.DEFAULT_USER : executeUser;
 
         SysJobDto jobDto = sysJobGateway.findById(jobId);
-        if (!isJobExecutable(jobDto)) return;
+        if (!isJobExecutable(jobDto)) {
+            return;
+        }
 
         String executeId = getExecuteId(jobDto.getId(), context);
         Long logId = createExecutionLog(sysJobLogGateway, jobDto, executeUser, executeId, context.getRefireCount());
@@ -69,7 +75,7 @@ public class JobHandlerExecutor extends QuartzJobBean {
 
     private boolean isJobExecutable(SysJobDto jobDto) {
         if (!StatusEnum.ON.getStatus().equals(jobDto.getStatus())) {
-            log.warn("任务已禁用: jobId={}, handlerName={}", jobDto.getId(), jobDto.getBeanName());
+            log.debug("任务已禁用: jobId={}, handlerName={}", jobDto.getId(), jobDto.getBeanName());
             return false;
         }
 
