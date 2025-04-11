@@ -20,7 +20,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TenantBase implements Serializable {
-    @Schema(description ="租户", required = true)
+    @Schema(description ="租户",requiredMode= Schema.RequiredMode.REQUIRED)
     Integer tenantId;
 
     public Integer getTenantId() {

@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 public class BaseCmd implements Serializable {
-    @Schema(description ="用户token", required = false)
+    @Schema(description ="用户token")
     String token;
     @Schema(description ="请求时间戳")
     long t;

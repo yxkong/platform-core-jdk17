@@ -2,6 +2,7 @@ package com.github.platform.core.workflow.infra.event;
 
 import com.github.platform.core.workflow.domain.constant.InstanceStatusEnum;
 import com.github.platform.core.workflow.domain.constant.ProcessTypeEnum;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
  * @Date: 2023/12/15 14:45
  * @version: 1.0
  */
+@Getter
 public class WorkflowProcessEvent extends ApplicationEvent {
     private String instanceId;
     private String bizNo;
@@ -35,34 +37,12 @@ public class WorkflowProcessEvent extends ApplicationEvent {
         this.processType = processType;
         this.status = status;
     }
-
-    public String getInstanceId() {
-        return instanceId;
-    }
-
-    public String getBizNo() {
-        return bizNo;
-    }
-
-    public String getProcessType() {
-        return processType;
-    }
-
-    public InstanceStatusEnum getStatus() {
-        return status;
-    }
-
-    public String getProcessUsers() {
-        return processUsers;
-    }
     public Boolean isCreateGroup() {
-        return Objects.nonNull(this.createGroup) && this.createGroup == Boolean.TRUE;
+        return Objects.nonNull(this.createGroup) && Objects.equals(this.createGroup,Boolean.TRUE);
     }
-    public String getCreateUser() {
-        return createUser;
-    }
+
     public boolean isPm(){
-        return ProcessTypeEnum.PM.getType().equals(this.processType);
+        return Objects.equals(ProcessTypeEnum.PM.getType(),this.processType);
     }
 
 }

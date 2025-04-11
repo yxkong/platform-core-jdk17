@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 public enum CacheNameEnum {
 
-    C10S(CacheConstant.c10s,10l,"缓存10秒"),
-    C30S(CacheConstant.c30s,30l,"缓存30秒"),
-    C1M(CacheConstant.c1m,60l,"缓存1分钟"),
+    C10S(CacheConstant.c10s, 10L,"缓存10秒"),
+    C30S(CacheConstant.c30s, 30L,"缓存30秒"),
+    C1M(CacheConstant.c1m, 60L,"缓存1分钟"),
     C2M(CacheConstant.c2m,2*60L,"缓存2分钟"),
     C3M(CacheConstant.c3m,3*60L,"缓存3分钟"),
     C5M(CacheConstant.c5m,5*60L,"缓存5分钟"),

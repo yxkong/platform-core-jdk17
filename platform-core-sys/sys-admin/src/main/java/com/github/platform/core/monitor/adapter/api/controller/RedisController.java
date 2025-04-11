@@ -10,7 +10,9 @@ import com.github.platform.core.web.web.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.connection.RedisKeyCommands;
 import org.springframework.data.redis.connection.RedisServerCommands;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -51,7 +53,7 @@ public class RedisController extends BaseController {
         Properties info = stringRedisTemplate.execute((RedisCallback<Properties>) RedisServerCommands::info);
         Long dbSize = stringRedisTemplate.execute(RedisServerCommands::dbSize);
         Properties commandStats = stringRedisTemplate.execute((
-                RedisCallback<Properties>) connection -> connection.info("commandstats"));
+                RedisCallback<Properties>) connection -> connection.commands().getConfig("commandstats"));
         assert commandStats != null;
         // 拼接结果返回
         return buildSucResp(convert.toDto(info, dbSize, commandStats));
@@ -63,14 +65,21 @@ public class RedisController extends BaseController {
     public ResultBean<List<String>> scanKeys(@RequestBody @Validated KeyReq keyReq) {
         List<String> keys = new ArrayList<>();
         stringRedisTemplate.execute((RedisCallback<Object>) (connection) -> {
-            // 创建迭代器选项
+            // 获取 RedisKeyCommands 接口
+            RedisKeyCommands keyCommands = connection.keyCommands();
+            // 创建扫描选项
             ScanOptions options = ScanOptions.scanOptions()
                     .match(keyReq.getKey())
-                    // 可以设置每次迭代返回的数量，默认是10
+                    // 每次扫描返回的数量
                     .count(100)
                     .build();
             // 使用迭代器扫描
-            connection.scan(options).forEachRemaining(key -> keys.add(new String(key)));
+            try (Cursor<byte[]> cursor = keyCommands.scan(options)) {
+                while (cursor.hasNext()) {
+                    keys.add(new String(cursor.next()));
+                }
+            }
+            // 确保关闭游标
             return null;
         });
         return buildSucResp(keys) ;

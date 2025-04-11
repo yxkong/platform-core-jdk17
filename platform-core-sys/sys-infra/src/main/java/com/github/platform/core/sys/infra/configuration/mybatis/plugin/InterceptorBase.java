@@ -162,7 +162,7 @@ public abstract class InterceptorBase implements Interceptor {
         Insert insert = (Insert) CCJSqlParserUtil.parse(sql);
 
         TablesNamesFinder tablesNamesFinder = new TablesNamesFinder();
-        List<String> tableList = tablesNamesFinder.getTableList(insert);
+        Set<String> tableList = tablesNamesFinder.getTables(insert);
         return tableList.size() == 1;
     }
 

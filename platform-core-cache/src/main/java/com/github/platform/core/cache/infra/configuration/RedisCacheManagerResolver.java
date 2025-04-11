@@ -45,12 +45,6 @@ public class RedisCacheManagerResolver extends RedisCacheManager {
         this.defaultCacheConfig = defaultCacheConfiguration;
     }
 
-    public RedisCacheManagerResolver(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration, Map<String, RedisCacheConfiguration> initialCacheConfigurations, boolean allowInFlightCacheCreation) {
-        super(cacheWriter, defaultCacheConfiguration, initialCacheConfigurations, allowInFlightCacheCreation);
-        this.cacheWriter = cacheWriter;
-        this.defaultCacheConfig = defaultCacheConfiguration;
-    }
-
     public RedisCacheManagerResolver(RedisConnectionFactory redisConnectionFactory, RedisCacheConfiguration cacheConfiguration) {
         this(RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory),cacheConfiguration);
     }

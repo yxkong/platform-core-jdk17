@@ -2,15 +2,13 @@ package com.github.platform.core.kafka.service.impl;
 
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.kafka.service.IKafkaService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 
-import jakarta.annotation.Resource;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 /**

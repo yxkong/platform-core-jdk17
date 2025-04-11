@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.CannotAcquireLockException;
-import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -53,12 +52,6 @@ public class DBGlobalExceptionHandler  extends ExceptionHandlerBase {
     public ResultBean<?> duplicateKeyException(DuplicateKeyException e) {
         log("duplicateKeyException", e);
         return ResultBeanUtil.result(ResultStatusEnum.DB_DUPLICATE_KEY, ExceptionUtil.getMessage(e));
-    }
-    @ConditionalOnClass(DeadlockLoserDataAccessException.class)
-    @ExceptionHandler(DeadlockLoserDataAccessException.class)
-    public ResultBean<?> deadlockLoserDataAccessException(DeadlockLoserDataAccessException e) {
-        log("deadlockLoserDataAccessException", e);
-        return ResultBeanUtil.result(ResultStatusEnum.DB_DEAD_LOCK, ExceptionUtil.getMessage(e));
     }
     @ConditionalOnClass(QueryTimeoutException.class)
     @ExceptionHandler(QueryTimeoutException.class)

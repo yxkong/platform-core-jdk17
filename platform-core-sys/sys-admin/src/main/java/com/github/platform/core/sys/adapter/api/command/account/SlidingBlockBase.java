@@ -16,11 +16,11 @@ import jakarta.validation.constraints.NotEmpty;
 public class SlidingBlockBase  {
 
     @NotEmpty(message = "滑块id不能为空")
-    @Schema(description = "滑块id", required = true)
+    @Schema(description = "滑块id",requiredMode= Schema.RequiredMode.REQUIRED)
     String slidingBlockId;
     /**
      * 滑块来源（不同的厂商，yidun,shumei）
      */
-    @Schema(description = "滑块厂商来源", required = true)
+    @Schema(description = "滑块厂商来源",requiredMode= Schema.RequiredMode.REQUIRED)
     String slidingBlockSupplier;
 }

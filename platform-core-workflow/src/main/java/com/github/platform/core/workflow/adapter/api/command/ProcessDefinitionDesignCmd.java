@@ -20,19 +20,19 @@ import jakarta.validation.constraints.NotNull;
 @AllArgsConstructor
 @Schema(name ="流程设计")
 public class ProcessDefinitionDesignCmd {
-    @Schema(description = "流程id",required=true)
+    @Schema(description = "流程id",requiredMode= Schema.RequiredMode.REQUIRED)
     @NotNull(message = "流程编号为空")
     private String id;
     /**
      * 审批流编号
      */
-    @Schema(description = "流程编号",required=true)
+    @Schema(description = "流程编号",requiredMode= Schema.RequiredMode.REQUIRED)
     private String processNo;
 
     /**
      * 审批流文件
      */
-    @Schema(description = "流程文件",required=true)
+    @Schema(description = "流程文件",requiredMode= Schema.RequiredMode.REQUIRED)
     @NotEmpty(message = "流程文件为空")
     private String processFile;
 

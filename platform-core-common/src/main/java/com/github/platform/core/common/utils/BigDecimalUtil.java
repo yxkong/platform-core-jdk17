@@ -60,7 +60,7 @@ public class BigDecimalUtil {
      * @return
      */
     public static String getBigDecimalStringWithOutPoint(BigDecimal bigDecimal){
-        return bigDecimal.setScale( 0, BigDecimal.ROUND_DOWN ).toPlainString();
+        return bigDecimal.setScale(0, RoundingMode.DOWN).toPlainString();
     }
 
     /**

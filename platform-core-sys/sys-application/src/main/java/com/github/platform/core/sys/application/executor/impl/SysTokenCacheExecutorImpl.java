@@ -32,6 +32,7 @@ public class SysTokenCacheExecutorImpl extends SysExecutor implements ISysTokenC
     * @param context 查询上下文
     * @return 分页结果
     */
+    @Override
     public PageBean<SysTokenCacheDto> query(SysTokenCacheQueryContext context){
         context.setTenantId(getTenantId(context));
         return sysTokenCacheGateway.query(context);
@@ -46,6 +47,7 @@ public class SysTokenCacheExecutorImpl extends SysExecutor implements ISysTokenC
     * 根据id删除token缓存记录
     * @param id 主键
     */
+    @Override
     public void expire(Long id) {
         tokenCacheGateway.expireById(id);
     }

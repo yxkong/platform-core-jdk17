@@ -21,6 +21,6 @@ import jakarta.validation.constraints.NotNull;
 public class SmsBySlidingBlockCmd extends SlidingBlockBase{
     @NotNull(message = "短信类型不能为空！")
     @Range(min = 1, max = 3, message = "range在[1,3]之间")
-    @Schema(description = "短信类型，1注册、2登录、3重置", required = true)
+    @Schema(description = "短信类型，1注册、2登录、3重置",requiredMode= Schema.RequiredMode.REQUIRED)
     private Integer smsType;
 }

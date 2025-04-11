@@ -64,6 +64,7 @@ public class SysSmsWhiteListGatewayImpl implements ISysSmsWhiteListGateway {
     public int delete(Long id) {
         return smsWhiteListMapper.deleteById(id);
     }
+    @Override
     public boolean existMobile(String mobile){
         SysSmsWhiteListBase record = smsWhiteListMapper.findByMobile(mobile);
         if (Objects.nonNull(record) && record.getStatus().equals(StatusEnum.ON.getStatus())){

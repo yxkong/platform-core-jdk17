@@ -158,7 +158,9 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
 
     @Override
     public boolean workNoticeText(List<String> userList, String text) {
-        if (validate(userList, text)) return false;
+        if (validate(userList, text)){
+            return false;
+        }
         String token = getAppAccessToken();
         DingWorkNoticeCmd cmd = new DingWorkNoticeCmd();
         if (CollectionUtil.isNotEmpty(userList)){
@@ -174,7 +176,9 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
 
     @Override
     public boolean workNoticeMarkDown(List<String> userList,String title, String text) {
-        if (validate(userList, title)) return false;
+        if (validate(userList, title)) {
+            return false;
+        }
         DingWorkNoticeCmd cmd = new DingWorkNoticeCmd();
         cmd.setAgentId(context.getAgentId());
         if (CollectionUtil.isNotEmpty(userList)){

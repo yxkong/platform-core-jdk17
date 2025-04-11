@@ -146,7 +146,9 @@ public class JobHandlerExecutor extends QuartzJobBean {
     }
 
     private void handleException(Exception exception, int refireCount, int retryCount, int retryInterval) throws JobExecutionException {
-        if (exception == null) return;
+        if (exception == null) {
+            return;
+        }
 
         if (refireCount >= retryCount) {
             throw new JobExecutionException(exception);
@@ -176,7 +178,9 @@ public class JobHandlerExecutor extends QuartzJobBean {
     }
 
     private void updateLogResultAsync(ISysJobLogGateway sysJobLogGateway, Long logId, String handlerName, Exception exception, Pair<Boolean, String> result, String executeUser, Long startTime) {
-        if (logId == null) return;
+        if (logId == null) {
+            return;
+        }
 
         try {
             int status = (exception == null && result != null && result.getKey()) ? 1 : 0;

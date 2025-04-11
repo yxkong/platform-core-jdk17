@@ -406,7 +406,9 @@ public class SysMenuGatewayImpl extends BaseGatewayImpl implements ISysMenuGatew
         //查找所有的模块
         List<SysMenuDto> apps = list.stream().filter(SysMenuBase::isApp).collect(Collectors.toList());
         getSysMenuDtos(list, apps, rst);
-        if (!rst.isEmpty()) return rst;
+        if (!rst.isEmpty()) {
+            return rst;
+        }
         // 做了兼容性处理
         apps = list.stream().filter(s-> s.isDir() && s.isTopMenu()).collect(Collectors.toList());
         getSysMenuDtos(list, apps, rst);

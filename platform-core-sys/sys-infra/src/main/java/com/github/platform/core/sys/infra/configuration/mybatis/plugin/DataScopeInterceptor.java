@@ -112,13 +112,13 @@ public class DataScopeInterceptor extends InterceptorBase {
      */
     private Object selectProcess(MetaObject metaObject,Invocation invocation,String sql) throws JSQLParserException, InvocationTargetException, IllegalAccessException {
         Select select = (Select) CCJSqlParserUtil.parse(sql);
-        Expression oldWhereEx = ((PlainSelect) select.getSelectBody()).getWhere();
+        Expression oldWhereEx = (select.getPlainSelect()).getWhere();
         if (AuthUtil.isSuperAdmin()){
             return invocation.proceed();
         }
         DataScopeEnum maxPrivilege = LoginUserInfoUtil.getMaxPrivilege();
         List<Object> additionalParams = new ArrayList<>();
-        StringBuffer  sqlWhere  =  new StringBuffer(oldWhereEx == null ?" 1=1 " : oldWhereEx.toString());
+        StringBuilder sqlWhere  =  new StringBuilder(oldWhereEx == null ?" 1=1 " : oldWhereEx.toString());
         switch (maxPrivilege){
             //所有数据
             case ALL:
@@ -151,7 +151,7 @@ public class DataScopeInterceptor extends InterceptorBase {
                 additionalParams.add(LoginUserInfoUtil.getLoginName());
                 break;
         }
-        ((PlainSelect) select.getSelectBody()).setWhere(CCJSqlParserUtil.parseCondExpression(sqlWhere.toString()));
+        (select.getPlainSelect()).setWhere(CCJSqlParserUtil.parseCondExpression(sqlWhere.toString()));
 
         metaObject.setValue("delegate.boundSql.sql", select.toString());
         metaObject.setValue("delegate.boundSql.additionalParameters", additionalParams);
