@@ -64,7 +64,7 @@ public class SysTokenCacheController extends BaseController{
      * @param query
      * @return 操作结果
      */
-    @OptLog(module="sysTokenCache",title="根据token过期登录信息",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysTokenCache",title="根据token过期登录信息",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据token过期登录信息",tags = {"sysTokenCache"})
     @PostMapping("/expire")
     public ResultBean expire(@Validated @RequestBody SysTokenCacheQuery query) {

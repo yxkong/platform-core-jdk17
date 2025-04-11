@@ -1,8 +1,7 @@
 package com.github.platform.core.standard.entity.echarts;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -13,10 +12,10 @@ import java.util.List;
  * @version: 1.0
  */
 @Data
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-public class SunburstDto {
-    private String name;
-    private Integer value;
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class SunburstDto extends EchartsKVDto {
     private List<SunburstDto> children;
 }

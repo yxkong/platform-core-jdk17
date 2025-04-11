@@ -97,7 +97,7 @@ public class SysCascadeController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysCascade",title="新增级联表",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysCascade",title="新增级联表",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增级联表",tags = {"sysCascade"})
     @PostMapping("/add")
     public ResultBean<SysCascadeDto> add(@Validated @RequestBody SysCascadeCmd cmd) {
@@ -114,7 +114,7 @@ public class SysCascadeController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysCascade",title="根据id查询级联表明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysCascade",title="根据id查询级联表明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询级联表明细",tags = {"sysCascade"})
     @PostMapping("/detail")
     public ResultBean<SysCascadeDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -127,7 +127,7 @@ public class SysCascadeController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysCascade",title="根据id删除级联表记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysCascade",title="根据id删除级联表记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除级联表记录",tags = {"sysCascade"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -140,7 +140,7 @@ public class SysCascadeController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysCascade",title="修改级联表",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysCascade",title="修改级联表",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改级联表",tags = {"sysCascade"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysCascadeCmd cmd) {

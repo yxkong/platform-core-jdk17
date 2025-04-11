@@ -55,7 +55,7 @@ public class SysNoticeChannelConfigController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysNoticeChannelConfig",title="新增通知通道配置",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysNoticeChannelConfig",title="新增通知通道配置",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增通知通道配置",tags = {"sysNoticeChannelConfig"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody SysNoticeChannelConfigCmd cmd) {
@@ -69,7 +69,7 @@ public class SysNoticeChannelConfigController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysNoticeChannelConfig",title="根据id查询通知通道配置明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysNoticeChannelConfig",title="根据id查询通知通道配置明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询通知通道配置明细",tags = {"sysNoticeChannelConfig"})
     @PostMapping("/detail")
     public ResultBean<SysNoticeChannelConfigDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -82,7 +82,7 @@ public class SysNoticeChannelConfigController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeChannelConfig",title="根据id删除通知通道配置记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysNoticeChannelConfig",title="根据id删除通知通道配置记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除通知通道配置记录",tags = {"sysNoticeChannelConfig"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -95,7 +95,7 @@ public class SysNoticeChannelConfigController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeChannelConfig",title="修改通知通道配置",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysNoticeChannelConfig",title="修改通知通道配置",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改通知通道配置",tags = {"sysNoticeChannelConfig"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysNoticeChannelConfigCmd cmd) {

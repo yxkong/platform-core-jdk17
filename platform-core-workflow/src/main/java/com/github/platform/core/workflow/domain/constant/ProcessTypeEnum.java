@@ -16,11 +16,11 @@ public enum ProcessTypeEnum {
     OA("oa","sysRoleStrategy","sysUserStrategy","sysFormDataGateway","OA流程")
     ;
 
-    private String type;
-    private String roleBean;
-    private String userBean;
-    private String formBean;
-    private String desc;
+    private final String type;
+    private final String roleBean;
+    private final String userBean;
+    private final String formBean;
+    private final String desc;
 
     public static ProcessTypeEnum get(String type){
         for (ProcessTypeEnum x:ProcessTypeEnum.values()){

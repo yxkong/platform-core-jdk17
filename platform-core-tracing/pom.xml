@@ -31,6 +31,13 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
+            <!-- 隐藏的HTTP发送器 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.zipkin.reporter2</groupId>
+                    <artifactId>zipkin-sender-urlconnection</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- 用于收集客户端请求的度量数据-->
         <dependency>
@@ -41,6 +48,18 @@
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-reporter-brave</artifactId>
+            <exclusions>
+                <!-- 保留 zipkin-reporter，仅排除 HTTP 发送器 -->
+                <exclusion>
+                    <groupId>io.zipkin.reporter2</groupId>
+                    <artifactId>zipkin-sender-urlconnection</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- Brave + Zipkin Kafka Reporter -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-kafka</artifactId>
         </dependency>
         <!-- 将micrometer 桥接到opentelemetry -->
 <!--        <dependency>-->
@@ -48,10 +67,11 @@
 <!--            <artifactId>micrometer-tracing-bridge-otel</artifactId>-->
 <!--        </dependency>-->
         <!-- 将链路追踪导入到zipkin -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-exporter-zipkin</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.opentelemetry</groupId>-->
+<!--            <artifactId>opentelemetry-exporter-zipkin</artifactId>-->
+<!--        </dependency>-->
+
 
     </dependencies>
 

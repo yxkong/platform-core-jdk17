@@ -10,13 +10,13 @@ import lombok.Getter;
 @Getter
 public enum VerifyResultEnum {
 
-    pass("pass","验证通过！"),
-    refuse("refuse","验证未通过！"),
-    notFound("notfound","未找到对应的验证码！")
+    PASS("pass","验证通过！"),
+    REFUSE("refuse","验证未通过！"),
+    NOT_FOUND("notfound","未找到对应的验证码！")
     ;
 
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
 
     VerifyResultEnum(String type, String desc) {
         this.type = type;

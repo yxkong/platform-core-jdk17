@@ -42,15 +42,15 @@ public class AuthorizationServiceImpl implements IAuthorizationService {
         if (Objects.nonNull(tokenCacheEntity)){
             LoginUserInfoUtil.setLoginUserInfo(JsonUtils.fromJson(tokenCacheEntity.getLoginInfo(), LoginUserInfo.class));
         } else {
-            sysUserGateway.generatorToken(userEntity, null, LoginWayEnum.bearer);
+            sysUserGateway.generatorToken(userEntity, null, LoginWayEnum.BEARER);
         }
     }
 
     @Override
     public void basic(Integer tenantId,String user, String pwd) {
         //授权以后需要通过LoginUserInfoUtil 放入本地线程
-        LoginContext context = LoginContext.builder().loginName(user).pwd(pwd).loginWay(LoginWayEnum.normal).tenantId(tenantId).build();
+        LoginContext context = LoginContext.builder().loginName(user).pwd(pwd).loginWay(LoginWayEnum.NORMAL).tenantId(tenantId).build();
         UserEntity userEntity = sysLoginGateway.login(context);
-        sysUserGateway.generatorToken(userEntity, null, LoginWayEnum.bearer);
+        sysUserGateway.generatorToken(userEntity, null, LoginWayEnum.BEARER);
     }
 }

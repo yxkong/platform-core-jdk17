@@ -15,10 +15,10 @@ public enum NoticeSequenceEnum implements BaseSequence {
     ;
 
 
-    private String prefix;
-    private String format;
-    private String cacheInit;
-    private Long dbInit;
+    private final String prefix;
+    private final String format;
+    private final String cacheInit;
+    private final Long dbInit;
 
     NoticeSequenceEnum(String prefix, String format, String cacheInit, Long dbInit) {
         this.prefix = prefix;

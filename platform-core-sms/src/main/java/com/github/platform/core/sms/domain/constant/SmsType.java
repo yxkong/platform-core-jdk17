@@ -8,9 +8,9 @@ package com.github.platform.core.sms.domain.constant;
  */
 public enum SmsType {
     /**验证码*/
-    verfiyCode,
+    VERIFY_CODE,
     /**营销*/
-    market,
+    MARKET,
     /**普通短信*/
-    normal;
+    NORMAL;
 }

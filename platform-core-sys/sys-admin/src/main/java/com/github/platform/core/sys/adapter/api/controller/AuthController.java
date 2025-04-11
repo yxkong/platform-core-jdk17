@@ -114,14 +114,14 @@ public class AuthController extends BaseController {
      * @return
      */
     @NoLogin
-    @OptLog(module="auth",title="ldap登录",maskParamNames = {"pwd"},optType = LogOptTypeEnum.mix)
+    @OptLog(module="auth",title="ldap登录",maskParamNames = {"pwd"},optType = LogOptTypeEnum.MIX)
     @Operation(summary = "ldap登录",tags = {"auth"})
     @PostMapping("/ldapLogin")
     @ApiResponse
     public ResultBean<LoginResult> ldapLogin(@RequestBody @Validated NormalLoginCmd cmd) {
         cmd.setLoginName(cmd.getLoginName().toLowerCase());
         LoginContext context = convert.toLogin(cmd);
-        context.setLoginWay(LoginWayEnum.ldap);
+        context.setLoginWay(LoginWayEnum.LDAP);
         context.setVerifyType(VerifyTypeEnum.CAPTCHA);
         setDefaultTenantId(context);
         LoginResult login = authExecutor.login(context);
@@ -133,14 +133,14 @@ public class AuthController extends BaseController {
      * @return
      */
     @NoLogin
-    @OptLog(module="auth",title="账户密码登陆",maskParamNames = {"pwd"},optType = LogOptTypeEnum.mix)
+    @OptLog(module="auth",title="账户密码登陆",maskParamNames = {"pwd"},optType = LogOptTypeEnum.MIX)
     @Operation(summary = "账户密码登陆",tags = {"auth"})
     @PostMapping("/normalLogin")
     @ApiResponse
     public ResultBean<LoginResult> normalLogin(@RequestBody @Validated NormalLoginCmd cmd) {
         cmd.setLoginName(cmd.getLoginName().toLowerCase());
         LoginContext context = convert.toLogin(cmd);
-        context.setLoginWay(LoginWayEnum.normal);
+        context.setLoginWay(LoginWayEnum.NORMAL);
         context.setVerifyType(VerifyTypeEnum.CAPTCHA);
         setDefaultTenantId(context);
         LoginResult login = authExecutor.login(context);
@@ -162,7 +162,7 @@ public class AuthController extends BaseController {
     public ResultBean<LoginResult> smsLogin(@RequestBody @Validated SmsLoginCmd cmd) {
         LoginContext context = convert.toLogin(cmd);
         context.setVerifyType(VerifyTypeEnum.SMS);
-        context.setLoginWay(LoginWayEnum.sms);
+        context.setLoginWay(LoginWayEnum.SMS);
         setDefaultTenantId(context);
         LoginResult login = authExecutor.login(context);
         return buildSucResp(login);
@@ -189,7 +189,7 @@ public class AuthController extends BaseController {
      * @return
      */
     @RequiredLogin
-    @OptLog(module="auth",title="用户退出",optType = LogOptTypeEnum.mix)
+    @OptLog(module="auth",title="用户退出",optType = LogOptTypeEnum.MIX)
     @Operation(summary = "用户退出",tags = {"auth"})
     @PostMapping("/logout")
     public ResultBean<Void> logout() {
@@ -204,7 +204,7 @@ public class AuthController extends BaseController {
      */
     @RequiredLogin
     @RepeatSubmit
-    @OptLog(module = "auth",title = "修改密码",optType = LogOptTypeEnum.modify)
+    @OptLog(module = "auth",title = "修改密码",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "用户修改密码",tags = {"auth"})
     @PostMapping("/modifyPwd")
     @ApiResponse

@@ -25,8 +25,8 @@ public enum LogModuleEnum {
     sms("sms","短信管理"),
     flowable("flowable","工作流");
 
-    private String module;
-    private String desc;
+    private final String module;
+    private final String desc;
 
     LogModuleEnum(String module, String desc) {
         this.module = module;

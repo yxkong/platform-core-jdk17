@@ -62,7 +62,7 @@ public class ProcessConditionController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="processCondition",title="新增流程条件",optType = LogOptTypeEnum.add)
+    @OptLog(module="processCondition",title="新增流程条件",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增流程条件",tags = {"processCondition"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody ProcessConditionCmd cmd) {
@@ -75,7 +75,7 @@ public class ProcessConditionController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="processCondition",title="根据id查询流程条件明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="processCondition",title="根据id查询流程条件明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询流程条件明细",tags = {"processCondition"})
     @PostMapping("/detail")
     public ResultBean<ProcessConditionDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -88,7 +88,7 @@ public class ProcessConditionController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="processCondition",title="根据id删除流程条件记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="processCondition",title="根据id删除流程条件记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除流程条件记录",tags = {"processCondition"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -101,7 +101,7 @@ public class ProcessConditionController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="processCondition",title="修改流程条件",optType = LogOptTypeEnum.modify)
+    @OptLog(module="processCondition",title="修改流程条件",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改流程条件",tags = {"processCondition"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody ProcessConditionCmd cmd) {
@@ -109,7 +109,7 @@ public class ProcessConditionController extends BaseController{
         return buildSucResp();
     }
 
-    @OptLog(module="processCondition",title="获取流程条件选项",optType = LogOptTypeEnum.query)
+    @OptLog(module="processCondition",title="获取流程条件选项",optType = LogOptTypeEnum.QUERY)
     @Operation(summary = "获取流程条件选项",tags = {"processCondition"})
     @PostMapping("/getByType")
     @RequiredLogin

@@ -75,14 +75,14 @@ public class ProcessDefinitionController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="processDefinition",title="新增流程定义",optType = LogOptTypeEnum.add)
+    @OptLog(module="processDefinition",title="新增流程定义",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增流程定义",tags = {"processDefinition"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody ProcessDefinitionCmd cmd) {
         executor.insert(convert.toContext(cmd));
         return buildSucResp();
     }
-    @OptLog(module="processDefinition",title="流程内容设计",optType = LogOptTypeEnum.modify)
+    @OptLog(module="processDefinition",title="流程内容设计",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "流程内容设计",tags = {"processDefinition"})
     @PostMapping("/design")
     public ResultBean design(@Validated @RequestBody ProcessDefinitionDesignCmd cmd) {
@@ -95,7 +95,7 @@ public class ProcessDefinitionController extends BaseController{
     * @param id 流程id
     * @return 单条记录
     */
-    @OptLog(module="processDefinition",title="根据id查询流程定义明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="processDefinition",title="根据id查询流程定义明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询流程定义明细",tags = {"processDefinition"})
     @PostMapping("/detail")
     public ResultBean<ProcessDefinitionDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -108,7 +108,7 @@ public class ProcessDefinitionController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="processDefinition",title="根据id删除流程定义记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="processDefinition",title="根据id删除流程定义记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除流程定义记录",tags = {"processDefinition"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -121,7 +121,7 @@ public class ProcessDefinitionController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="processDefinition",title="修改流程定义",optType = LogOptTypeEnum.modify)
+    @OptLog(module="processDefinition",title="修改流程定义",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改流程定义",tags = {"processDefinition"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody ProcessDefinitionCmd cmd) {
@@ -135,7 +135,7 @@ public class ProcessDefinitionController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="processDefinition",title="部署流程",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="processDefinition",title="部署流程",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "部署流程",tags = {"processDefinition"})
     @PostMapping("/deployById")
     public ResultBean deployById(@Validated @RequestBody StrIdReq id) {
@@ -147,14 +147,14 @@ public class ProcessDefinitionController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="processDefinition",title="停用审批流",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="processDefinition",title="停用审批流",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "停用审批流",tags = {"processDefinition"})
     @PostMapping("/stopProcessById")
     public ResultBean stopProcessById(@Validated @RequestBody StrIdReq id) {
         executor.stopProcessById(id.getId());
         return buildSucResp();
     }
-    @OptLog(module="processDefinition",title="重置流程",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="processDefinition",title="重置流程",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "重置流程",tags = {"processDefinition"})
     @PostMapping("/rest")
     public ResultBean rest(@Validated @RequestBody StrIdReq id) {
@@ -162,7 +162,7 @@ public class ProcessDefinitionController extends BaseController{
         return buildSucResp();
     }
     @RequiredLogin
-    @OptLog(module="processDefinition",title="流程Option",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="processDefinition",title="流程Option",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "流程Option",tags = {"processDefinition"})
     @PostMapping("/processOptions")
     public ResultBean<List<OptionsDto>> processOptions(){

@@ -66,7 +66,7 @@ public class SysSmsServiceProviderController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysSmsServiceProvider",title="新增服务商",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysSmsServiceProvider",title="新增服务商",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增服务商",tags = {"sysSmsServiceProvider"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody SysSmsServiceProviderCmd cmd) {
@@ -110,7 +110,7 @@ public class SysSmsServiceProviderController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysSmsServiceProvider",title="修改服务商",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysSmsServiceProvider",title="修改服务商",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改服务商",tags = {"sysSmsServiceProvider"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysSmsServiceProviderCmd cmd) {

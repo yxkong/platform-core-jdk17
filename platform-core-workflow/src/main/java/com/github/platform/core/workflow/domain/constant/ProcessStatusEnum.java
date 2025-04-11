@@ -17,8 +17,8 @@ public enum ProcessStatusEnum {
     OFF(2,"挂起/停用")
     ;
 
-    private Integer status;
-    private String desc;
+    private final Integer status;
+    private final String desc;
 
     public boolean isOn(){
         return ProcessStatusEnum.ON.getStatus().equals(this.status);

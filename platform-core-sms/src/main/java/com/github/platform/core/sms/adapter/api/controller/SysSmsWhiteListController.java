@@ -58,7 +58,7 @@ public class SysSmsWhiteListController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysSmsWhiteList",title="新增短信白名单",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysSmsWhiteList",title="新增短信白名单",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增短信白名单",tags = {"sysSmsWhiteList"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody SysSmsWhiteListCmd cmd) {
@@ -84,7 +84,7 @@ public class SysSmsWhiteListController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysSmsWhiteList",title="根据id删除短信白名单记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysSmsWhiteList",title="根据id删除短信白名单记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除短信白名单记录",tags = {"sysSmsWhiteList"})
     @PostMapping("/delete")
     public ResultBean<?> delete(@Validated @RequestBody IdReq id) {
@@ -97,7 +97,7 @@ public class SysSmsWhiteListController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysSmsWhiteList",title="修改短信白名单",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysSmsWhiteList",title="修改短信白名单",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改短信白名单",tags = {"sysSmsWhiteList"})
     @PostMapping("/modify")
     public ResultBean<?> modify(@Validated @RequestBody SysSmsWhiteListCmd cmd) {

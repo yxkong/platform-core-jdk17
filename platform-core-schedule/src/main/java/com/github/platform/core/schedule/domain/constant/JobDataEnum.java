@@ -18,8 +18,8 @@ public enum JobDataEnum {
     EXECUTE_USER("executeUser","执行用户"),
     EXECUTE_ID("executeId","执行id"),
     ;
-    private String key;
-    private String desc;
+    private final String key;
+    private final String desc;
 
     JobDataEnum(String key, String desc) {
         this.key = key;

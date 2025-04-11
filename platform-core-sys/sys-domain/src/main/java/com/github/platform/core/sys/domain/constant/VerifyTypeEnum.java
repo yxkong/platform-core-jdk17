@@ -13,8 +13,8 @@ public enum VerifyTypeEnum {
     CAPTCHA("hutoolCaptcha","图形验证"),
     SMS("sms","短信验证"),
     SLIDING("sliding","滑块验证");
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
     VerifyTypeEnum(String type, String desc) {
         this.type = type;
         this.desc = desc;

@@ -56,7 +56,7 @@ public class ProcessInstanceController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="processInstance",title="新增流程实例",optType = LogOptTypeEnum.add)
+    @OptLog(module="processInstance",title="新增流程实例",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增流程实例",tags = {"processInstance"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody ProcessInstanceCmd cmd) {
@@ -69,7 +69,7 @@ public class ProcessInstanceController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="processInstance",title="根据id查询流程实例明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="processInstance",title="根据id查询流程实例明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询流程实例明细",tags = {"processInstance"})
     @PostMapping("/detail")
     public ResultBean<ProcessInstanceDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -82,7 +82,7 @@ public class ProcessInstanceController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="processInstance",title="根据id删除流程实例记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="processInstance",title="根据id删除流程实例记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除流程实例记录",tags = {"processInstance"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -95,7 +95,7 @@ public class ProcessInstanceController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="processInstance",title="修改流程实例",optType = LogOptTypeEnum.modify)
+    @OptLog(module="processInstance",title="修改流程实例",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改流程实例",tags = {"processInstance"})
     @PostMapping("/updateStatus")
     public ResultBean updateStatus(@Validated @RequestBody ProcessInstanceCmd cmd) {

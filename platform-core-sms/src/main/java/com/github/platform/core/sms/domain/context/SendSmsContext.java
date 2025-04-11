@@ -32,7 +32,7 @@ public class SendSmsContext {
         this.mobile = mobile;
         this.tempNo = tempNo;
         this.params.put("verifyCode",verifyCode);
-        this.smsType = SmsType.verfiyCode;
+        this.smsType = SmsType.VERIFY_CODE;
         this.msgId = msgId;
     }
 

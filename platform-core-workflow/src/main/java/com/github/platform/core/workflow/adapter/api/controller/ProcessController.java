@@ -10,7 +10,6 @@ import com.github.platform.core.workflow.adapter.api.convert.FormAdapterConvert;
 import com.github.platform.core.workflow.adapter.api.convert.ProcessAdapterConvert;
 import com.github.platform.core.workflow.adapter.api.convert.ProcessInstanceAdapterConvert;
 import com.github.platform.core.workflow.application.executor.IFormInfoExecutor;
-import com.github.platform.core.workflow.application.executor.IProcessDefinitionExecutor;
 import com.github.platform.core.workflow.application.executor.IProcessExecutor;
 import com.github.platform.core.workflow.application.executor.IProcessInstanceExecutor;
 import com.github.platform.core.workflow.domain.context.ProcessDetailQueryContext;
@@ -26,9 +25,7 @@ import com.github.platform.core.standard.entity.dto.ResultBean;
 import com.github.platform.core.web.web.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,7 +59,7 @@ public class ProcessController extends BaseController {
     @Resource
     private IFormInfoExecutor formInfoExecutor;
 
-    @OptLog(module="processInstance",title="创建流程实例",optType = LogOptTypeEnum.modify)
+    @OptLog(module="processInstance",title="创建流程实例",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "创建流程实例",tags = {"processInstance"})
     @PostMapping("/create")
     public ResultBean<Void> create(@Validated @RequestBody ProcessRunCmd cmd) {
@@ -74,7 +71,7 @@ public class ProcessController extends BaseController {
         instanceExecutor.createProcessInstanceWithFormData(processRunContext,formAdapterConvert.toDatas(formInfos,cmd.getFormData()));
         return buildSucResp();
     }
-    @OptLog(module="processInstance",title="创建流程查询",optType = LogOptTypeEnum.query)
+    @OptLog(module="processInstance",title="创建流程查询",optType = LogOptTypeEnum.QUERY)
     @Operation(summary = "创建流程查询",tags = {"processInstance"})
     @PostMapping("/createQuery")
     public ResultBean<List<FormInfoDto>> createQuery(@RequestBody ProcessQuery query){

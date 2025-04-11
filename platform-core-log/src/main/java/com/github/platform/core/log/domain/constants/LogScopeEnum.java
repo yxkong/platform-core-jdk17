@@ -10,11 +10,11 @@ import lombok.Getter;
  */
 @Getter
 public enum LogScopeEnum {
-    all("all","入参和出参"),
-    request("request","入参"),
-    response("response","出参");
-    private String scope;
-    private String desc;
+    ALL("all","入参和出参"),
+    REQUEST("request","入参"),
+    RESPONSE("response","出参");
+    private final String scope;
+    private final String desc;
 
     LogScopeEnum(String scope, String desc) {
         this.scope = scope;

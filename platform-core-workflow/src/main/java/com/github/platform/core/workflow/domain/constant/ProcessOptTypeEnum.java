@@ -15,16 +15,16 @@ import java.util.Arrays;
 @Getter
 public enum ProcessOptTypeEnum {
     NORMAL("1", "completeApprovalGateway","通过"),
-    REBACK("2", "","退回"),
+    REBACK("2", "reBack","退回"),
     REJECT("3", "rejectApprovalGateway","驳回"),
     DELEGATE("4","delegateApprovalGateway", "委派"),
     TRANSFER("5","transferApprovalGateway", "转办"),
     STOP("6","", "终止"),
     REVOKE("7","", "撤回")
     ;
-    private String type;
-    private String bean;
-    private String desc;
+    private final String type;
+    private final String bean;
+    private final String desc;
 
     public static ProcessOptTypeEnum of(String optType) {
         return Arrays.stream(ProcessOptTypeEnum.values()).filter(s-> s.type.equalsIgnoreCase(optType)).findFirst().orElse(null);

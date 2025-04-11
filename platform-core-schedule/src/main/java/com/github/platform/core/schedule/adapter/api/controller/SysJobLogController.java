@@ -57,7 +57,7 @@ public class SysJobLogController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysJobLog",title="根据id查询任务执行日志明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysJobLog",title="根据id查询任务执行日志明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询任务执行日志明细",tags = {"sysJobLog"})
     @PostMapping("/detail")
     public ResultBean<SysJobLogDto> detail(@Validated @RequestBody StrIdReq id) {

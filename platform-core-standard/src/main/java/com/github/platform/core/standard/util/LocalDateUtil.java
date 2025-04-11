@@ -339,6 +339,9 @@ public class LocalDateUtil {
     public static String format(LocalDate date, DateTimeFormatter formatter) {
         return date.format(formatter);
     }
+    public static String format(LocalDate date) {
+        return date.format(DEFAULT_DATE_FORMATTER);
+    }
 
     /**
      * 日期相隔天数(它错月就只返回天数的差值，不会返回总的天数差)

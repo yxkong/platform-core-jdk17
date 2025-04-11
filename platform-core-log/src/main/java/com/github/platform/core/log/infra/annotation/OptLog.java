@@ -41,7 +41,7 @@ public @interface OptLog {
      * delete
      * mix
      */
-    LogOptTypeEnum optType() default LogOptTypeEnum.query;
+    LogOptTypeEnum optType() default LogOptTypeEnum.QUERY;
 
     /**
      * 持久化，默认true,不需要持久化修改为false

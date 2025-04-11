@@ -37,15 +37,15 @@ public enum ProcessListenerEnum {
     END_TASK_START(ExecutionListener.EVENTNAME_START,"endTask", ExecutionEndCreateListener.class.getName(),"结束节点创建")
     ;
     /**监听事件**/
-    private String event;
+    private final String event;
     /**监听事件类型**/
-    private String type;
+    private final String type;
     /**
      * 监听事件实现
      */
-    private String path;
+    private final String path;
     /**
      * 监听器描述
      */
-    private String desc;
+    private final String desc;
 }

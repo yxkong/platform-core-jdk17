@@ -72,7 +72,7 @@ public class ThirdUserController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="thirdUser",title="修改三方用户",optType = LogOptTypeEnum.modify)
+    @OptLog(module="thirdUser",title="修改三方用户",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改三方用户",tags = {"thirdUser"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysThirdUserCmd cmd) {
@@ -84,7 +84,7 @@ public class ThirdUserController extends BaseController {
         executor.update(context);
         return buildSucResp();
     }
-    @OptLog(module="thirdUser",title="审批三方用户",optType = LogOptTypeEnum.modify)
+    @OptLog(module="thirdUser",title="审批三方用户",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "审批三方用户",tags = {"thirdUser"})
     @PostMapping("/approve")
     public ResultBean approve(@Validated @RequestBody ThirdApproveCmd cmd) {

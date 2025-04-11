@@ -10,24 +10,24 @@ import lombok.Getter;
  */
 @Getter
 public enum UserLogBizTypeEnum {
-    register(0,"注册"),
-    login(1,"登录"),
-    modify_pwd(2,"修改密码"),
-    add_user(3,"添加用户"),
-    bind(4,"绑定账户"),
-    third(5,"三方登录"),
-    profile(6,"用户修改")
+    REGISTER(0,"注册"),
+    LOGIN(1,"登录"),
+    MODIFY_PWD(2,"修改密码"),
+    ADD_USER(3,"添加用户"),
+    BIND(4,"绑定账户"),
+    THIRD(5,"三方登录"),
+    PROFILE(6,"用户修改")
     ;
 
-    private Integer type;
-    private String desc;
+    private final Integer type;
+    private final String desc;
 
     UserLogBizTypeEnum(Integer type, String desc) {
         this.type = type;
         this.desc = desc;
     }
     public static UserLogBizTypeEnum getDefault(){
-        return UserLogBizTypeEnum.register;
+        return UserLogBizTypeEnum.REGISTER;
     }
     public static UserLogBizTypeEnum of(Integer type){
         for (UserLogBizTypeEnum typeEnum:UserLogBizTypeEnum.values()){

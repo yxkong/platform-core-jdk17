@@ -60,6 +60,6 @@ public enum SysResultEnum implements BaseResult {
 
 
 
-    private String status;
-    private String message;
+    private final String status;
+    private final String message;
 }

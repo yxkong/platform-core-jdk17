@@ -117,7 +117,7 @@ public class SysUserService extends DomainBaseService {
                 .mobile(thirdUser.getMobile())
                 .deptId(DeptConstant.DEFAULT_ID)
                 .roleKeys(RoleConstant.thirdRole)
-                .logBizTypeEnum(UserLogBizTypeEnum.third)
+                .logBizTypeEnum(UserLogBizTypeEnum.THIRD)
                 .tenantId(thirdUser.getTenantId())
                 .status(StatusEnum.OFF.getStatus())
                 .createBy(thirdUser.getLoginName())

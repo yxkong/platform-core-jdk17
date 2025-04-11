@@ -5,21 +5,22 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 文件上传方式，如果添加自己扩展
+ * @author yxkong
  */
 @Getter
 public enum FileUploadEnum {
     /**
      * 本地存储
      */
-    disk,
+    DISK,
     /**
      * 天翼云存储
      */
-    ctyun,
+    CT_YUN,
     /**
      * 阿里云存储
      */
-    aliyun;
+    ALI_YUN;
 
     public static FileUploadEnum getName(String code){
         if (StringUtils.isBlank(code)){

@@ -106,14 +106,14 @@ public class SysUserController extends BaseController {
      * @return
      */
     @RepeatSubmit
-    @OptLog(module="user",title="新增用户",optType = LogOptTypeEnum.add)
+    @OptLog(module="user",title="新增用户",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增用户",tags = {"user"})
     @PostMapping(value = "/add")
     public ResultBean add(@RequestBody @Validated SysUserCmd cmd) {
         cmd.setLoginName(cmd.getLoginName().toLowerCase());
         RegisterContext context = convert.toRegister(cmd);
         context.setChannel(UserChannelEnum.add);
-        context.setLogBizTypeEnum(UserLogBizTypeEnum.add_user);
+        context.setLogBizTypeEnum(UserLogBizTypeEnum.ADD_USER);
         userExecutor.insert(context);
         return buildSucResp();
     }
@@ -124,7 +124,7 @@ public class SysUserController extends BaseController {
      * @return
      */
     @RepeatSubmit
-    @OptLog(module="user",title="修改用户",optType = LogOptTypeEnum.modify)
+    @OptLog(module="user",title="修改用户",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改用户",tags = {"user"})
     @PostMapping(value = "/modify")
     public ResultBean modify(@RequestBody @Validated SysUserCmd cmd) {
@@ -138,7 +138,7 @@ public class SysUserController extends BaseController {
     }
     @RepeatSubmit
     @RequiredLogin
-    @OptLog(module="user",title="修改个人信息",optType = LogOptTypeEnum.modify)
+    @OptLog(module="user",title="修改个人信息",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改个人信息",tags = {"user"})
     @PostMapping(value = "/updateUserProfile")
     public ResultBean updateUserProfile(@RequestBody @Validated UserProfileCmd cmd) {
@@ -148,7 +148,7 @@ public class SysUserController extends BaseController {
         if (StringUtils.isEmpty(context.getMobile())){
             context.setMobile(cmd.getMobile());
         }
-        context.setLogBizTypeEnum(UserLogBizTypeEnum.profile);
+        context.setLogBizTypeEnum(UserLogBizTypeEnum.PROFILE);
         userExecutor.update(context);
         return buildSucResp();
     }
@@ -160,7 +160,7 @@ public class SysUserController extends BaseController {
      * @return
      */
     @RequiredLogin
-    @OptLog(module="user",title="重置密码",optType = LogOptTypeEnum.modify)
+    @OptLog(module="user",title="重置密码",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "重置密码",tags = {"user"})
     @PostMapping(value = "/reset")
     public ResultBean<PwdResult> reset(@RequestBody @Validated ResetPwdCmd cmd) {

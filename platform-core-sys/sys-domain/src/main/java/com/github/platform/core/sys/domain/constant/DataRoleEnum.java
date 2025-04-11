@@ -3,6 +3,7 @@ package com.github.platform.core.sys.domain.constant;
 
 /**
  * 数据角色
+ * @author yxkong
  */
 public enum DataRoleEnum {
     ALL("all","所有数据"),
@@ -11,8 +12,8 @@ public enum DataRoleEnum {
     ;
 
     ;
-    private String roleKey;
-    private String desc;
+    private final String roleKey;
+    private final String desc;
 
 
     DataRoleEnum(String roleKey, String desc) {

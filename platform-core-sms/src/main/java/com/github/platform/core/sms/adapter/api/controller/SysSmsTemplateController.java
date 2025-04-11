@@ -58,7 +58,7 @@ public class SysSmsTemplateController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysSmsTemplate",title="新增短信模板",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysSmsTemplate",title="新增短信模板",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增短信模板",tags = {"sysSmsTemplate"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody SysSmsTemplateCmd cmd) {
@@ -85,7 +85,7 @@ public class SysSmsTemplateController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysSmsTemplate",title="修改短信模板",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysSmsTemplate",title="修改短信模板",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改短信模板",tags = {"sysSmsTemplate"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysSmsTemplateCmd cmd) {

@@ -10,15 +10,15 @@ import lombok.Getter;
  */
 @Getter
 public enum LogOutTypeEnum {
-    local("local","记录日志到本地"),
-    db("db","记录日志到数据库"),
-    kafka("kafka","记录日志到kafka"),
-    mixDb("mixDb","混记录到本地和数据库里"),
-    mixKafka("mixKafka","混记录到本地和kafka里")
+    LOCAL("local","记录日志到本地"),
+    DB("db","记录日志到数据库"),
+    KAFKA("kafka","记录日志到kafka"),
+    MIX_DB("mixDb","混记录到本地和数据库里"),
+    MIX_KAFKA("mixKafka","混记录到本地和kafka里")
     ;
 
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
 
     LogOutTypeEnum(String type, String desc) {
         this.type = type;

@@ -67,7 +67,7 @@ public class FormController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="form",title="新增表单配置",optType = LogOptTypeEnum.add)
+    @OptLog(module="form",title="新增表单配置",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增表单配置",tags = {"form"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody FormInfoWrapCmd cmd) {
@@ -85,7 +85,7 @@ public class FormController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="form",title="根据id查询表单配置明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="form",title="根据id查询表单配置明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询表单配置明细",tags = {"form"})
     @PostMapping("/detail")
     public ResultBean<FormDetailDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -98,7 +98,7 @@ public class FormController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="form",title="根据id删除表单配置记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="form",title="根据id删除表单配置记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除表单配置记录",tags = {"form"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -111,7 +111,7 @@ public class FormController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="form",title="修改表单配置",optType = LogOptTypeEnum.modify)
+    @OptLog(module="form",title="修改表单配置",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改表单配置",tags = {"form"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody FormInfoWrapCmd cmd) {
@@ -128,7 +128,7 @@ public class FormController extends BaseController{
      * @param id 修改实体
      * @return 操作结果
      */
-    @OptLog(module="form",title="修改表单状态",optType = LogOptTypeEnum.modify)
+    @OptLog(module="form",title="修改表单状态",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改表单状态",tags = {"form"})
     @PostMapping("/updateStatus")
     public ResultBean updateStatus(@Validated @RequestBody StrIdReq id) {
@@ -136,7 +136,7 @@ public class FormController extends BaseController{
         return buildSucResp();
     }
 
-    @OptLog(module="form",title="获取表单选项",optType = LogOptTypeEnum.query)
+    @OptLog(module="form",title="获取表单选项",optType = LogOptTypeEnum.QUERY)
     @Operation(summary = "获取表单选项",tags = {"form"})
     @PostMapping("/allForms")
     @RequiredLogin

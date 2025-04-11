@@ -18,8 +18,8 @@ public enum NoticeEventTypeEnum {
     ;
 
 
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
 
     NoticeEventTypeEnum(String type, String desc) {
         this.type = type;

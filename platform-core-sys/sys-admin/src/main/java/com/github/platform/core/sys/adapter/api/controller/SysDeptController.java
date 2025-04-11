@@ -69,7 +69,7 @@ public class SysDeptController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="dept",title="新增部门",optType = LogOptTypeEnum.add)
+    @OptLog(module="dept",title="新增部门",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增部门",tags = {"dept"})
     @PostMapping("/add")
     public ResultBean add(@RequestBody @Validated SysDeptCmd cmd) {
@@ -84,7 +84,7 @@ public class SysDeptController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="dept",title="修改部门",optType = LogOptTypeEnum.modify)
+    @OptLog(module="dept",title="修改部门",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改部门",tags = {"dept"})
     @PostMapping("/modify")
     public ResultBean modify(@RequestBody @Validated SysDeptCmd cmd) {
@@ -102,7 +102,7 @@ public class SysDeptController extends BaseController {
      * @param idReq
      * @return
      */
-    @OptLog(module="dept",title="删除部门",optType = LogOptTypeEnum.delete)
+    @OptLog(module="dept",title="删除部门",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "删除部门",tags = {"dept"})
     @PostMapping("/delete")
     public ResultBean<?> delete(@RequestBody @Validated StrIdReq idReq) {

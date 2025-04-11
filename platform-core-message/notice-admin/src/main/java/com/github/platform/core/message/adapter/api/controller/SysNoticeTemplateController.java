@@ -55,7 +55,7 @@ public class SysNoticeTemplateController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysNoticeTemplate",title="新增消息通知模板",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysNoticeTemplate",title="新增消息通知模板",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增消息通知模板",tags = {"sysNoticeTemplate"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody SysNoticeTemplateCmd cmd) {
@@ -69,7 +69,7 @@ public class SysNoticeTemplateController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysNoticeTemplate",title="根据id查询消息通知模板明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysNoticeTemplate",title="根据id查询消息通知模板明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询消息通知模板明细",tags = {"sysNoticeTemplate"})
     @PostMapping("/detail")
     public ResultBean<SysNoticeTemplateDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -82,7 +82,7 @@ public class SysNoticeTemplateController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeTemplate",title="根据id删除消息通知模板记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysNoticeTemplate",title="根据id删除消息通知模板记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除消息通知模板记录",tags = {"sysNoticeTemplate"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -95,7 +95,7 @@ public class SysNoticeTemplateController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeTemplate",title="修改消息通知模板",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysNoticeTemplate",title="修改消息通知模板",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改消息通知模板",tags = {"sysNoticeTemplate"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysNoticeTemplateCmd cmd) {

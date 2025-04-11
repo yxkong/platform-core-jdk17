@@ -16,8 +16,8 @@ public enum CaptchaTypeEnum {
     DEFAULT("default","默认验证")
     ;
 
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
 
     CaptchaTypeEnum(String type, String desc) {
         this.type = type;

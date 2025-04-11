@@ -27,7 +27,7 @@ public class OptLogProperties {
     /**
      * 日志类型,local,db,kafka,mixDb,mixKafka
      */
-    private String  type = LogOutTypeEnum.db.getType();
+    private String  type = LogOutTypeEnum.DB.getType();
     /**
      * 日志范围 all -入参和出参, request-入参, response-出参
      */

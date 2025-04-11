@@ -94,21 +94,21 @@ public class SqlGenUtil {
             testWhere(sb, lowerColumnName,column);
             sb.append(" and t.").append(columnName);
 
-            if (QueryTypeEnum.eq.getType().equals(queryType)) {
+            if (QueryTypeEnum.EQ.getType().equals(queryType)) {
                 sb.append(" = #{").append(lowerColumnName).append("}");
-            } else if (QueryTypeEnum.like.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.LIKE.getType().equals(queryType)) {
                 sb.append(" like concat('%', #{").append(lowerColumnName).append("}, '%')");
-            } else if (QueryTypeEnum.notNull.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.NOT_NULL.getType().equals(queryType)) {
                 sb.append(" is not null");
-            } else if (QueryTypeEnum.isNull.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.IS_NULL.getType().equals(queryType)) {
                 sb.append(" is null");
-            } else if (QueryTypeEnum.geq.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.GEQ.getType().equals(queryType)) {
                 sb.append(" >= #{").append(lowerColumnName).append("}");
-            } else if (QueryTypeEnum.gt.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.GT.getType().equals(queryType)) {
                 sb.append(" > #{").append(lowerColumnName).append("}");
-            } else if (QueryTypeEnum.lt.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.LT.getType().equals(queryType)) {
                 sb.append(" < #{").append(lowerColumnName).append("}");
-            } else if (QueryTypeEnum.leq.getType().equals(queryType)) {
+            } else if (QueryTypeEnum.LEQ.getType().equals(queryType)) {
                 sb.append(" <= #{").append(lowerColumnName).append("}");
             } else if (QueryTypeEnum.between.getType().equals(queryType)) {
                 String upperColumnName = column.get("upperColumnName").toString();

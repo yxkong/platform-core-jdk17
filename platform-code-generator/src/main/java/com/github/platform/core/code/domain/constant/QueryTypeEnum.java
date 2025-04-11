@@ -10,18 +10,18 @@ import lombok.Getter;
  */
 @Getter
 public enum QueryTypeEnum {
-    eq("=","等于"),
-    lt("<","小于"),
-    leq("<=","小于等于"),
-    gt(">","大于"),
-    geq(">=","大于等于"),
-    ne("!=","不等于"),
-    like("like","模糊"),
-    isNull("isNull","为null"),
-    notNull("notnull","不为null"),
+    EQ("=","等于"),
+    LT("<","小于"),
+    LEQ("<=","小于等于"),
+    GT(">","大于"),
+    GEQ(">=","大于等于"),
+    NE("!=","不等于"),
+    LIKE("like","模糊"),
+    IS_NULL("isNull","为null"),
+    NOT_NULL("notnull","不为null"),
     between("between","在什么之间");
-    private String type ;
-    private String desc ;
+    private final String type ;
+    private final String desc ;
     QueryTypeEnum(String type, String desc) {
         this.type = type;
         this.desc = desc;

@@ -10,13 +10,13 @@ public interface SmsConstant {
     /**
      * 路由类型 随机
      */
-    String route_type_random = "random";
+    String ROUTE_TYPE_RANDOM = "random";
     /**
      * 路由类型，轮训
      */
-    String route_type_roundRobin = "roundRobin";
+    String ROUTE_TYPE_ROUND_ROBIN = "roundRobin";
     /**
      * 路由类型，指定
      */
-    String route_type_specify = "specify";
+    String ROUTE_TYPE_SPECIFY = "specify";
 }

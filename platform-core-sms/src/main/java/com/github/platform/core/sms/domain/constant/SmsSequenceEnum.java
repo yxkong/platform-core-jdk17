@@ -17,10 +17,10 @@ public enum SmsSequenceEnum implements BaseSequence {
     MSS_SMS_SP("SP", "yyMMdd", "000", DB_INIT),
     ;
 
-    private String prefix;
-    private String format;
-    private String cacheInit;
-    private Long dbInit;
+    private final String prefix;
+    private final String format;
+    private final String cacheInit;
+    private final Long dbInit;
 
     SmsSequenceEnum(String prefix, String format, String cacheInit, Long dbInit) {
         this.prefix = prefix;

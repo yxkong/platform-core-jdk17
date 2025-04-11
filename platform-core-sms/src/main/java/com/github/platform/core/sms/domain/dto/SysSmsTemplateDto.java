@@ -36,7 +36,7 @@ public class SysSmsTemplateDto extends SysSmsTemplateBase {
 
     @JsonIgnore
     public boolean isRoute() {
-        if (SmsConstant.route_type_random.equalsIgnoreCase(this.routeType) || SmsConstant.route_type_roundRobin.equalsIgnoreCase(this.routeType)){
+        if (SmsConstant.ROUTE_TYPE_RANDOM.equalsIgnoreCase(this.routeType) || SmsConstant.ROUTE_TYPE_ROUND_ROBIN.equalsIgnoreCase(this.routeType)){
             return true;
         }
         return false;

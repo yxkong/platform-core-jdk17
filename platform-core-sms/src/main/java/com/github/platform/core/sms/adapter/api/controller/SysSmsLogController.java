@@ -58,7 +58,7 @@ public class SysSmsLogController extends BaseController{
     * @param id
     * @return
     */
-    @OptLog(module="sysSmsLog",title="根据id查询短信日志明细",optType = LogOptTypeEnum.detail)
+    @OptLog(module="sysSmsLog",title="根据id查询短信日志明细",optType = LogOptTypeEnum.DETAIL)
     @Operation(summary = "根据id查询短信日志明细",tags = {"sysSmsLog"})
     @PostMapping("/detail")
     public ResultBean<SysSmsLogDto> detail(@Validated @RequestBody IdReq id) {

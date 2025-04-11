@@ -54,7 +54,7 @@ public class SysSmsTemplateStatusController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysSmsTemplateStatus",title="新增模板厂商",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysSmsTemplateStatus",title="新增模板厂商",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增模板厂商",tags = {"sysSmsTemplateStatus"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody SysSmsTemplateStatusCmd cmd) {
@@ -67,7 +67,7 @@ public class SysSmsTemplateStatusController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysSmsTemplateStatus",title="根据id查询模板厂商明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysSmsTemplateStatus",title="根据id查询模板厂商明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询模板厂商明细",tags = {"sysSmsTemplateStatus"})
     @PostMapping("/detail")
     public ResultBean<SysSmsTemplateStatusDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -80,7 +80,7 @@ public class SysSmsTemplateStatusController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysSmsTemplateStatus",title="修改模板厂商",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysSmsTemplateStatus",title="修改模板厂商",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改模板厂商",tags = {"sysSmsTemplateStatus"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysSmsTemplateStatusCmd cmd) {

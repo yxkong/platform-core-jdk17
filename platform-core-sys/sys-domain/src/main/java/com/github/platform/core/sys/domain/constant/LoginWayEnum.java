@@ -10,17 +10,17 @@ import lombok.Getter;
  */
 @Getter
 public enum LoginWayEnum {
-    normal("normal","普通登录"),
-    ldap("ldap","ldap登录"),
-    sms("sms","短信登录"),
-    thirdWx("wx","三方微信登录"),
-    thirdDingTalk("dingTalk","三方钉钉登录"),
-    thirdAlipay("alipay","三方支付宝登录"),
-    thirdQQ("qq","三方qq登录"),
-    bearer("bearer","密钥登录"),
+    NORMAL("normal","普通登录"),
+    LDAP("ldap","ldap登录"),
+    SMS("sms","短信登录"),
+    THIRD_WX("wx","三方微信登录"),
+    THIRD_DING_TALK("dingTalk","三方钉钉登录"),
+    THIRD_ALIPAY("alipay","三方支付宝登录"),
+    THIRD_QQ("qq","三方qq登录"),
+    BEARER("bearer","密钥登录"),
     ;
-    private String type;
-    private String desc;
+    private final String type;
+    private final String desc;
 
     LoginWayEnum(String type, String desc) {
         this.type = type;
@@ -28,7 +28,7 @@ public enum LoginWayEnum {
     }
 
     public static LoginWayEnum getDefault(){
-        return LoginWayEnum.normal;
+        return LoginWayEnum.NORMAL;
     }
     public static LoginWayEnum of(String type){
         for (LoginWayEnum wayEnum:LoginWayEnum.values()){
@@ -39,7 +39,7 @@ public enum LoginWayEnum {
         return null;
     }
     public static Boolean isThird(LoginWayEnum loginWay){
-        if (loginWay == LoginWayEnum.thirdWx || loginWay == LoginWayEnum.thirdAlipay || loginWay == LoginWayEnum.thirdQQ){
+        if (loginWay == LoginWayEnum.THIRD_WX || loginWay == LoginWayEnum.THIRD_ALIPAY || loginWay == LoginWayEnum.THIRD_QQ){
             return Boolean.TRUE;
         }
         return Boolean.FALSE;

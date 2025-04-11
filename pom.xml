@@ -46,7 +46,7 @@
     </modules>
     <properties>
         <!--公共配置-->
-        <revision>0.3.04-SNAPSHOT</revision>
+        <revision>0.3.05-SNAPSHOT</revision>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -135,6 +135,8 @@
         <sentinel.version>1.8.3</sentinel.version>
         <micrometer.observation.version>1.14.2</micrometer.observation.version>
         <micrometer.tracing.version>1.4.1</micrometer.tracing.version>
+        <zipkin.reporter.brave.version>3.4.3</zipkin.reporter.brave.version>
+        <zipkin.sender.kafka.version>3.4.3</zipkin.sender.kafka.version>
 
         <!--单元测试-->
         <junit.version>5.7.2</junit.version>
@@ -838,7 +840,16 @@
                 <artifactId>opentelemetry-exporter-zipkin</artifactId>
                 <version>${opentelemetry.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-reporter-brave</artifactId>
+                <version>${zipkin.reporter.brave.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-sender-kafka</artifactId>
+                <version>${zipkin.sender.kafka.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>

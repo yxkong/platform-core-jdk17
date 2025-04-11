@@ -71,7 +71,7 @@ public class SysRoleController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="role",title="新增角色",optType = LogOptTypeEnum.add)
+    @OptLog(module="role",title="新增角色",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增角色",tags = {"role"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody SysRoleCmd cmd) {
@@ -86,7 +86,7 @@ public class SysRoleController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="role",title="修改角色",optType = LogOptTypeEnum.modify)
+    @OptLog(module="role",title="修改角色",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改角色",tags = {"role"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated({Modify.class, Default.class}) @RequestBody SysRoleCmd cmd) {
@@ -101,7 +101,7 @@ public class SysRoleController extends BaseController {
      * @param idReq
      * @return
      */
-    @OptLog(module="role",title="删除角色",optType = LogOptTypeEnum.delete)
+    @OptLog(module="role",title="删除角色",optType = LogOptTypeEnum.DELETE)
     @PostMapping("/delete")
     @Operation(summary = "删除角色",tags = {"role"})
     public ResultBean<Void> delete(@Validated @RequestBody StrIdReq idReq) {

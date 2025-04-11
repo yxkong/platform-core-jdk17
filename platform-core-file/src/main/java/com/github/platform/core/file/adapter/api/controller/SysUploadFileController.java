@@ -72,7 +72,7 @@ public class SysUploadFileController extends BaseController{
     * @return 操作结果
     */
     @RequiredLogin
-    @OptLog(module="uploadFile",title="新增上传文件表",optType = LogOptTypeEnum.add)
+    @OptLog(module="uploadFile",title="新增上传文件表",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增上传文件表",tags = {"sysUploadFile"})
     @PostMapping("/add")
     public ResultBean<List<UploadEntity>> add(@RequestParam("files") List<MultipartFile> files, @RequestParam("module") String module,
@@ -109,7 +109,7 @@ public class SysUploadFileController extends BaseController{
      * @return 操作结果
      */
     @RequiredLogin
-    @OptLog(module="uploadFile",title="新增上传文件表",optType = LogOptTypeEnum.add)
+    @OptLog(module="uploadFile",title="新增上传文件表",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增上传文件表",tags = {"sysUploadFile"})
     @PostMapping("/upload")
     public ResultBean<List<UploadEntity>> upload(@RequestBody SysUploadFileCmd cmd) {
@@ -144,7 +144,7 @@ public class SysUploadFileController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="uploadFile",title="根据id删除上传文件表记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="uploadFile",title="根据id删除上传文件表记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除上传文件表记录",tags = {"uploadFile"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -157,7 +157,7 @@ public class SysUploadFileController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="uploadFile",title="修改上传文件表",optType = LogOptTypeEnum.modify)
+    @OptLog(module="uploadFile",title="修改上传文件表",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改上传文件表",tags = {"uploadFile"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysUploadFileCmd cmd) {

@@ -35,7 +35,7 @@ public class FormInfoController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="formInfo",title="根据id删除表单信息记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="formInfo",title="根据id删除表单信息记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除表单信息记录",tags = {"formInfo"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {

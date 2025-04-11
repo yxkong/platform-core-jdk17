@@ -62,7 +62,7 @@ public class SysConfigController extends BaseController {
     }
 
     @Operation(summary = "新增配置",tags = {"config"})
-    @OptLog(module = "config",title = "新增配置",optType = LogOptTypeEnum.add)
+    @OptLog(module = "config",title = "新增配置",optType = LogOptTypeEnum.ADD)
     @PostMapping("/add")
     public ResultBean add(@RequestBody SysConfigCmd cmd) {
         SysConfigContext context = convert.toContext(cmd);
@@ -70,7 +70,7 @@ public class SysConfigController extends BaseController {
         return buildSucResp();
     }
     @Operation(summary = "修改配置",tags = {"config"})
-    @OptLog(module = "config",title = "修改配置",optType = LogOptTypeEnum.modify)
+    @OptLog(module = "config",title = "修改配置",optType = LogOptTypeEnum.MODIFY)
     @PostMapping("/modify")
     public ResultBean modify(@RequestBody SysConfigCmd cmd) {
         SysConfigContext context = convert.toContext(cmd);
@@ -86,7 +86,7 @@ public class SysConfigController extends BaseController {
     }
 
     @Operation(summary = "重载配置",tags = {"config"})
-    @OptLog(module = "reload",title = "重载配置",optType = LogOptTypeEnum.modify)
+    @OptLog(module = "reload",title = "重载配置",optType = LogOptTypeEnum.MODIFY)
     @PostMapping("/reload")
     public ResultBean reload(@RequestBody SysConfigQuery query) {
         SysConfigQueryContext context = convert.toQuery(query);

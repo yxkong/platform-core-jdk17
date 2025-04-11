@@ -6,7 +6,6 @@ import com.github.platform.core.message.adapter.api.command.SysNoticeEventLogCmd
 import com.github.platform.core.message.adapter.api.command.SysNoticeEventLogQuery;
 import com.github.platform.core.message.adapter.api.convert.SysNoticeEventLogAdapterConvert;
 import com.github.platform.core.message.application.executor.ISysNoticeEventLogExecutor;
-import com.github.platform.core.message.domain.context.SysNoticeEventLogContext;
 import com.github.platform.core.message.domain.context.SysNoticeEventLogQueryContext;
 import com.github.platform.core.message.domain.dto.SysNoticeEventLogDto;
 import com.github.platform.core.standard.entity.dto.PageBean;
@@ -55,7 +54,7 @@ public class SysNoticeEventLogController extends BaseController{
     * @param id
     * @return 操作结果
     */
-    @OptLog(module="sysNoticeEventLog",title="重新推送通知",optType = LogOptTypeEnum.mix)
+    @OptLog(module="sysNoticeEventLog",title="重新推送通知",optType = LogOptTypeEnum.MIX)
     @Operation(summary = "重新推送通知",tags = {"sysNoticeEventLog"})
     @PostMapping("/rePush")
     public ResultBean rePush(@Validated @RequestBody StrIdReq id) {
@@ -68,7 +67,7 @@ public class SysNoticeEventLogController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeEventLog",title="根据id删除通知事件日志记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysNoticeEventLog",title="根据id删除通知事件日志记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除通知事件日志记录",tags = {"sysNoticeEventLog"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -81,7 +80,7 @@ public class SysNoticeEventLogController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysNoticeEventLog",title="修改通知事件日志",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysNoticeEventLog",title="修改通知事件日志",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改通知事件日志",tags = {"sysNoticeEventLog"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysNoticeEventLogCmd cmd) {

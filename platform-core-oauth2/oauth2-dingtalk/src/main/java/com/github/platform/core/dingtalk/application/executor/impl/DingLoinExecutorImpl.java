@@ -26,7 +26,7 @@ public class DingLoinExecutorImpl implements IDingLoginExecutor {
     public LoginResult auth(String authCode,Integer tenantId) {
         LoginContext context = new LoginContext();
         context.setVerifySeq(authCode);
-        context.setLoginWay(LoginWayEnum.thirdDingTalk);
+        context.setLoginWay(LoginWayEnum.THIRD_DING_TALK);
         context.setVerifyType(VerifyTypeEnum.DEFAULT);
         context.setTenantId(tenantId);
         return authExecutor.login(context);

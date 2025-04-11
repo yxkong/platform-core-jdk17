@@ -12,8 +12,8 @@ import lombok.Getter;
 public enum CodeTypeEnum {
     API(1, "api"),
     SYS(0, "sys");
-    private Integer type ;
-    private String name ;
+    private final Integer type ;
+    private final String name ;
 
     CodeTypeEnum(Integer type, String name) {
         this.type = type;

@@ -1,7 +1,6 @@
 package com.github.platform.core.sys.adapter.api.controller;
 
 import com.github.platform.core.auth.annotation.RequiredLogin;
-import com.github.platform.core.auth.util.LoginUserInfoUtil;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.log.infra.annotation.OptLog;
 import com.github.platform.core.common.entity.StrIdReq;
@@ -25,7 +24,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 状态机配置规则
@@ -79,7 +77,7 @@ public class SysFlowRuleController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysFlowRule",title="新增状态机配置规则",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysFlowRule",title="新增状态机配置规则",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增状态机配置规则",tags = {"sysFlowRule"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody SysFlowRuleCmd cmd) {
@@ -94,7 +92,7 @@ public class SysFlowRuleController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysFlowRule",title="根据id查询状态机配置规则明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysFlowRule",title="根据id查询状态机配置规则明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询状态机配置规则明细",tags = {"sysFlowRule"})
     @PostMapping("/detail")
     public ResultBean<SysFlowRuleDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -107,7 +105,7 @@ public class SysFlowRuleController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysFlowRule",title="根据id删除状态机配置规则记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysFlowRule",title="根据id删除状态机配置规则记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除状态机配置规则记录",tags = {"sysFlowRule"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -120,7 +118,7 @@ public class SysFlowRuleController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysFlowRule",title="修改状态机配置规则",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysFlowRule",title="修改状态机配置规则",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改状态机配置规则",tags = {"sysFlowRule"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysFlowRuleCmd cmd) {

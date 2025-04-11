@@ -67,7 +67,7 @@ public class SysDictTypeController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="dict",title="新增字典类型",optType = LogOptTypeEnum.add)
+    @OptLog(module="dict",title="新增字典类型",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增字典类型",tags = {"dict"})
     @PostMapping("/add")
     public ResultBean<Void> add(@RequestBody @Validated SysDictTypeCmd cmd) {
@@ -80,7 +80,7 @@ public class SysDictTypeController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="dict",title="修改字典类型",optType = LogOptTypeEnum.modify)
+    @OptLog(module="dict",title="修改字典类型",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改字典类型，只能修改名称和备注",tags = {"dict"},
             parameters = @Parameter(name = "dictTypeCmd", description = "DictTypeCmd对象", required = true,schema = @Schema(implementation = SysDictTypeCmd.class))
     )
@@ -97,7 +97,7 @@ public class SysDictTypeController extends BaseController {
      * @param id
      * @return
      */
-    @OptLog(module="dict",title="删除字典类型",optType = LogOptTypeEnum.delete)
+    @OptLog(module="dict",title="删除字典类型",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "删除字典类型",tags = {"dict"})
     @PostMapping("/delete")
     public ResultBean<Void> delete(@RequestBody @Validated StrIdReq id) {
@@ -105,7 +105,7 @@ public class SysDictTypeController extends BaseController {
         return buildSucResp();
     }
 
-    @OptLog(module = "dict",title = "重载字典",optType = LogOptTypeEnum.modify)
+    @OptLog(module = "dict",title = "重载字典",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "重载字典",tags = {"dict"})
     @PostMapping("/reload")
     public ResultBean reload(@RequestBody SysDictTypeQuery query) {

@@ -48,22 +48,22 @@ public class OptLogEventListener implements ApplicationListener<OptLogEvent> {
             if (!isResponse()) {
                 entity.setResponseBody(null);
             }
-            if (LogOutTypeEnum.local.getType().equals(logProperties.getType())){
+            if (LogOutTypeEnum.LOCAL.getType().equals(logProperties.getType())){
                 log(entity);
-            } else if (LogOutTypeEnum.db.getType().equals(logProperties.getType())){
+            } else if (LogOutTypeEnum.DB.getType().equals(logProperties.getType())){
                 // 入库
                 if (entity.getPersistent()) {
                     optLogService.insert(getOptLogBase(entity));
                 }
-            } else if (LogOutTypeEnum.kafka.getType().equals(logProperties.getType())){
+            } else if (LogOutTypeEnum.KAFKA.getType().equals(logProperties.getType())){
                 // 发送kafka
-            } else if (LogOutTypeEnum.mixDb.getType().equals(logProperties.getType())){
+            } else if (LogOutTypeEnum.MIX_DB.getType().equals(logProperties.getType())){
                 log(entity);
                 //入库
                 if (entity.getPersistent()){
                     optLogService.insert(getOptLogBase(entity));
                 }
-            } else if (LogOutTypeEnum.mixKafka.getType().equals(logProperties.getType())){
+            } else if (LogOutTypeEnum.MIX_KAFKA.getType().equals(logProperties.getType())){
                 log(entity);
                 // 发送kafka
             }
@@ -83,15 +83,15 @@ public class OptLogEventListener implements ApplicationListener<OptLogEvent> {
     }
 
     private boolean isRequest(){
-        if (LogScopeEnum.all.getScope().equals(logProperties.getScope()) ||
-                LogScopeEnum.request.getScope().equals(logProperties.getScope())){
+        if (LogScopeEnum.ALL.getScope().equals(logProperties.getScope()) ||
+                LogScopeEnum.REQUEST.getScope().equals(logProperties.getScope())){
             return true;
         }
         return false;
     }
     private boolean isResponse(){
-        if (LogScopeEnum.all.getScope().equals(logProperties.getScope()) ||
-                LogScopeEnum.request.getScope().equals(logProperties.getScope())){
+        if (LogScopeEnum.ALL.getScope().equals(logProperties.getScope()) ||
+                LogScopeEnum.REQUEST.getScope().equals(logProperties.getScope())){
             return true;
         }
         return false;

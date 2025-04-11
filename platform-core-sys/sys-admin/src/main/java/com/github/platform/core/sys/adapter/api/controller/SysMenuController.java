@@ -1,7 +1,6 @@
 package com.github.platform.core.sys.adapter.api.controller;
 
 import com.github.platform.core.auth.annotation.RequiredLogin;
-import com.github.platform.core.auth.util.LoginUserInfoUtil;
 import com.github.platform.core.common.entity.StrIdReq;
 import com.github.platform.core.log.domain.constants.LogOptTypeEnum;
 import com.github.platform.core.log.infra.annotation.OptLog;
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.annotation.Resource;
 import jakarta.validation.groups.Default;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 菜单信息
@@ -86,7 +84,7 @@ public class SysMenuController extends BaseController {
     /**
      * 新增菜单
      */
-    @OptLog(module="menu",title="新增菜单",optType = LogOptTypeEnum.add)
+    @OptLog(module="menu",title="新增菜单",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增菜单",tags = {"menu"})
     @PostMapping("/add")
     public ResultBean add(@RequestBody @Validated SysMenuCmd cmd) {
@@ -98,7 +96,7 @@ public class SysMenuController extends BaseController {
     /**
      * 重新分配权限菜单
      */
-    @OptLog(module="menu",title="重新分配权限菜单",optType = LogOptTypeEnum.modify)
+    @OptLog(module="menu",title="重新分配权限菜单",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "重新分配权限菜单",tags = {"menu"})
     @PostMapping("/reloadPermission")
     public ResultBean reloadPermission() {
@@ -128,7 +126,7 @@ public class SysMenuController extends BaseController {
      * @param cmd
      * @return
      */
-    @OptLog(module="menu",title="修改菜单",optType = LogOptTypeEnum.modify)
+    @OptLog(module="menu",title="修改菜单",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改菜单",tags = {"menu"})
     @PostMapping("/modify")
     public ResultBean modify(@RequestBody @Validated({Modify.class, Default.class}) SysMenuCmd cmd) {
@@ -143,7 +141,7 @@ public class SysMenuController extends BaseController {
      * @param idReq
      * @return
      */
-    @OptLog(module="menu",title="删除菜单",optType = LogOptTypeEnum.delete)
+    @OptLog(module="menu",title="删除菜单",optType = LogOptTypeEnum.DELETE)
     @PostMapping("/delete")
     @Operation(summary = "删除菜单",tags = {"menu"})
     public ResultBean<?> delete(@RequestBody @Validated StrIdReq idReq) {

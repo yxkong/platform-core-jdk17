@@ -16,8 +16,8 @@ public enum JobTypeEnum {
     MULTI_INSTANCE(2,"本地多实例"),
     ;
 
-    private Integer type;
-    private String desc;
+    private final Integer type;
+    private final String desc;
 
     JobTypeEnum(Integer type, String desc) {
         this.type = type;

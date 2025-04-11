@@ -59,7 +59,7 @@ public class SysJobController extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="sysJob",title="新增任务管理",optType = LogOptTypeEnum.add)
+    @OptLog(module="sysJob",title="新增任务管理",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增任务管理",tags = {"sysJob"})
     @PostMapping("/add")
     public ResultBean add(@Validated @RequestBody SysJobCmd cmd) {
@@ -73,7 +73,7 @@ public class SysJobController extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="sysJob",title="根据id查询任务管理明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="sysJob",title="根据id查询任务管理明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询任务管理明细",tags = {"sysJob"})
     @PostMapping("/detail")
     public ResultBean<SysJobDto> detail(@Validated @RequestBody StrIdReq id) {
@@ -86,28 +86,28 @@ public class SysJobController extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="sysJob",title="根据id删除任务管理记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="sysJob",title="根据id删除任务管理记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除任务管理记录",tags = {"sysJob"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) throws SchedulerException {
         executor.delete(id.getId());
         return buildSucResp();
     }
-    @OptLog(module="sysJob",title="触发任务",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="sysJob",title="触发任务",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "触发任务",tags = {"sysJob"})
     @PostMapping("/trigger")
     public ResultBean triggerJob(@Validated @RequestBody TriggerJobCmd cmd) throws SchedulerException {
         executor.triggerJob(cmd.getId(),cmd.getHandlerParam());
         return buildSucResp();
     }
-    @OptLog(module="sysJob",title="暂停任务",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="sysJob",title="暂停任务",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "暂停任务",tags = {"sysJob"})
     @PostMapping("/pause")
     public ResultBean pauseJob(@Validated @RequestBody StrIdReq id) throws SchedulerException {
         executor.pauseJob(id.getId());
         return buildSucResp();
     }
-    @OptLog(module="sysJob",title="恢复任务",optType = LogOptTypeEnum.trigger)
+    @OptLog(module="sysJob",title="恢复任务",optType = LogOptTypeEnum.TRIGGER)
     @Operation(summary = "恢复任务",tags = {"sysJob"})
     @PostMapping("/resume")
     public ResultBean resumeJob(@Validated @RequestBody StrIdReq id) throws SchedulerException {
@@ -120,7 +120,7 @@ public class SysJobController extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="sysJob",title="修改任务管理",optType = LogOptTypeEnum.modify)
+    @OptLog(module="sysJob",title="修改任务管理",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改任务管理",tags = {"sysJob"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody SysJobCmd cmd) throws SchedulerException {

@@ -13,18 +13,18 @@ public enum LogOptTypeEnum {
     /**
      *  日志分级
      */
-    query("query",0,"查询日志"),
-    detail("detail",1,"明细日志"),
-    add("add",2,"新增日志"),
-    modify("modify",2,"修改日志"),
-    delete("delete",2,"删除日志"),
-    trigger("trigger",2,"触发日志"),
-    mix("mix",2,"混合操作日志")
+    QUERY("query",0,"查询日志"),
+    DETAIL("detail",1,"明细日志"),
+    ADD("add",2,"新增日志"),
+    MODIFY("modify",2,"修改日志"),
+    DELETE("delete",2,"删除日志"),
+    TRIGGER("trigger",2,"触发日志"),
+    MIX("mix",2,"混合操作日志")
     ;
 
-    private String type;
-    private Integer val;
-    private String desc;
+    private final String type;
+    private final Integer val;
+    private final String desc;
 
     LogOptTypeEnum(String type,Integer val, String desc) {
         this.type = type;
