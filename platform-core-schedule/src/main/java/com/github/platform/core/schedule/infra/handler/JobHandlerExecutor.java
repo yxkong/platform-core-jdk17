@@ -10,6 +10,7 @@ import com.github.platform.core.schedule.domain.dto.SysJobLogDto;
 import com.github.platform.core.schedule.domain.gateway.ISysJobGateway;
 import com.github.platform.core.schedule.domain.gateway.ISysJobLogGateway;
 import com.github.platform.core.schedule.infra.configuration.ScheduleManager;
+import com.github.platform.core.schedule.infra.configuration.properties.ScheduleProperties;
 import com.github.platform.core.standard.constant.StatusEnum;
 import com.github.platform.core.standard.constant.SymbolConstant;
 import com.github.platform.core.standard.util.ExceptionUtil;
@@ -17,10 +18,10 @@ import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 /**
  * 任务执行器 IJobMonitorHandler 的执行器
@@ -35,11 +36,12 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class JobHandlerExecutor extends QuartzJobBean {
     private static final String PARENT = "parent";
-    @Value("${platform.schedule.enabled:false}")
-    private boolean scheduleEnabled;
+    private static final long MAX_BACKOFF_TIME = 60000;
+
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        if (!scheduleEnabled){
+        ScheduleProperties properties = ApplicationContextHolder.getBean(ScheduleProperties.class);
+        if (!properties.isEnabled()){
             return;
         }
         ISysJobLogGateway sysJobLogGateway = ApplicationContextHolder.getBean(ISysJobLogGateway.class);
@@ -144,21 +146,25 @@ public class JobHandlerExecutor extends QuartzJobBean {
             }
         }
     }
-
     private void handleException(Exception exception, int refireCount, int retryCount, int retryInterval) throws JobExecutionException {
         if (exception == null) {
             return;
         }
 
+        // 计算退避时间
+        long backoffTime = (long) (Math.pow(2, refireCount) * retryInterval);
+        backoffTime = Math.min(backoffTime, MAX_BACKOFF_TIME);
+
         if (refireCount >= retryCount) {
+            log.error("任务重试次数已达上限：{}",
+                    Map.of("refireCount", refireCount, "retryCount", retryCount));
             throw new JobExecutionException(exception);
         }
 
-        if (retryInterval > 0) {
-            try {
-                Thread.sleep(retryInterval);
-            } catch (InterruptedException ignored) {
-            }
+        try {
+            Thread.sleep(backoffTime);
+        } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
         }
 
         throw new JobExecutionException(exception, true);

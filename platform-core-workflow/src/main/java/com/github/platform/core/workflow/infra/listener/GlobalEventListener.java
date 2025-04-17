@@ -168,7 +168,7 @@ public class GlobalEventListener extends AbstractFlowableEngineEventListener {
         // 获取拆分角色
         List<SequenceFlow> outgoingFlows = BpmnModelUtils.getElementOutgoingFlows(flowElement);
         String formKey = BpmnModelUtils.getFormKey(flowElement);
-        log.info("任务task：{} executionId={}, flowElement={} variables:{}",eventType, executionId, JsonUtils.toJson(flowElement), JsonUtils.toJson(variables));
+        log.info("bizNo：{}，任务task：{} executionId={}, flowElement={} variables:{}",bizNo,eventType, executionId, JsonUtils.toJson(flowElement), JsonUtils.toJson(variables));
         WorkflowTaskEntity taskEntity = WorkflowTaskEntity.builder()
                 .executionId(executionId).taskId(entity.getId()).taskKey(entity.getTaskDefinitionKey()).taskName(name)
                 .eventType(eventType)

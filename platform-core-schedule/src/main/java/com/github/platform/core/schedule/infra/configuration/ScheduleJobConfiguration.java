@@ -4,11 +4,9 @@ import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.common.constant.SpringBeanOrderConstant;
 import com.github.platform.core.persistence.mapper.schedule.SysJobMapper;
 import com.github.platform.core.schedule.domain.constant.JobConstant;
-import com.github.platform.core.schedule.domain.gateway.ISysJobGateway;
-import com.github.platform.core.schedule.domain.gateway.ISysJobLogGateway;
-import com.github.platform.core.schedule.infra.handler.JobHandlerExecutor;
 import com.github.platform.core.schedule.infra.handler.TriggerJobService;
 import com.github.platform.core.schedule.infra.listener.ScheduleStartListener;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,7 +17,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import jakarta.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Properties;
 

@@ -1,8 +1,9 @@
 package com.github.platform.core.persistence.mapper.schedule;
+
 import com.github.platform.core.schedule.domain.common.entity.SysJobBase;
-import java.util.List;
-import java.util.Map;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 /**
 * 任务管理 mapper
 * @website <a href="https://www.5ycode.com/">5ycode</a>
@@ -37,23 +38,11 @@ public interface SysJobMapper  {
     */
     List<SysJobBase> findByIds(@Param("ids") Long[] ids);
     /**
-    * 通过map参数获取列表
-    * @param params 参数map
-    * @return List<$SysJobDO>
-    */
-    List<SysJobBase> findList(Map<String,Object> params);
-    /**
     * 通过实体查询
     * @param record 参数实体
     * @return List<SysJobBase>
     */
     List<SysJobBase> findListBy(SysJobBase record);
-    /**
-    * 通过map参数获取 总数
-    * @param params 参数map
-    * @return 总数
-    */
-    long findListCount(Map<String,Object> params);
     /**
     * 通过实体查询总数
     * @param record 参数实体
