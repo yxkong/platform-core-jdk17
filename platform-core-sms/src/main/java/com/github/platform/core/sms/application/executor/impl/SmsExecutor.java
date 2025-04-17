@@ -54,8 +54,8 @@ public class SmsExecutor implements ISmsExecutor {
     public ResultBean sendSms(SendSmsContext context) {
         /**①，幂等校验*/
         if (repeat(context.getMsgId())){
-            if (log.isDebugEnabled()){
-                log.debug("msgId存在重复记录，不再处理,消息内容为：{}", JsonUtils.toJson(context));
+            if (log.isWarnEnabled()){
+                log.warn("msgId存在重复记录，不再处理,消息内容为：{}", JsonUtils.toJson(context));
             }
             return ResultBeanUtil.result(ResultStatusEnum.REPEAT);
         }
@@ -75,8 +75,8 @@ public class SmsExecutor implements ISmsExecutor {
         if (smsService == null){
             throw new ConfigRuntimeException(ResultStatusEnum.CONFIG_ERROR.getStatus(), String.format(ResultStatusEnum.CONFIG_ERROR.getMessage(), "ISmsService"));
         }
-        if (log.isDebugEnabled()){
-            log.debug("路由后的厂商服务{}", JsonUtils.toJson(smsService.getClass()));
+        if (log.isInfoEnabled()){
+            log.info("路由后的厂商服务{}", JsonUtils.toJson(smsService.getClass()));
         }
         /**解析短信*/
         String content = PlaceholderUtil.replace(smsTemplate.getContent(),context.getParams());
@@ -105,8 +105,8 @@ public class SmsExecutor implements ISmsExecutor {
         // 组装发送短信上下文
         SendSmsEntity smsSend = convert.of(context,smsSpTemplateEntity,content);
 
-        if (log.isDebugEnabled()){
-            log.debug("短信发送实体SendSmsEntity："+JsonUtils.toJson(smsSend));
+        if (log.isInfoEnabled()){
+            log.info("短信发送实体SendSmsEntity：{}",JsonUtils.toJson(smsSend));
         }
         SendSmsResultEntity send = null;
 
@@ -115,13 +115,13 @@ public class SmsExecutor implements ISmsExecutor {
             send = smsService.sendSms(smsSend);
         }else{
             String msgId = idWorker.bizNo();
-            if (log.isDebugEnabled()){
-                log.debug("当前mobile:{} 不在白名单内,构建一条成功短信msgId为：{}",  context.getMobile(),msgId);
+            if (log.isInfoEnabled()){
+                log.info("当前mobile:{} 不在白名单内,构建一条成功短信msgId为：{}",  context.getMobile(),msgId);
             }
             send =  SendSmsResultEntity.builder().status(1).msgId(msgId).build();
         }
-        if (log.isDebugEnabled()){
-            log.debug("短信发送结果：{}",JsonUtils.toJson(send));
+        if (log.isInfoEnabled()){
+            log.info("短信发送结果：{}",JsonUtils.toJson(send));
         }
         return send;
     }

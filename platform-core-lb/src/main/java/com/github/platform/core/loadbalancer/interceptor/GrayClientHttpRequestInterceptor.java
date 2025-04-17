@@ -22,8 +22,8 @@ public class GrayClientHttpRequestInterceptor implements ClientHttpRequestInterc
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         HttpRequestWrapper requestWrapper = new HttpRequestWrapper(request);
         //这里可以把接收到的请求头传递过去
-        if (log.isDebugEnabled()){
-            log.debug("add RestTemplate header");
+        if (log.isInfoEnabled()){
+            log.info("add RestTemplate header");
         }
         requestWrapper.getHeaders().add(RequestHeaderHolder.LABEL_KEY,RequestHeaderHolder.getLabel());
         requestWrapper.getHeaders().add(RequestHeaderHolder.VERSION_KEY, RequestHeaderHolder.getVersion());

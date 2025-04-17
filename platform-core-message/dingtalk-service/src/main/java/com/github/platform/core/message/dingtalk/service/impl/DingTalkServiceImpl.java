@@ -63,8 +63,8 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
         }
         token = result.getAccessToken();
         Long expireIn = result.getExpireIn();
-        if (log.isDebugEnabled()){
-            log.debug("获取token：{}  有效时间：{} 秒",token,expireIn);
+        if (log.isInfoEnabled()){
+            log.info("获取token：{}  有效时间：{} 秒",token,expireIn);
         }
         //钉钉有效时间为2小时，防止有问题，提前10分钟失效
         long expireTime = expireIn - 10*60;

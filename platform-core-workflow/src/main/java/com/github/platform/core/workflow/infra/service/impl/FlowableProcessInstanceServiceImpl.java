@@ -115,8 +115,8 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
         if (Objects.nonNull(historicProcessInstance)) {
             historyService.deleteHistoricProcessInstance(instanceId);
         }
-        if (log.isDebugEnabled()){
-            log.debug("工作流删除成功 实例id = {} 删除原因 = {} ", instanceId, reason);
+        if (log.isWarnEnabled()){
+            log.warn("工作流删除成功 实例id = {} 删除原因 = {} ", instanceId, reason);
         }
     }
 
@@ -128,20 +128,18 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
     public InstanceStatusEnum updateStatus(String instanceId, String reason) {
         // 1. 查询指定流程实例的数据
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
+        InstanceStatusEnum instanceStatus = InstanceStatusEnum.ACTIVE;
         if (processInstance.isSuspended()){
             runtimeService.activateProcessInstanceById(instanceId);
-            if (log.isDebugEnabled()){
-                log.debug("工作流激活成功 流程实例ID = {} 激活原因 = {} ", instanceId, reason);
-            }
-            return InstanceStatusEnum.ACTIVE;
         } else {
             // 更新为挂起
             runtimeService.suspendProcessInstanceById(instanceId);
-            if (log.isDebugEnabled()){
-                log.debug("工作流挂起成功 流程实例ID = {} 挂起原因 = {} ", instanceId, reason);
-            }
-            return InstanceStatusEnum.SUSPEND;
+            instanceStatus = InstanceStatusEnum.SUSPEND;
         }
+        if (log.isInfoEnabled()){
+            log.info("更新流程实例ID = {} 状态：{} 原因 = {} ", instanceId,instanceStatus.getStatus(), reason);
+        }
+        return instanceStatus;
     }
 
     @Override
@@ -204,12 +202,12 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
         if (!processInstance.isSuspended()){
             // 更新为挂起
             runtimeService.suspendProcessInstanceById(instanceId);
-            if (log.isDebugEnabled()){
-                log.debug("工作流挂起成功 流程实例ID = {} 挂起原因 = {} ", instanceId, reason);
+            if (log.isInfoEnabled()){
+                log.info("工作流挂起成功 流程实例ID = {} 挂起原因 = {} ", instanceId, reason);
             }
         } else {
-            if (log.isDebugEnabled()){
-                log.debug("工作流：instanceId = {} 处于挂起状态，不能操作挂起 ", instanceId);
+            if (log.isInfoEnabled()){
+                log.info("工作流：instanceId = {} 处于挂起状态，不能操作挂起 ", instanceId);
             }
         }
     }
@@ -220,12 +218,12 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
         if (processInstance.isSuspended()){
             runtimeService.activateProcessInstanceById(instanceId);
-            if (log.isDebugEnabled()){
-                log.debug("工作流激活成功 流程实例ID = {} 激活原因 = {} ", instanceId, reason);
+            if (log.isInfoEnabled()){
+                log.info("工作流激活成功 流程实例ID = {} 激活原因 = {} ", instanceId, reason);
             }
         } else {
-            if (log.isDebugEnabled()){
-                log.debug("工作流：instanceId = {} 处于非挂起状态,不能操作恢复 ", instanceId);
+            if (log.isInfoEnabled()){
+                log.info("工作流：instanceId = {} 处于非挂起状态,不能操作恢复 ", instanceId);
             }
         }
     }
@@ -256,8 +254,8 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
 
     @Override
     public void setVariable(String instanceId, String variableName, Object value) {
-        if (log.isDebugEnabled()){
-            log.debug("设置流程变量 instanceId：{} variableName:{} value:{}",instanceId,variableName,value);
+        if (log.isInfoEnabled()){
+            log.info("设置流程变量 instanceId：{} variableName:{} value:{}",instanceId,variableName,value);
         }
         runtimeService.setVariable(instanceId,variableName,value);
     }
@@ -266,8 +264,8 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
 
     @Override
     public void setVariables(String instanceId,Map<String, Object> variables) {
-        if (log.isDebugEnabled()){
-            log.debug("设置流程变量 instanceId：{} variables:{} ",instanceId,variables);
+        if (log.isInfoEnabled()){
+            log.info("设置流程变量 instanceId：{} variables:{} ",instanceId,variables);
         }
         runtimeService.setVariables(instanceId,variables);
     }

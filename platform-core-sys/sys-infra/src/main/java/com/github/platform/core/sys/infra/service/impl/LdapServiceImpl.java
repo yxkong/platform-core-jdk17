@@ -48,8 +48,8 @@ public class LdapServiceImpl implements ILdapService {
                 return Pair.of(false,null);
             }
             this.reconnect(entity.getRemark(), password);
-            if (log.isDebugEnabled()){
-                log.debug("LDAP用户：{} 登录验证通过",username);
+            if (log.isInfoEnabled()){
+                log.info("LDAP用户：{} 登录验证通过",username);
             }
             entity.setChannel(UserChannelEnum.ldap);
             return  Pair.of(true,entity);

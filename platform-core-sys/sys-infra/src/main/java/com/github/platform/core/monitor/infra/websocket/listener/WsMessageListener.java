@@ -26,8 +26,8 @@ public class WsMessageListener implements MessageListener {
     public void onMessage(Message message, byte[] pattern) {
         String channel = new String(message.getChannel());
         String body = new String(message.getBody());
-        if (log.isDebugEnabled()){
-            log.debug("从redis的channel:{} 接收到message:{} ",channel,body);
+        if (log.isInfoEnabled()){
+            log.info("从redis的channel:{} 接收到message:{} ",channel,body);
         }
         InMessage wsMessage = JsonUtils.fromJson(body, InMessage.class);
         if ( null == wsMessage || !wsMessage.isValidBizType()){

@@ -39,8 +39,8 @@ public class LogoutWsMessageService implements IWsMessageService {
 
     @Override
     public boolean executor(InMessage wsMessage, boolean join) {
-        if (log.isDebugEnabled()){
-            log.debug("用户：{} 要踢出：{}",wsMessage.getFromUser(),wsMessage.getToUser());
+        if (log.isWarnEnabled()){
+            log.warn("用户：{} 要踢出：{}",wsMessage.getFromUser(),wsMessage.getToUser());
         }
         LoginUserInfo loginInfo = wsMessage.getLoginInfo();
         WebSocketSession session = sessionManager.get(loginInfo.getWebSocketKey());
@@ -52,22 +52,22 @@ public class LogoutWsMessageService implements IWsMessageService {
         try {
             OutMessage outMessage = OutMessage.builder().bizType(WsConstant.BIZ_TYPE_LOGOUT).status(ResultStatusEnum.TOKEN_INVALID.getStatus()).message("踢出成功！").build();
             session.sendMessage(new TextMessage(JsonUtils.toJson(outMessage)));
-            /**在本机，直接执行*/
+            /** 在本机，直接执行 */
             session.close();
             //清除上次token的登陆信息,TODO 判断只清理当前还是对应用户
             tokenService.expireByToken(loginInfo.getToken());
             if (wsMessage.getFromUser().equals(wsMessage.getToUser())){
-                if (log.isDebugEnabled()){
-                    log.debug("用户：{} 退出,断开socket成功",wsMessage.getFromUser(),wsMessage.getToUser());
+                if (log.isInfoEnabled()){
+                    log.info("用户：{} 退出,断开socket成功",wsMessage.getFromUser());
                 }
             } else {
-                if (log.isDebugEnabled()){
-                    log.debug("用户：{} 踢出：{} 成功",wsMessage.getFromUser(),wsMessage.getToUser());
+                if (log.isInfoEnabled()){
+                    log.info("用户：{} 踢出：{} 成功",wsMessage.getFromUser(),wsMessage.getToUser());
                 }
                 //踢出用户以后需要给踢出者回复消息
                 String loginInfoStr = tokenService.getLoginInfoStr(wsMessage.getLoginInfo().getTenantId(), wsMessage.getFromUser());
-                if (log.isDebugEnabled()){
-                    log.debug("踢出者用户信息：{}",loginInfoStr);
+                if (log.isInfoEnabled()){
+                    log.info("踢出者用户信息：{}",loginInfoStr);
                 }
                 InMessage rsp = InMessage.builder().fromUser("robot").toUser(wsMessage.getFromUser()).text("踢出成功！").build();
                 rsp.setLoginInfoStr(loginInfoStr);

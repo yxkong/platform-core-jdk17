@@ -68,8 +68,8 @@ public class FlowableDefinitionServiceImpl implements IProcessDefinitionService 
     public void approve(String processId, String bizNo, String taskId, Map<String, Object> params) {
         params.put(FlwConstant.BIZ_NO, bizNo);
         taskService.complete(taskId, params);
-        if (log.isDebugEnabled()){
-            log.debug("工作流审批完成 流程实例ID = {} 业务单号 = {} 流程变量 = {}", processId, bizNo, JsonUtils.toJson(params));
+        if (log.isInfoEnabled()){
+            log.info("工作流审批完成 流程实例ID = {} 业务单号 = {} 流程变量 = {}", processId, bizNo, JsonUtils.toJson(params));
         }
 
     }

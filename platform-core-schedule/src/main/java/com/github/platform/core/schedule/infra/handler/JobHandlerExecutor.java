@@ -77,7 +77,7 @@ public class JobHandlerExecutor extends QuartzJobBean {
 
     private boolean isJobExecutable(SysJobDto jobDto) {
         if (!StatusEnum.ON.getStatus().equals(jobDto.getStatus())) {
-            log.debug("任务已禁用: jobId={}, handlerName={}", jobDto.getId(), jobDto.getBeanName());
+            log.info("任务已禁用: jobId={}, handlerName={}", jobDto.getId(), jobDto.getBeanName());
             return false;
         }
 

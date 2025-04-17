@@ -58,11 +58,12 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         } else {
             eventId = dto.getId();
         }
+        //TODO 这里需要加一个配置，是否需要发送的配置
         SysNoticeTemplateDto templateDto = getSysNoticeTemplateDto(noticeContext, domainEvent);
         noticeContext.setEventId(eventId);
         if (Objects.isNull(templateDto)){
             updateLog(eventId,null, "没有配置可发送的模板！");
-            log.error("eventType:{} 租户：{} 对应的模板不存在",noticeContext.getEventType(),domainEvent.getTenantId());
+            log.warn("eventType:{} 租户：{} 对应的模板不存在",noticeContext.getEventType(),domainEvent.getTenantId());
             return false;
         }
         String channelType = Objects.nonNull(noticeContext.getNoticeChannelInfo().getChannelType()) ? noticeContext.getNoticeChannelInfo().getChannelType(): templateDto.getChannelType();

@@ -4,6 +4,7 @@ import brave.Span;
 import brave.Tracing;
 import brave.propagation.TraceContext;
 import com.alibaba.fastjson2.JSONObject;
+import com.github.platform.core.common.configuration.property.PlatformProperties;
 import com.github.platform.core.common.constant.SpringBeanOrderConstant;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.kafka.service.TracingKafkaProducer;
@@ -15,27 +16,27 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.core.env.Environment;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 采集输入输出信息到zipkin 兼容以前的sleuth，并推送到 Kafka
+ * @author yxkong
  */
 @Slf4j
 public class TracingFilter extends PlatformOncePerRequestFilter {
     private final TracingKafkaProducer kafkaProducer;
-    private final Environment environment;
+    private final PlatformProperties properties;
 
-    public TracingFilter(TracingKafkaProducer kafkaProducer,Environment environment) {
+    public TracingFilter(TracingKafkaProducer kafkaProducer,  PlatformProperties properties) {
         this.kafkaProducer = kafkaProducer;
-        this.environment = environment;
+        this.properties = properties;
     }
 
     @Override
@@ -50,8 +51,9 @@ public class TracingFilter extends PlatformOncePerRequestFilter {
         Pair<Boolean, ContentCachingResponseWrapper> p2 = getResponseWrapper(response);
         ContentCachingResponseWrapper responseWrapper = p2.getRight();
 
-        long startTime = System.nanoTime();
-        TraceContext traceContext = getSpan().context();
+        long startTime = System.currentTimeMillis();
+
+        TraceContext traceContext = Objects.requireNonNull(getSpan()).context();
         String traceId = traceContext.traceIdString();
         String spanId = traceContext.spanIdString();
 
@@ -61,7 +63,7 @@ public class TracingFilter extends PlatformOncePerRequestFilter {
         zipkinData.put("kind", "SERVER");
         zipkinData.put("name", request.getMethod().toLowerCase() + " " + request.getRequestURI());
         zipkinData.put("timestamp", startTime);
-        String serviceName = environment.getProperty("spring.application.name");
+        String serviceName = properties.getSystem().getServiceName();
         zipkinData.put("localEndpoint", Map.of(
                 "serviceName", serviceName ,
                 "ipv4", request.getLocalAddr()
@@ -85,7 +87,7 @@ public class TracingFilter extends PlatformOncePerRequestFilter {
             filterChain.doFilter(requestWrapper, responseWrapper);
 
             // 设置响应信息
-            long duration = System.nanoTime() - startTime;
+            long duration = System.currentTimeMillis() - startTime;
             zipkinData.put("duration", duration);
 
             after(requestWrapper, responseWrapper, tags);
