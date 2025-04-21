@@ -2,13 +2,13 @@ package com.github.platform.core.workflow.infra.util;
 
 import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.common.utils.StringUtils;
-import feign.form.util.CharsetUtil;
 import org.assertj.core.util.Lists;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.impl.util.io.StringStreamSource;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -35,7 +35,7 @@ public class BpmnModelUtils {
      * @return xml字符串
      */
     public static String getBpmnXmlStr(BpmnModel bpmnModel) {
-        return new String(getBpmnXml(bpmnModel),  CharsetUtil.UTF_8);
+        return new String(getBpmnXml(bpmnModel), StandardCharsets.UTF_8);
     }
 
     /**

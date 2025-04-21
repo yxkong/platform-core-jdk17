@@ -18,4 +18,8 @@ import java.util.List;
 @ToString(callSuper = true)
 public class SunburstDto extends EchartsKVDto {
     private List<SunburstDto> children;
+
+    public SunburstDto(String name, Integer value) {
+        super(name, value);
+    }
 }

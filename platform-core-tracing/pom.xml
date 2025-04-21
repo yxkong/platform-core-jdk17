@@ -22,29 +22,29 @@
             <artifactId>platform-core-kafka</artifactId>
         </dependency>
 
-        <!-- 用于收集应用程序的度量数据-->
+        <!-- Micrometer核心  用于收集应用程序的度量数据-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-observation</artifactId>
         </dependency>
-        <!-- 用于与分布式追踪工具Brave集成-->
+        <!-- Micrometer Tracing与Brave集成-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
-            <!-- 隐藏的HTTP发送器 -->
+            <!-- 排除引入的HTTP上报依赖 -->
             <exclusions>
                 <exclusion>
                     <groupId>io.zipkin.reporter2</groupId>
-                    <artifactId>zipkin-sender-urlconnection</artifactId>
+                    <artifactId>zipkin-reporter-urlconnection</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- 用于收集客户端请求的度量数据-->
+        <!-- Micrometer 指标追踪 -->
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-micrometer</artifactId>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing</artifactId>
         </dependency>
-        <!-- 用于将Brave跟踪数据报告到Zipkin跟踪系统的库上 -->
+        <!-- Zipkin Reporter 用于将Brave跟踪数据报告到Zipkin跟踪系统的库上-->
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-reporter-brave</artifactId>
@@ -56,10 +56,26 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- Brave + Zipkin Kafka Reporter -->
+        <!-- Kafka发送器 -->
         <dependency>
             <groupId>io.zipkin.reporter2</groupId>
             <artifactId>zipkin-sender-kafka</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>zipkin-reporter</artifactId>
+                    <groupId>io.zipkin.reporter2</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter</artifactId>
+        </dependency>
+
+        <!-- 用于收集客户端请求的度量数据-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-micrometer</artifactId>
         </dependency>
         <!-- 将micrometer 桥接到opentelemetry -->
 <!--        <dependency>-->

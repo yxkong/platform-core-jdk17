@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 import com.github.platform.core.common.entity.BaseAdminEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * token缓存模型实体
@@ -45,6 +46,9 @@ public class SysTokenCacheBase extends BaseAdminEntity   {
     protected String loginWay;
 
     public boolean isExpired() {
+        if (Objects.isNull(expireTime)){
+            return true;
+        }
         return LocalDateTime.now().isAfter(expireTime);
     }
 }

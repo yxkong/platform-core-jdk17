@@ -46,7 +46,7 @@
     </modules>
     <properties>
         <!--公共配置-->
-        <revision>0.3.07-SNAPSHOT</revision>
+        <revision>0.3.09-SNAPSHOT</revision>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -69,15 +69,15 @@
         <flatten.maven.plugin.version>1.6.0</flatten.maven.plugin.version>
 
         <spring.ai.bom.version>1.0.0-SNAPSHOT</spring.ai.bom.version>
-        <spring.boot.version>3.2.9</spring.boot.version>
-        <spring.cloud.version>2023.0.3</spring.cloud.version>
+        <spring.boot.version>3.2.12</spring.boot.version>
+        <spring.cloud.version>2023.0.4</spring.cloud.version>
         <spring.cloud.loadbalancer.version>4.1.5</spring.cloud.loadbalancer.version>
         <spring.cloud.eureka.version>4.1.4</spring.cloud.eureka.version>
         <spring.cloud.openfeign.version>3.1.9</spring.cloud.openfeign.version>
         <spring.cloud.alibaba.version>2023.0.3.2</spring.cloud.alibaba.version>
-        <spring.cloud.zipkin.version>2.2.8.RELEASE</spring.cloud.zipkin.version>
         <spring.boot.admin.version>3.2.3</spring.boot.admin.version>
         <spring.security.version>2.6.6</spring.security.version>
+        <micrometer-tracing.version>1.4.5</micrometer-tracing.version>
 
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <springfox.version>3.0.0</springfox.version>
@@ -133,10 +133,8 @@
         <!--分布式与监控-->
         <seata.version>1.5.2</seata.version>
         <sentinel.version>1.8.3</sentinel.version>
-        <micrometer.observation.version>1.14.2</micrometer.observation.version>
-        <micrometer.tracing.version>1.4.1</micrometer.tracing.version>
-        <zipkin.reporter.brave.version>3.4.3</zipkin.reporter.brave.version>
-        <zipkin.sender.kafka.version>3.4.3</zipkin.sender.kafka.version>
+        <zipkin.reporter.version>3.5.0</zipkin.reporter.version>
+        <zipkin.sender.kafka.version>3.5.0</zipkin.sender.kafka.version>
 
         <!--单元测试-->
         <junit.version>5.7.2</junit.version>
@@ -411,6 +409,14 @@
                 <artifactId>dingtalk-service</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <!-- 链路追踪依赖 -->
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-tracing-bom</artifactId>
+                <version>${micrometer-tracing.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- 微服务基础包 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -454,6 +460,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
 
 
             <!-- 负载均衡,由于springcloud2020弃用了Ribbon，因此Alibaba在2021版本nacos中删除了Ribbon的jar包，因此无法通过lb路由到指定微服务，出现了503情况-->
@@ -813,37 +820,19 @@
                 <version>${rocketmq.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-registry-prometheus</artifactId>
-                <version>${micrometer.version}</version>
-            </dependency>
-            <!-- 用于收集应用程序的度量数据-->
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-observation</artifactId>
-                <version>${micrometer.observation.version}</version>
-            </dependency>
-            <!-- 用于与分布式追踪工具Brave集成-->
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-tracing-bridge-brave</artifactId>
-                <version>${micrometer.tracing.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-tracing-bridge-otel</artifactId>
-                <version>${micrometer.tracing.version}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>io.opentelemetry</groupId>
                 <artifactId>opentelemetry-exporter-zipkin</artifactId>
                 <version>${opentelemetry.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zipkin.reporter2</groupId>
+                <artifactId>zipkin-reporter</artifactId>
+                <version>${zipkin.reporter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.zipkin.reporter2</groupId>
                 <artifactId>zipkin-reporter-brave</artifactId>
-                <version>${zipkin.reporter.brave.version}</version>
+                <version>${zipkin.reporter.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.zipkin.reporter2</groupId>
