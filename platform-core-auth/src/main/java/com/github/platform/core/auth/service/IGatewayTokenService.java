@@ -36,6 +36,6 @@ public interface IGatewayTokenService {
      * @return redis中缓存的key
      */
     default String getMappingKey(AuthProperties.Login login,Integer tenantId, String loginName){
-        return login.getUserTokenMapping() +tenantId+ SymbolConstant.colon+loginName;
+        return login.getUserTokenMapping() +tenantId+ SymbolConstant.COLON +loginName;
     }
 }

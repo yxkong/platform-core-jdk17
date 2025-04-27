@@ -93,7 +93,7 @@ public class SysJobExecutorImpl extends SysExecutor implements ISysJobExecutor {
             if (context.isCallBack()){
                 sysJobDto.setBeanName("callBackUrlJobHandler:"+sysJobDto.getId());
             } else {
-                sysJobDto.setBeanName(sysJobDto.getBeanName() + SymbolConstant.colon + sysJobDto.getId());
+                sysJobDto.setBeanName(sysJobDto.getBeanName() + SymbolConstant.COLON + sysJobDto.getId());
             }
             try {
                 scheduleManager.addOrUpdateJob(sysJobDto);
@@ -116,10 +116,10 @@ public class SysJobExecutorImpl extends SysExecutor implements ISysJobExecutor {
         validateJobExist(context.getId());
         if (context.isMultiInstance()){
             String beanName = context.getBeanName();
-            if (!beanName.contains(SymbolConstant.colon)){
+            if (!beanName.contains(SymbolConstant.COLON)){
                 throw exception(JobApplicationEnum.JOB_BEAN_NAME_ERROR);
             }
-            beanName = beanName.substring(0, beanName.indexOf(SymbolConstant.colon));
+            beanName = beanName.substring(0, beanName.indexOf(SymbolConstant.COLON));
             Boolean exist = ApplicationContextHolder.containsBean(beanName);
             if (!exist){
                 throw exception(JobApplicationEnum.JOB_BEAN_NAME_ERROR);

@@ -11,62 +11,62 @@ public interface SymbolConstant {
     /**
      * 空格
      */
-    String space = " ";
+    String SPACE = " ";
     /**
      * 句号
      */
-    String period = ".";
+    String PERIOD = ".";
 
     /**
      * 冒号:
      */
-    String colon = ":";
+    String COLON = ":";
     /**
      单引号
      */
-    String single = "'";
+    String SINGLE = "'";
 
     /**
      * 分号
      */
-    String semicolon = ";";
+    String SEMICOLON = ";";
     /**
      * 逗号
      */
-    String comma = ",";
+    String COMMA = ",";
     /**&*/
-    String and = "&";
+    String AND = "&";
 
     /**
      * @符号
      */
-    String at = "@";
+    String AT = "@";
     /**
      * 加号
      */
-    String plus = "+";
+    String PLUS = "+";
     /**
      * 减号
      */
-    String minus = "-";
+    String MINUS = "-";
     /**
      * 乘号
      */
-    String multiply = "*";
+    String MULTIPLY = "*";
     /**
      *  除号
      */
-    String divide = "/";
+    String DIVIDE = "/";
 
     /**
      * 求余
      */
-    String mod = "%";
+    String MOD = "%";
 
     /**分隔符*/
-    String separator = "_";
+    String SEPARATOR = "_";
     /**# */
-    String hash = "#";
+    String HASH = "#";
     /**问号*/
-    String question = "?";
+    String QUESTION = "?";
 }

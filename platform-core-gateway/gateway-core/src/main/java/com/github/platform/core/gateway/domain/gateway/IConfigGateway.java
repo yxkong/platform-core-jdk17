@@ -16,41 +16,13 @@ public interface IConfigGateway {
      * @param host
      * @return
      */
-    default boolean hostEquals(List<String> hosts,String host){
+    default boolean hostEquals(List<String> hosts, String host){
         if(hosts!= null
                 && hosts.stream().anyMatch(host::equals)){
             return Boolean.TRUE;
         }
         return  Boolean.FALSE;
     }
-
-    /**
-     * 解决前缀的问题
-     * @param hosts
-     * @param url
-     * @return
-     */
-    default boolean urlEndWith(List<String> hosts,String url){
-        if(hosts!= null
-                && hosts.stream().anyMatch(url::endsWith)){
-            return Boolean.TRUE;
-        }
-        return  Boolean.FALSE;
-    }
-    /**
-     * 判断请求的url是否在放行列表里
-     * @param urls
-     * @param url
-     * @return
-     */
-    default boolean urlStartWith(List<String> urls,String url){
-        if(urls != null
-                && urls.stream().anyMatch(url::startsWith)){
-            return Boolean.TRUE;
-        }
-        return  Boolean.FALSE;
-    }
-
     /**
      * 哪些host不能走网关
      * @param host
@@ -59,9 +31,14 @@ public interface IConfigGateway {
     boolean excludeHost(String host);
 
     /**
-     * 哪些url不能走网关
-     * @param url
-     * @return 走网关返回true，不走，返回false
+     * 请求路径是否需要重定向
+     * @param path
+     * @return
      */
-    boolean excludeUrl(String url);
+    boolean isRedirectPath(String path);
+
+    /**
+     * 转发url是否白名单url
+     */
+    boolean isRedirectHost(String host);
 }

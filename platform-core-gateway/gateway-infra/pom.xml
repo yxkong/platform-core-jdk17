@@ -18,6 +18,10 @@
             <groupId>com.github.platform</groupId>
             <artifactId>platform-core-auth-sys</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.platform</groupId>
+            <artifactId>platform-core-auth-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -31,8 +31,8 @@ public class WebUtil extends IPUtil {
             requestIp = request.getHeader("reuestSourceIp");
         }
         if (!StringUtils.isEmpty(requestIp)) {
-            if (requestIp.contains(SymbolConstant.comma)) {
-                return requestIp.split(SymbolConstant.comma)[0];
+            if (requestIp.contains(SymbolConstant.COMMA)) {
+                return requestIp.split(SymbolConstant.COMMA)[0];
             }
             return requestIp;
         }
@@ -77,8 +77,8 @@ public class WebUtil extends IPUtil {
             }
         }
 
-        if (ip != null && ip.contains(SymbolConstant.comma)) {
-            String[] ips = ip.split(SymbolConstant.comma);
+        if (ip != null && ip.contains(SymbolConstant.COMMA)) {
+            String[] ips = ip.split(SymbolConstant.COMMA);
             for (int index = 0; index < ips.length; index++) {
                 String strIp = ips[index];
                 if (!(HeaderConstant.IP_UNKNOWN.equalsIgnoreCase(strIp))) {
@@ -105,8 +105,8 @@ public class WebUtil extends IPUtil {
             HttpHeaders httpHeaders = request.getHeaders();
             String requestIp = httpHeaders.getFirst(HeaderConstant.IP_HEADER_REQUEST_SOURCE_IP);
             if (!StringUtils.isEmpty(requestIp)) {
-                if (requestIp.contains(SymbolConstant.comma)) {
-                    return requestIp.split(SymbolConstant.comma)[0];
+                if (requestIp.contains(SymbolConstant.COMMA)) {
+                    return requestIp.split(SymbolConstant.COMMA)[0];
                 }
                 return requestIp;
             }

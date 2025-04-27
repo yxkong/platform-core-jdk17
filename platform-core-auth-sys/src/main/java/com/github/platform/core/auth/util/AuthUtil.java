@@ -18,14 +18,15 @@ import java.util.stream.Stream;
 /**
  * Token 权限验证，逻辑实现类
  *
+ * @author yxkong
  */
 public class AuthUtil {
     /**
      * 登录即可访问的
      */
     private static final Set DEFAULT_PERMISSION = Stream.of(
-           "sys/auth/logout","sys/auth/info","sys/dict/findByType","sys/menu/getRouters","sys/dept/deptTree",
-            "sys/auth/modifyPwd","sys/menu/menuTree","/sys/websocket").collect(Collectors.toSet());
+           "/sys/auth/logout","/sys/auth/info","/sys/dict/findByType","/sys/menu/getRouters","/sys/dept/deptTree",
+            "/sys/auth/modifyPwd","/sys/menu/menuTree","/sys/websocket").collect(Collectors.toSet());
     /**
      * 检验用户是否已经登录
      */

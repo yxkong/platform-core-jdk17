@@ -16,7 +16,8 @@ public enum GatewayException implements BaseResult {
     //限流
     FLOW_LIMIT("1090", "请求被限流"),
     //熔断降级
-    REFUSE("1091", "请求被降级");
+    REFUSE("1091", "请求被降级"),
+    ;
 
     GatewayException(String status, String message) {
         this.status = status;

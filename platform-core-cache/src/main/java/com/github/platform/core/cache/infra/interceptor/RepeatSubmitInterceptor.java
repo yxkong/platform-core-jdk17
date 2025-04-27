@@ -83,7 +83,7 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
         } else {
             accessFlag = request.getHeader(HeaderConstant.TOKEN);
         }
-        return new StringBuilder(properties.getRepeatSubmit()).append(accessFlag).append(SymbolConstant.colon).append(request.getRequestURI()).toString();
+        return new StringBuilder(properties.getRepeatSubmit()).append(accessFlag).append(SymbolConstant.COLON).append(request.getRequestURI()).toString();
     }
 
     private  String getIpAddress(HttpServletRequest request) {
@@ -121,8 +121,8 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
             }
         }
 
-        if (ip != null && ip.contains(SymbolConstant.comma)) {
-            String[] ips = ip.split(SymbolConstant.comma);
+        if (ip != null && ip.contains(SymbolConstant.COMMA)) {
+            String[] ips = ip.split(SymbolConstant.COMMA);
             for (int index = 0; index < ips.length; index++) {
                 String strIp = ips[index];
                 if (!(HeaderConstant.IP_UNKNOWN.equalsIgnoreCase(strIp))) {

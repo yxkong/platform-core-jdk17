@@ -85,7 +85,7 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
         String tempNo = noticeContext.getTempNo();
         SysNoticeTemplateDto templateDto = null;
         // 判断事件类型是否包含冒号
-        boolean containsColon = StringUtils.contains(eventType, SymbolConstant.colon);
+        boolean containsColon = StringUtils.contains(eventType, SymbolConstant.COLON);
         // 如果包含冒号，优先进行全匹配
         if (containsColon) {
             templateDto = sysNoticeTemplateGateway.findEventType(eventType, tenantId);
@@ -103,7 +103,7 @@ public class MessageNoticeExecutorImpl implements IMessageNoticeExecutor {
 
         // 如果仍未找到，且事件类型包含冒号，则尝试半匹配（取冒号前的部分）
         if (templateDto == null && containsColon) {
-            templateDto = sysNoticeTemplateGateway.findEventType(eventType.split(SymbolConstant.colon)[0], tenantId);
+            templateDto = sysNoticeTemplateGateway.findEventType(eventType.split(SymbolConstant.COLON)[0], tenantId);
         }
 
         return templateDto;

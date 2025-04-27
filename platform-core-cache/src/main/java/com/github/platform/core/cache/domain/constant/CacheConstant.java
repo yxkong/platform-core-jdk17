@@ -83,6 +83,6 @@ public interface CacheConstant {
      */
     static String getDistributeKey(String ...values){
         Assert.notNull(values,"分布式锁业务属性不能为空！");
-        return CacheConstant.distributeLock + String.join(SymbolConstant.colon, values);
+        return CacheConstant.distributeLock + String.join(SymbolConstant.COLON, values);
     }
 }

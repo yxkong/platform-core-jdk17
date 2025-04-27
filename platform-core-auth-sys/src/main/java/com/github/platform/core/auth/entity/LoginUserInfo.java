@@ -83,7 +83,7 @@ public class LoginUserInfo extends LoginInfo {
 
     @JsonIgnore
     public String getWebSocketKey(){
-        return this.loginName + SymbolConstant.colon + this.token;
+        return this.loginName + SymbolConstant.COLON + this.token;
     }
     /**
      * 是否超级管理员

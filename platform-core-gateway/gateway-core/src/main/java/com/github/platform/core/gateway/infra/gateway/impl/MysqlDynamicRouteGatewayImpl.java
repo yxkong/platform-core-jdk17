@@ -52,9 +52,9 @@ public class MysqlDynamicRouteGatewayImpl implements RouteDataGateway {
         }
         if (CollectionUtil.isNotEmpty(routeDto.getRoutes())){
             routeOperatorService.refresh(routeDto.getRoutes());
-            log.warn("初始化Mysql网关完成:{}",JsonUtils.toJson(routeDto.getRoutes()));
+            log.warn("网关：{} 初始化Mysql网关完成:{}",gatewayProperties.getName(),JsonUtils.toJson(routeDto.getRoutes()));
         } else {
-            log.warn("未找到可初始化的网关配置");
+            log.warn("网关：{} 未找到可初始化的网关配置",gatewayProperties.getName());
         }
     }
 

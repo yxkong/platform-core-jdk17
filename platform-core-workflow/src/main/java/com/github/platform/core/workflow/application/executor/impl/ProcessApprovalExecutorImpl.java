@@ -173,7 +173,7 @@ public class ProcessApprovalExecutorImpl extends BaseExecutor implements IProces
                 users.add(s.getGroupId());
             }
         });
-        return String.join(SymbolConstant.comma,users);
+        return String.join(SymbolConstant.COMMA,users);
     }
 
 }

@@ -3,6 +3,7 @@ package com.github.platform.core.web.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.platform.core.web.plugin.spring.mvc.ApiVersionRequestMappingHandlerMapping;
 import jakarta.annotation.Resource;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import java.util.List;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Configuration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class WebConfiguration implements WebMvcConfigurer, WebMvcRegistrations {
 
     private String indexUrl = "index";

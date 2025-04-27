@@ -1,12 +1,15 @@
 package com.github.platform.core.sys.domain.gateway;
 
 import com.github.platform.core.cache.domain.constant.CacheConstant;
+import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.sys.domain.constant.SysCacheKeyPrefix;
 import com.github.platform.core.sys.domain.context.SysCascadeContext;
 import com.github.platform.core.sys.domain.context.SysCascadeQueryContext;
 import com.github.platform.core.sys.domain.dto.SysCascadeDto;
-import com.github.platform.core.standard.entity.dto.PageBean;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 
 import java.util.List;
 
@@ -43,12 +46,18 @@ public interface ISysCascadeGateway {
     * @param context 新增上下文
     * @return 返回结果
     */
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + 'l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
+            }
+    )
     SysCascadeDto insert(SysCascadeContext context);
     /**
     * 根据id查询级联表明细
     * @param id 主键
     * @return 结果
     */
+    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON + #id", cacheManager = CacheConstant.cacheManager, unless = "#result == null")
     SysCascadeDto findById(Long id);
 
     /**
@@ -56,6 +65,7 @@ public interface ISysCascadeGateway {
      * @param parentId
      * @return
      */
+    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON +'l'+ #parentId", cacheManager = CacheConstant.cacheManager,unless = "#result == null || #result.isEmpty()")
     List<SysCascadeDto> findByParentId(Long parentId);
 
     /**
@@ -64,18 +74,33 @@ public interface ISysCascadeGateway {
      * @param tenantId
      * @return
      */
+    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON + #code+#tenantId", cacheManager = CacheConstant.cacheManager, unless = "#result == null")
     SysCascadeDto findByCode(String code, Integer tenantId);
     /**
     * 修改级联表
     * @param context 修改上下文
     * @return 更新结果
     */
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON +  #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + 'l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
+            }
+    )
     Pair<Boolean, SysCascadeDto> update(SysCascadeContext context);
     /**
     * 根据id删除级联表记录
     * @param context 删除上下文（由id改为上下文了，是为了兼容cache的多处理）
     * @return 删除结果
     */
+    @Caching(
+            evict = {
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON +  #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + 'l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
+            }
+    )
     int delete(SysCascadeContext context);
 
 

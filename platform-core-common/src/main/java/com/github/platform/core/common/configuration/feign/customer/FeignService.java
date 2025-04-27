@@ -4,7 +4,6 @@ import com.github.platform.core.common.constant.RequestTypeEnum;
 import com.github.platform.core.standard.entity.dto.ResultBean;
 import com.github.platform.core.standard.util.ResultBeanUtil;
 import feign.Feign;
-import feign.Logger;
 import feign.Response;
 import feign.Target;
 import feign.codec.Decoder;

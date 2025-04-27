@@ -28,11 +28,16 @@ import java.util.Objects;
 public class AuthProperties {
     /**鉴权模式,sys,api,all*/
     private String mode;
+    /**可以直接转发的host*/
+    private List<String> forwardHosts = new ArrayList<>();
+    /**可以直接重定向的url*/
+    private List<String> redirectPaths = new ArrayList<>();
+    /**可以直接重定向的host*/
+    private List<String> redirectHosts = new ArrayList<>();
     /**api项目*/
     private Api api = new Api();
     /**后端管理项目*/
     private Sys sys = new Sys();
-
 
     @Data
     @SuperBuilder
@@ -49,7 +54,7 @@ public class AuthProperties {
          * @return
          */
         public String getTokenKey(String token){
-            return  login.getToken()+SymbolConstant.colon+token;
+            return  login.getToken()+SymbolConstant.COLON +token;
         }
 
         /**
@@ -59,7 +64,7 @@ public class AuthProperties {
          * @return
          */
         public String getLoginNameKey(Integer tenantId,String loginName){
-            return login.getUserTokenMapping()+ SymbolConstant.colon +tenantId+SymbolConstant.colon+loginName;
+            return login.getUserTokenMapping()+ SymbolConstant.COLON +tenantId+SymbolConstant.COLON +loginName;
         }
         public Long getExpire(){
             if (Objects.isNull(this.login) || Objects.isNull(this.login.getExpire())){
@@ -99,7 +104,7 @@ public class AuthProperties {
          * @return
          */
         public String getTokenKey(String token){
-            return login.getToken() + SymbolConstant.colon+token;
+            return login.getToken() + SymbolConstant.COLON +token;
         }
 
         /**
@@ -109,7 +114,7 @@ public class AuthProperties {
          * @return
          */
         public String getLoginNameKey(Integer tenantId,String loginName){
-            return login.getUserTokenMapping() + SymbolConstant.colon +tenantId+SymbolConstant.colon+loginName;
+            return login.getUserTokenMapping() + SymbolConstant.COLON +tenantId+SymbolConstant.COLON +loginName;
         }
         public Long getExpire(){
             if (Objects.isNull(this.login) || Objects.isNull(this.login.getExpire())){
@@ -122,9 +127,6 @@ public class AuthProperties {
     @SuperBuilder
     @NoArgsConstructor
     public static class BaseProperties {
-        /**可以直接转发的host*/
-        @Builder.Default
-        protected List<String> hosts = new ArrayList<>();
         /**可以直接转发的url*/
         @Builder.Default
         protected List<String> urls = new ArrayList<>();

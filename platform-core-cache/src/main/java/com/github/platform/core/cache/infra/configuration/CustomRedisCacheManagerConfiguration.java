@@ -104,7 +104,7 @@ public class CustomRedisCacheManagerConfiguration {
     private RedisCacheConfiguration determineConfiguration(long seconds) {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(seconds))
-                .computePrefixWith(name ->name + SymbolConstant.colon)
+                .computePrefixWith(name ->name + SymbolConstant.COLON)
                 .disableCachingNullValues()
                 .serializeValuesWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(buildRedisSerializer()));

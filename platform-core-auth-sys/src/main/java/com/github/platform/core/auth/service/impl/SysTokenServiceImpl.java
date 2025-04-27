@@ -66,7 +66,7 @@ public class SysTokenServiceImpl implements ITokenService {
             key = "''+#token",
             unless = "#result == null")
     public String saveOrUpdate(Integer tenantId, String token, String loginName,String optUser, String loginInfo, boolean isLogin) {
-        if (!isLogin && isRenew()){
+        if (!isLogin && Objects.isNull(tokenCacheGateway)){
             return loginInfo;
         }
         if (log.isDebugEnabled()){
@@ -74,15 +74,6 @@ public class SysTokenServiceImpl implements ITokenService {
         }
         tokenCacheGateway.ifPresent(gateway -> gateway.saveOrUpdate(tenantId, token, loginName,optUser, loginInfo, isLogin));
         return loginInfo;
-    }
-    private boolean isRenew(){
-        if (Objects.isNull(tokenCacheGateway)){
-            return true;
-        }
-        if (randGen.nextInt(100) % 10 == 0 ){
-            return false;
-        }
-        return true;
     }
     @Override
     public void expireByLoginName(Integer tenantId, String loginName) {

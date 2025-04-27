@@ -73,7 +73,7 @@ public interface IUploadFileService {
         if (Objects.isNull(path)){
             return null;
         }
-        return path.replace("\\", SymbolConstant.divide);
+        return path.replace("\\", SymbolConstant.DIVIDE);
     }
     default String getDatePath(){
         LocalDateTime nowDate = LocalDateTime.now();

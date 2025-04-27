@@ -46,7 +46,7 @@
     </modules>
     <properties>
         <!--公共配置-->
-        <revision>0.3.09-SNAPSHOT</revision>
+        <revision>0.3.10-SNAPSHOT</revision>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -86,8 +86,9 @@
         <!--
         毕业版本依赖关系
         https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
-        -->
 
+        https://github.com/alibaba/spring-cloud-alibaba/blob/2023.x/README-zh.md
+        -->
 
         <!--数据库相关-->
         <mysql.connector.version>8.0.29</mysql.connector.version>

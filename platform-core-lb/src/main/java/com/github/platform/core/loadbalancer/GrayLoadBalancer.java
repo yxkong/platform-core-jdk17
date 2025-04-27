@@ -1,7 +1,6 @@
 package com.github.platform.core.loadbalancer;
 
-import com.alibaba.nacos.client.naming.utils.Chooser;
-import com.alibaba.nacos.client.naming.utils.Pair;
+import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.loadbalancer.holder.RequestHeaderHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -15,11 +14,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author: yxkong
@@ -37,7 +36,7 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      */
     private ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider;
     //普通server轮训器
-    private AtomicInteger nextServerCyclicCounter;
+    private AtomicLong nextServerCyclicCounter;
     private final Environment environment;
 
     public GrayLoadBalancer( ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplierProvider
@@ -45,53 +44,89 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
         this.serviceId = serviceId;
         this.serviceInstanceListSupplierProvider = serviceInstanceListSupplierProvider;
         this.environment = environment;
-        this.nextServerCyclicCounter = new AtomicInteger(0);
+        this.nextServerCyclicCounter = new AtomicLong(0);
     }
 
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        HttpHeaders headers = null;
-        if(request instanceof RequestDataContext){
-            headers = ((RequestDataContext) request).getClientRequest().getHeaders();
-        }else if(request instanceof DefaultRequest){
-            if( request.getContext() instanceof HttpHeaders){
-                headers  = (HttpHeaders)request.getContext();
-            }else if( request.getContext() instanceof RetryableRequestContext){
-                RetryableRequestContext context =(RetryableRequestContext) request.getContext();
-                headers = context.getClientRequest().getHeaders();
-            }
+        // 1. 防御性检查serviceId
+        if (StringUtils.isEmpty(this.serviceId)) {
+            log.error("ServiceId cannot be empty in GrayLoadBalancer");
+            return Mono.just(new EmptyResponse());
         }
-        //获取所有可用的服务提供者
-        ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
+        // 2. 安全获取headers
+        HttpHeaders headers = null;
+        try {
+            if (request instanceof RequestDataContext) {
+                headers = ((RequestDataContext) request).getClientRequest().getHeaders();
+            } else if (request instanceof DefaultRequest) {
+                Object context = ((DefaultRequest<?>) request).getContext();
+                if (context instanceof HttpHeaders) {
+                    headers = (HttpHeaders) context;
+                } else if (context instanceof RetryableRequestContext) {
+                    headers = ((RetryableRequestContext) context).getClientRequest().getHeaders();
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Failed to parse request headers", e);
+        }
+
+        // 3. 安全获取Supplier
+        ServiceInstanceListSupplier supplier;
+        try {
+            supplier = Optional.of(serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new))
+                    .orElseGet(NoopServiceInstanceListSupplier::new);
+        } catch (Exception e) {
+            log.error("Failed to get ServiceInstanceListSupplier", e);
+            return Mono.just(new EmptyResponse());
+        }
+        // 4. 添加trace日志
+        if (log.isDebugEnabled()) {
+            log.debug("Choosing instance for service: {}, label: {}",
+                    serviceId,
+                    headers != null ? headers.getFirst(RequestHeaderHolder.LABEL_KEY) : "null");
+        }
         HttpHeaders finalHeaders = headers;
-        return supplier.get().next().map(serviceInstances -> getInstanceResponse(serviceInstances, finalHeaders));
+        return supplier.get().next().map(instances -> getInstanceResponse(instances, finalHeaders));
     }
 
     private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> serviceInstances, HttpHeaders headers) {
-        if (serviceInstances.isEmpty()) {
+        // 1. 空列表防御
+        if (CollectionUtil.isEmpty(serviceInstances)) {
             log.warn("No servers available for service: " + this.serviceId);
             return new EmptyResponse();
         }
-        String label = headers != null ? headers.getFirst(RequestHeaderHolder.LABEL_KEY) : RequestHeaderHolder.getLabel();
 
+        // 2. 过滤掉无效实例（防御性编程）
+        List<ServiceInstance> validInstances = serviceInstances.stream()
+                .filter(instance -> instance != null && instance.getMetadata() != null)
+                .toList();
+
+        // 3. 获取灰度标签
+        String label = headers != null ?
+                headers.getFirst(RequestHeaderHolder.LABEL_KEY) :
+                RequestHeaderHolder.getLabel();
+
+        // 4. 无灰度标签或标签为空时直接走默认逻辑
         if (StringUtils.isEmpty(label)) {
-            // 如果没有灰度标签，走普通的负载均衡逻辑
-            return getInstanceByDefault(serviceInstances);
+            return getInstanceByDefault(validInstances);
         }
 
-        // 根据灰度标签进行过滤
-        List<ServiceInstance> instancesFilter = serviceInstances.stream()
+        // 5. 尝试匹配灰度实例
+        List<ServiceInstance> grayInstances = validInstances.stream()
                 .filter(instance -> label.equals(instance.getMetadata().get(RequestHeaderHolder.LABEL_KEY)))
-                .collect(Collectors.toList());
+                .toList();
 
-        if (instancesFilter.isEmpty()) {
-            log.warn("No servers available for gray label: " + label);
-            return new EmptyResponse();
+        // 6. 灰度实例不存在时降级到默认逻辑
+        if (grayInstances.isEmpty()) {
+            log.warn("No gray servers available for label [{}], fallback to default instances", label);
+            return getInstanceByDefault(validInstances);
         }
 
-        // 根据权重选择灰度实例
-        return getInstanceByWeight(instancesFilter);
+        // 7. 执行灰度权重选择
+        return getInstanceByWeight(grayInstances);
     }
+
 
     /**
      * 根据权重选择
@@ -100,17 +135,32 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      * @return
      */
     private Response<ServiceInstance> getInstanceByWeight(List<ServiceInstance> instances){
-        List<Pair<ServiceInstance>> hostsWithWeight = new ArrayList<>();
-        for (ServiceInstance instance : instances) {
-            // 兼容Nacos和Eureka的权重字段
-            String weightStr = instance.getMetadata().getOrDefault("nacos.weight",
-                    instance.getMetadata().getOrDefault("eureka.weight", "1.0"));
-            double weight = Double.parseDouble(weightStr);
-            hostsWithWeight.add(new Pair<>(instance, weight));
+        double[] weights = instances.stream()
+                .mapToDouble(instance -> {
+                    String weightStr = instance.getMetadata().getOrDefault(
+                            "nacos.weight",
+                            instance.getMetadata().getOrDefault("eureka.weight", "1.0")
+                    );
+                    return Math.max(Double.parseDouble(weightStr), 0);
+                })
+                .toArray();
+        // 权重总和
+        double totalWeight = Arrays.stream(weights).sum();
+        if (totalWeight <= 0) {
+            // 降级随机选择
+            return getInstanceByRandom(instances);
         }
-        Chooser<String, ServiceInstance> vipChooser = new Chooser<>(this.serviceId);
-        vipChooser.refresh(hostsWithWeight);
-        return new DefaultResponse(vipChooser.randomWithWeight());
+        // 加权随机算法
+        double random = ThreadLocalRandom.current().nextDouble() * totalWeight;
+        double sum = 0;
+        for (int i = 0; i < weights.length; i++) {
+            sum += weights[i];
+            if (random <= sum) {
+                return new DefaultResponse(instances.get(i));
+            }
+        }
+        //兜底
+        return new DefaultResponse(instances.get(0));
     }
     /**
      * 根据配置选择默认负载均衡策略
@@ -133,14 +183,10 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      * @return
      */
     private Response<ServiceInstance> getInstanceByRoundRobin(List<ServiceInstance> instances){
-        int pos = Math.abs(this.nextServerCyclicCounter.incrementAndGet());
-        // 考虑灰度实例和非灰度实例的权重差异
-        ServiceInstance instance = instances.get(pos % instances.size());
-        // 防止溢出，当达到Integer.MAX_VALUE时，尝试重置为0
-        if (pos >= Integer.MAX_VALUE - 1) {
-            // 只有一个线程能够成功重置，避免并发问题
-            this.nextServerCyclicCounter.compareAndSet(Integer.MAX_VALUE, 0);
-        }
+        long current = nextServerCyclicCounter.updateAndGet(prev ->
+                prev >= Long.MAX_VALUE - 1 ? 0 : prev + 1
+        );
+        ServiceInstance instance = instances.get((int)(current % instances.size()));
         return new DefaultResponse(instance);
     }
 

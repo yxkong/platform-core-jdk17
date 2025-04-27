@@ -2,6 +2,7 @@ package com.github.platform.core.sys.application.executor.impl;
 
 import com.github.platform.core.auth.application.executor.SysExecutor;
 import com.github.platform.core.common.utils.CollectionUtil;
+import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.constant.StatusEnum;
 import com.github.platform.core.standard.constant.SymbolConstant;
@@ -68,7 +69,7 @@ public class SysCascadeExecutorImpl extends SysExecutor implements ISysCascadeEx
 
     @Override
     public List<TreeSelectDto> tree(SysCascadeQueryContext context) {
-        context.setTenantId(getTenantId(context));
+        context.setTenantId(getMustTenantId(context));
         //获取主节点信息
         SysCascadeDto parent = null;
         if (Objects.nonNull(context.getParentId())){
@@ -138,14 +139,14 @@ public class SysCascadeExecutorImpl extends SysExecutor implements ISysCascadeEx
         context.setTenantId(getMustTenantId(context));
         //默认为顶级节点
         String ancestors = "0";
-        if (context.getParentId() > DeptConstant.ROOT_ID){
+        if (!Objects.equals(context.getParentId(), DeptConstant.ROOT_ID)){
             SysCascadeDto dto = sysCascadeGateway.findById(context.getParentId());
             if (Objects.isNull(dto)){
                 throw exception(SysAppResultEnum.CASCADE_DONT_EXIST);
             }
-            //更新为非叶子节点
+            //更新父级节点为非叶子节点
             sysCascadeGateway.update(SysCascadeContext.builder().id(dto.getId()).code(dto.getCode()).leaf(StatusEnum.OFF.getStatus()).build());
-            ancestors = dto.getAncestors() + SymbolConstant.comma + dto.getId();
+            ancestors = StringUtils.isNotEmpty(dto.getAncestors() ) ? (dto.getAncestors() + SymbolConstant.COMMA + dto.getId()): dto.getAncestors();
         }
         context.setAncestors(ancestors);
         //默认新增为叶子节点

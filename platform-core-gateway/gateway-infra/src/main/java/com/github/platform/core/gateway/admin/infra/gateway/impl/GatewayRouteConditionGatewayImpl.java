@@ -79,7 +79,7 @@ public class GatewayRouteConditionGatewayImpl extends BaseGatewayImpl implements
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON+#routeId", cacheManager = CacheConstant.cacheManager, unless = "#result == null || #result.isEmpty()")
+//    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON+#routeId", cacheManager = CacheConstant.cacheManager, unless = "#result == null || #result.isEmpty()")
     public List<GatewayRouteConditionDto> findByRouteId(Long routeId) {
         List<GatewayRouteConditionBase> listBy = gatewayRouteConditionsMapper.findListBy(GatewayRouteConditionBase.builder().routeId(routeId).build());
         return gatewayRouteConditionsConvert.toDtos(listBy);

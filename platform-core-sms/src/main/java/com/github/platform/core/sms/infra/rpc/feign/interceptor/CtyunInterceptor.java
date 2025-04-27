@@ -86,9 +86,9 @@ public class CtyunInterceptor implements RequestInterceptor {
             String query = url.getQuery();
 
             if (query != null) {
-                String[] params = query.split(SymbolConstant.and);
+                String[] params = query.split(SymbolConstant.AND);
                 Arrays.sort(params);
-                afterQuery.append(String.join(SymbolConstant.and, params));
+                afterQuery.append(String.join(SymbolConstant.AND, params));
             }
         } catch (MalformedURLException e) {
             log.error("构建参数异常：", e);

@@ -96,8 +96,8 @@ public class JobHandlerExecutor extends QuartzJobBean {
             return ApplicationContextHolder.getBean(CallBackUrlJobHandler.class);
         }
         String beanName = jobDto.getBeanName();
-        if (jobDto.isMultiInstance() && beanName.contains(SymbolConstant.colon)){
-            beanName = beanName.substring(0, beanName.indexOf(SymbolConstant.colon));
+        if (jobDto.isMultiInstance() && beanName.contains(SymbolConstant.COLON)){
+            beanName = beanName.substring(0, beanName.indexOf(SymbolConstant.COLON));
         }
         return ApplicationContextHolder.getBean(beanName, IJobMonitorHandler.class);
     }
@@ -129,9 +129,9 @@ public class JobHandlerExecutor extends QuartzJobBean {
             return;
         }
         log.warn("触发执行子任务: subJobIds={}, ", subJobIds);
-        String[] ids = subJobIds.split(SymbolConstant.comma);
+        String[] ids = subJobIds.split(SymbolConstant.COMMA);
         executeUser = StringUtils.isNotEmpty(executeUser) && !executeUser.contains(JobConstant.PARENT)
-                ? executeUser + SymbolConstant.colon + JobConstant.PARENT
+                ? executeUser + SymbolConstant.COLON + JobConstant.PARENT
                 : executeUser;
 
         for (String id : ids) {
@@ -173,7 +173,7 @@ public class JobHandlerExecutor extends QuartzJobBean {
     private static String getExecuteId(Long jobId, JobExecutionContext context) {
         String executeId = context.getMergedJobDataMap().getString(JobDataEnum.EXECUTE_ID.getKey());
         if (StringUtils.isEmpty(executeId)) {
-            executeId = jobId + SymbolConstant.colon + LocalDateTimeUtil.dateTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            executeId = jobId + SymbolConstant.COLON + LocalDateTimeUtil.dateTime(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         }
 
         if (context.getRefireCount() == 0) {

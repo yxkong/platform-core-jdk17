@@ -24,8 +24,7 @@ public class GatewayRouteConditionBase extends BaseAdminEntity   {
     /** 路由id,对应route表id */
     @Schema(description = "路由id,对应route表id")
     protected Long routeId;
-    /** 类型：predicate- 断言，filter- 过滤器 */
-    @Schema(description = "类型：predicate- 断言，filter- 过滤器")
+    @Schema(description = "类型：predicate- 断言，filter- 过滤器, customType-自定义类型")
     protected String type;
     /** 名称 */
     @Schema(description = "名称")

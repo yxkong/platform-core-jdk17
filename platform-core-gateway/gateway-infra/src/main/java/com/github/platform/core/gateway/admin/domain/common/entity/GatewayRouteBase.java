@@ -26,6 +26,10 @@ public class GatewayRouteBase extends BaseAdminEntity   {
     @Schema(description = "目标服务的URI地址")
     @NotEmpty(message="目标服务的URI地址（uri）不能为空")
     protected String uri;
+    @Schema(description = "鉴权类型：NONE-无需鉴权，JWT-JWT鉴权，OAUTH2-OAuth2鉴权，CUSTOM-自定义鉴权")
+    protected String authType;
+    @Schema(description = "鉴权配置(JSON格式)")
+    protected String authConfig;
     /** 标签 */
     @Schema(description = "标签")
     protected String tags;

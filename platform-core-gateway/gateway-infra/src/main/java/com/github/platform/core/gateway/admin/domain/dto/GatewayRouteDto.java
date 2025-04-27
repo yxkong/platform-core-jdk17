@@ -30,7 +30,7 @@ import java.util.List;
 public class GatewayRouteDto extends GatewayRouteBase {
     public List<String> getTagList() {
         if (StringUtils.isNotEmpty(this.getTags())){
-            return Arrays.asList(this.getTags().split(SymbolConstant.comma));
+            return Arrays.asList(this.getTags().split(SymbolConstant.COMMA));
         }
         return new ArrayList<>();
     }

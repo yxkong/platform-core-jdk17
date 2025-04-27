@@ -52,11 +52,6 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
-    @Caching(
-            evict = {
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
-            }
-    )
     public SysCascadeDto insert(SysCascadeContext context) {
         SysCascadeBase record = sysCascadeConvert.toSysCascadeBase(context);
         sysCascadeMapper.insert(record);
@@ -64,7 +59,6 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON + #id", cacheManager = CacheConstant.cacheManager, unless = "#result == null")
     public SysCascadeDto findById(Long id) {
         if (Objects.isNull(id)){
             return null;
@@ -74,27 +68,18 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON + ':'+ #code+#tenantId", cacheManager = CacheConstant.cacheManager, unless = "#result == null")
     public SysCascadeDto findByCode(String code, Integer tenantId) {
         SysCascadeBase record = sysCascadeMapper.findByCode(code,tenantId);
         return sysCascadeConvert.toDto(record);
     }
 
     @Override
-    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON +':l'+ #parentId", cacheManager = CacheConstant.cacheManager,unless = "#result == null || #result.isEmpty()")
     public List<SysCascadeDto> findByParentId(Long parentId) {
         List<SysCascadeBase> list = sysCascadeMapper.findListBy(SysCascadeBase.builder().parentId(parentId).status(StatusEnum.ON.getStatus()).build());
         return sysCascadeConvert.toDtos(list);
     }
 
     @Override
-    @Caching(
-            evict = {
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':'+ #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
-            }
-    )
     public Pair<Boolean, SysCascadeDto> update(SysCascadeContext context) {
         SysCascadeBase record = sysCascadeConvert.toSysCascadeBase(context);
         int flag = sysCascadeMapper.updateById(record);
@@ -102,13 +87,6 @@ public class SysCascadeGatewayImpl extends BaseGatewayImpl implements ISysCascad
     }
 
     @Override
-    @Caching(
-            evict = {
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + #context.id",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':'+ #context.code+#context.tenantId",cacheManager = CacheConstant.cacheManager),
-                    @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON + ':l'+ #context.parentId",cacheManager = CacheConstant.cacheManager),
-            }
-    )
     public int delete(SysCascadeContext context) {
         return sysCascadeMapper.deleteById(context.getId());
     }

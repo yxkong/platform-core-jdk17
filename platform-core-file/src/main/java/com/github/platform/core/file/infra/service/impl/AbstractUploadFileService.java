@@ -12,13 +12,10 @@ import com.github.platform.core.persistence.mapper.file.SysUploadFileMapper;
 import com.github.platform.core.standard.constant.SymbolConstant;
 import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,14 +45,14 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
             return null;
         }
         //如果配置了cname，则直接返回cname的地址
-        return getOssProperties().getCname() + SymbolConstant.divide + getOssProperties().getBucketName() +
-                SymbolConstant.divide + dto.getFilePath();
+        return getOssProperties().getCname() + SymbolConstant.DIVIDE + getOssProperties().getBucketName() +
+                SymbolConstant.DIVIDE + dto.getFilePath();
     }
     protected String getThumbCnameUrl(String thumbUrl,String url){
         if (StringUtils.isEmpty(getOssProperties().getCname())){
             return url;
         }
-        return url+ thumbUrl.substring(thumbUrl.indexOf(SymbolConstant.question));
+        return url+ thumbUrl.substring(thumbUrl.indexOf(SymbolConstant.QUESTION));
     }
 
     @Override
@@ -125,7 +122,7 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
     @Override
     public Pair<String,String> getObjectNameAndFileId(String module, String datePath, String bizNo, String fileName){
         String fileId = generateFieldId();
-        String objectName = getFilePath(module, datePath, bizNo).append(File.separator).append(fileId).append(SymbolConstant.period).append(getFileType(fileName)).toString();
+        String objectName = getFilePath(module, datePath, bizNo).append(File.separator).append(fileId).append(SymbolConstant.PERIOD).append(getFileType(fileName)).toString();
         return Pair.of(objectName,fileId);
     }
 
@@ -158,11 +155,11 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
      */
     protected String getObjectName(String module,String datePath,String bizNo,String uploadFileName){
         StringBuilder sb  = new StringBuilder(module);
-        sb.append(SymbolConstant.divide).append(datePath);
+        sb.append(SymbolConstant.DIVIDE).append(datePath);
         if (StringUtils.isNotEmpty(bizNo)){
-            sb.append(SymbolConstant.divide).append(bizNo);
+            sb.append(SymbolConstant.DIVIDE).append(bizNo);
         }
-        return sb.append(SymbolConstant.divide).append(uploadFileName).toString();
+        return sb.append(SymbolConstant.DIVIDE).append(uploadFileName).toString();
     }
 
 
@@ -192,10 +189,10 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
      * @return
      */
     protected String getUploadFileName(String fileId,String fileType){
-        return fileId + SymbolConstant.period + fileType;
+        return fileId + SymbolConstant.PERIOD + fileType;
     }
 
     protected String getObjectName(String path,String uploadFileName){
-        return path + SymbolConstant.divide + uploadFileName;
+        return path + SymbolConstant.DIVIDE + uploadFileName;
     }
 }

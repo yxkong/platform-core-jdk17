@@ -25,7 +25,7 @@ public class DelegateApprovalGatewayImpl extends BaseGatewayImpl implements IPro
     public void execute(IProcessTaskService processTaskService,Task task, ApprovalContext context) {
         String comment = getComment(context);
         StringBuilder sb = new StringBuilder(LoginUserInfoUtil.getLoginName())
-                .append("->").append(context.getAssignee()).append(SymbolConstant.colon).append(comment);
+                .append("->").append(context.getAssignee()).append(SymbolConstant.COLON).append(comment);
         processTaskService.addComment(context.getTaskId(), context.getInstanceId(), ProcessOptTypeEnum.DELEGATE.getType(), sb.toString());
 //        processTaskService.setOwner(context.getTaskId(),LoginUserInfoUtil.getLoginName());
         processTaskService.delegateTask(context.getTaskId(),context.getAssignee());

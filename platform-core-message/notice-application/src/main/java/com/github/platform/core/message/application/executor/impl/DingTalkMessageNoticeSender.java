@@ -35,7 +35,7 @@ public class DingTalkMessageNoticeSender extends AbstractMessageNoticeSender{
     Map<String, String> getRecipient(String templateRecipient,List<String> users,Integer tenantId) {
         if (Objects.nonNull(templateRecipient)){
             //添加固定用户
-            Collections.addAll(users, templateRecipient.split(SymbolConstant.comma));
+            Collections.addAll(users, templateRecipient.split(SymbolConstant.COMMA));
         }
         List<SysThirdUserDto> thirdUserDtos = sysCommonGateway.queryChannelUsers(users, UserChannelEnum.thirdDing,tenantId);
         if (CollectionUtil.isEmpty(thirdUserDtos)){

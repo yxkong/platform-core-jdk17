@@ -164,7 +164,7 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
         String token = getAppAccessToken();
         DingWorkNoticeCmd cmd = new DingWorkNoticeCmd();
         if (CollectionUtil.isNotEmpty(userList)){
-            cmd.setUserIdList(String.join(SymbolConstant.comma,userList));
+            cmd.setUserIdList(String.join(SymbolConstant.COMMA,userList));
         }
         cmd.addText(text);
         DingResultBean<String> response = imFeignClient.workNotice(token, cmd);
@@ -182,7 +182,7 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
         DingWorkNoticeCmd cmd = new DingWorkNoticeCmd();
         cmd.setAgentId(context.getAgentId());
         if (CollectionUtil.isNotEmpty(userList)){
-            cmd.setUserIdList(String.join(SymbolConstant.comma,userList));
+            cmd.setUserIdList(String.join(SymbolConstant.COMMA,userList));
         }
         log.warn("工作通知：用户{} 标题：{} 内容：{}",cmd.getUserIdList(),title,text);
         String token = getAppAccessToken();
@@ -209,10 +209,10 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
                 .templateId(templateId)
                 .build();
         if (CollectionUtil.isNotEmpty(userList)){
-            cmd.setUserIds(String.join(SymbolConstant.comma,userList));
+            cmd.setUserIds(String.join(SymbolConstant.COMMA,userList));
         }
         if (CollectionUtil.isNotEmpty(subAdminList)){
-            cmd.setSubAdminIds(String.join(SymbolConstant.comma,subAdminList));
+            cmd.setSubAdminIds(String.join(SymbolConstant.COMMA,subAdminList));
         }
 
         DingResultBean<DingCreateGroupDto> response = imFeignClient.createGroup(token, cmd);
@@ -240,10 +240,10 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
         }
         if (!atAll && CollectionUtil.isNotEmpty(users)){
             if (DingUserTypeEnum.mobile.equals(userType)){
-                cmd.setAtMobiles(String.join(SymbolConstant.comma,users));
+                cmd.setAtMobiles(String.join(SymbolConstant.COMMA,users));
             }
             if (DingUserTypeEnum.userId.equals(userType)){
-                cmd.setAtUsers(String.join(SymbolConstant.comma,users));
+                cmd.setAtUsers(String.join(SymbolConstant.COMMA,users));
             }
         }
         DingSendMessageDto result = imFeignClient.sendMessage(token, cmd);
@@ -262,7 +262,7 @@ public class DingTalkServiceImpl extends BaseServiceImpl implements IDingTalkSer
             return Pair.of(false,"groupId或users 为空");
         }
         String token = getAppAccessToken();
-        DingGroupUserCmd cmd = DingGroupUserCmd.builder().openConversationId(groupId).userIds(String.join(SymbolConstant.comma, users)).build();
+        DingGroupUserCmd cmd = DingGroupUserCmd.builder().openConversationId(groupId).userIds(String.join(SymbolConstant.COMMA, users)).build();
         DingResultBean dingResultBean = null;
         if (isAdd){
             dingResultBean = imFeignClient.groupAddUser(token, cmd);

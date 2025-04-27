@@ -28,7 +28,7 @@ public class GatewayRouteCmd extends GatewayRouteBase {
     @Override
     public String getTags() {
         if (CollectionUtil.isNotEmpty(this.tagList)){
-            return String.join(SymbolConstant.comma,tagList);
+            return String.join(SymbolConstant.COMMA,tagList);
         }
         return super.getTags();
     }

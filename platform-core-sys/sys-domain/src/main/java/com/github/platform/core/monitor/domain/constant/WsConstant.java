@@ -50,6 +50,6 @@ public class WsConstant {
         response.getBody().flush();
     }
     public static String getKey(String loginName,String token){
-        return loginName + SymbolConstant.colon + token;
+        return loginName + SymbolConstant.COLON + token;
     }
 }

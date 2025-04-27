@@ -59,7 +59,7 @@ public class SysUploadFileBase extends BaseAdminEntity   {
 
     @JsonIgnore
     public String getObjectName(){
-        return this.filePath+ File.separator + this.fileId +SymbolConstant.period + this.fileType;
+        return this.filePath+ File.separator + this.fileId +SymbolConstant.PERIOD + this.fileType;
     }
     @JsonIgnore
     public boolean isImage(){

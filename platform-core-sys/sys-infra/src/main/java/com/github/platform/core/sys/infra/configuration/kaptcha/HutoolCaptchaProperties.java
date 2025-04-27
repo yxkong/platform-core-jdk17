@@ -1,12 +1,10 @@
 package com.github.platform.core.sys.infra.configuration.kaptcha;
 
-import cn.hutool.core.lang.generator.Generator;
 import com.github.platform.core.cache.domain.constant.CacheConstant;
 import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.constant.SymbolConstant;
 import lombok.Data;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -61,7 +59,7 @@ public class HutoolCaptchaProperties implements Serializable {
     public String getKey(String bizNo,String verifySeq){
         StringBuilder sb = new StringBuilder(this.cache.getPrefix());
         if (StringUtils.isNotEmpty(bizNo)){
-            sb.append(bizNo).append(SymbolConstant.colon);
+            sb.append(bizNo).append(SymbolConstant.COLON);
         }
         return  sb.append(verifySeq).toString();
     }

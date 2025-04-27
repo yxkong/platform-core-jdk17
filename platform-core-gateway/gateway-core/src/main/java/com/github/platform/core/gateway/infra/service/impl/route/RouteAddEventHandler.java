@@ -2,6 +2,7 @@ package com.github.platform.core.gateway.infra.service.impl.route;
 
 import com.github.platform.core.common.service.IEventHandlerService;
 import com.github.platform.core.common.utils.JsonUtils;
+import com.github.platform.core.gateway.admin.domain.constant.GatewayConstant;
 import com.github.platform.core.gateway.infra.configuration.properties.PlatformGatewayProperties;
 import com.github.platform.core.gateway.infra.service.IRouteOperatorService;
 import com.github.platform.core.standard.entity.dto.CommonPublishDto;
@@ -19,7 +20,7 @@ import java.util.Objects;
  * @Date: 2024/8/9
  * @version: 1.0
  */
-@Service
+@Service(GatewayConstant.ROUTE_ADD_BEAN_NAME)
 @Slf4j
 public class RouteAddEventHandler implements IEventHandlerService<String> {
     @Resource

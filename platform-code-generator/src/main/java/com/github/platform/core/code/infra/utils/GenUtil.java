@@ -149,7 +149,7 @@ public class GenUtil {
     }
 
     private static String getUrl(String prefix){
-        if (prefix.startsWith(SymbolConstant.divide)){
+        if (prefix.startsWith(SymbolConstant.DIVIDE)){
             return prefix.substring(1);
         }
         return prefix;
@@ -401,7 +401,7 @@ public class GenUtil {
         StringBuffer sb = new StringBuffer(packageName);
         sb.append(".persistence.mapper");
         if (StringUtils.isNotEmpty(moduleName)){
-            sb.append(SymbolConstant.period).append(moduleName);
+            sb.append(SymbolConstant.PERIOD).append(moduleName);
         }
         //兼容包名
 //        sb.append(".infra.persistence.mapper");
@@ -411,9 +411,9 @@ public class GenUtil {
     private static String getPackage(String packageName,String moduleName,String level){
         StringBuffer sb = new StringBuffer(packageName);
         if (StringUtils.isNotEmpty(moduleName)){
-            sb.append(SymbolConstant.period).append(moduleName);
+            sb.append(SymbolConstant.PERIOD).append(moduleName);
         }
-        sb.append(SymbolConstant.period).append(level);
+        sb.append(SymbolConstant.PERIOD).append(level);
         return sb.toString();
     }
 
@@ -539,7 +539,7 @@ public class GenUtil {
             case "api.js":
                 return getFilePath(rootPath, genConfig.getApiPath(), genConfig.getModuleName()) + lowerEntityName + ".js";
             case "vue.vue":
-                return getFilePath(rootPath, genConfig.getPath(), genConfig.getModuleName() + SymbolConstant.period + lowerEntityName + lowerEntityName) + "index.vue";
+                return getFilePath(rootPath, genConfig.getPath(), genConfig.getModuleName() + SymbolConstant.PERIOD + lowerEntityName + lowerEntityName) + "index.vue";
             default:
                 return null;
         }
@@ -555,20 +555,20 @@ public class GenUtil {
     private static String getFilePath(String rootPath, String path, String module, String subModule, String packageName) {
         StringBuffer sb = new StringBuffer();
         if (StringUtils.isNotEmpty(rootPath)){
-            sb.append(rootPath).append(SymbolConstant.period);
+            sb.append(rootPath).append(SymbolConstant.PERIOD);
         }
         if (StringUtils.isNotEmpty(path)) {
-            sb.append(path).append(SymbolConstant.period);
+            sb.append(path).append(SymbolConstant.PERIOD);
         }
         if (StringUtils.isNotEmpty(module)) {
-            sb.append(module).append(SymbolConstant.period);
+            sb.append(module).append(SymbolConstant.PERIOD);
         }
         if (StringUtils.isNotEmpty(subModule)) {
-            sb.append(subModule).append(SymbolConstant.period);
+            sb.append(subModule).append(SymbolConstant.PERIOD);
         }
         if (StringUtils.isNotEmpty(packageName)) {
-            sb.append(packageName).append(SymbolConstant.period);
+            sb.append(packageName).append(SymbolConstant.PERIOD);
         }
-        return StringUtils.replace(sb.toString(), SymbolConstant.period, File.separator);
+        return StringUtils.replace(sb.toString(), SymbolConstant.PERIOD, File.separator);
     }
 }

@@ -36,7 +36,7 @@ public class EmailMessageNoticeSender extends AbstractMessageNoticeSender{
         Map<String, String> rst = new HashMap<>();
         if (Objects.nonNull(templateRecipient)){
             //添加固定用户
-            String[] splits = templateRecipient.split(SymbolConstant.comma);
+            String[] splits = templateRecipient.split(SymbolConstant.COMMA);
             for(String str:splits){
                 rst.put(str,str);
             }
@@ -67,7 +67,7 @@ public class EmailMessageNoticeSender extends AbstractMessageNoticeSender{
         int port = Objects.nonNull(dto.getPort()) ? dto.getPort() : 465;
         List<String> cc = new ArrayList<>();
         if (StringUtils.isNotEmpty(carbonCopy)){
-            cc = Arrays.asList(carbonCopy.split(SymbolConstant.comma));
+            cc = Arrays.asList(carbonCopy.split(SymbolConstant.COMMA));
         }
         return EmailUtil.sendEmail(dto.getHost(),port,dto.getAppKey(),dto.getAppSecret()
                 ,userList,cc,null,title,content,true);

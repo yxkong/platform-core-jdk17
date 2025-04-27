@@ -28,7 +28,7 @@ public class SysFlowRuleDto extends SysFlowRuleBase{
 
     public List<String> getTargetList() {
         if (StringUtils.isNotEmpty(this.getTargetStatus())){
-            targetList = Arrays.asList(this.targetStatus.split(SymbolConstant.comma));
+            targetList = Arrays.asList(this.targetStatus.split(SymbolConstant.COMMA));
         }
         return targetList;
     }

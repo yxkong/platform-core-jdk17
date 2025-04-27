@@ -1,7 +1,6 @@
 package com.github.platform.core.common.utils;
 
 import com.github.platform.core.standard.constant.SymbolConstant;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -261,8 +260,8 @@ public class SignUtil {
         keys.sort(Comparator.naturalOrder());
 
         return keys.stream()
-                .map(key -> key + SymbolConstant.period + newParams.get(key))
-                .collect(Collectors.joining(SymbolConstant.and));
+                .map(key -> key + SymbolConstant.PERIOD + newParams.get(key))
+                .collect(Collectors.joining(SymbolConstant.AND));
     }
 
     /**

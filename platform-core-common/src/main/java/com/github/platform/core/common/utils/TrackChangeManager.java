@@ -136,7 +136,7 @@ public class TrackChangeManager {
         if (Objects.nonNull(modifiedValue)) {
             sb.append(prefixSplit)
                     .append(s.getRemark())
-                    .append(SymbolConstant.colon)
+                    .append(SymbolConstant.COLON)
                     .append(modifiedValue);
         }
     }
@@ -182,7 +182,7 @@ public class TrackChangeManager {
             if (modifiedValue != null) {
                 sb.append(prefixSplit)
                         .append(s.getRemark())
-                        .append(SymbolConstant.colon)
+                        .append(SymbolConstant.COLON)
                         .append(modifiedValue);
             }
         }

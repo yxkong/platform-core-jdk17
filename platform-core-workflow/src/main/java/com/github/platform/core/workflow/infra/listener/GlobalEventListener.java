@@ -210,7 +210,7 @@ public class GlobalEventListener extends AbstractFlowableEngineEventListener {
             UserTask userTask = (UserTask) flowElement;
             List<String> candidateGroups = userTask.getCandidateGroups();
             if (CollectionUtil.isNotEmpty(candidateGroups)){
-                roles = String.join(SymbolConstant.comma,candidateGroups);
+                roles = String.join(SymbolConstant.COMMA,candidateGroups);
             }
             String mainRole = getMainRole(flowElement,roles);
             WorkflowActivityEntity activityEntity = WorkflowActivityEntity.builder()
@@ -234,7 +234,7 @@ public class GlobalEventListener extends AbstractFlowableEngineEventListener {
      * @return
      */
     private String getMainRole( FlowElement flowElement,String roles){
-        if (!roles.contains(SymbolConstant.comma)){
+        if (!roles.contains(SymbolConstant.COMMA)){
             return roles;
         }
         Map<String, String> map = BpmnModelUtils.getElementExtendAttribute(flowElement);

@@ -43,7 +43,7 @@ public class FlowableDefinitionServiceImpl implements IProcessDefinitionService 
         Deployment deployment = repositoryService.createDeployment()
                 // flowable 根据key来区分流程
                 .key(processNo)
-                .name(processName + SymbolConstant.colon +version)
+                .name(processName + SymbolConstant.COLON +version)
                 .addString(processName, xmlText)
                 // 根据流程编号分类
                 .category(processNo)

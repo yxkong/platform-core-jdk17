@@ -134,9 +134,9 @@ public class ProcessExecutorImpl extends SysExecutor implements IProcessExecutor
         UserTask userTask = BpmnModelUtils.getUserTaskByKey(bpmnModel, taskKey);
         if (Objects.nonNull(userTask)){
             if (FlwConstant.ASSIGNEE_USERS.equals(assigneeType)){
-                return String.join(SymbolConstant.comma,userTask.getCandidateUsers());
+                return String.join(SymbolConstant.COMMA,userTask.getCandidateUsers());
             }
-            return String.join(SymbolConstant.comma,userTask.getCandidateGroups());
+            return String.join(SymbolConstant.COMMA,userTask.getCandidateGroups());
         }
         return null;
     }

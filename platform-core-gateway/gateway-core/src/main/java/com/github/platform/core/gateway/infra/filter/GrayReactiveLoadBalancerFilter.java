@@ -9,6 +9,7 @@ import com.github.platform.core.loadbalancer.GrayLoadBalancer;
 import com.github.platform.core.loadbalancer.holder.RequestHeaderHolder;
 import com.github.platform.core.standard.constant.HeaderConstant;
 import com.github.platform.core.standard.entity.common.LoginInfo;
+import com.github.platform.core.standard.util.Base64;
 import com.googlecode.aviator.AviatorEvaluator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
@@ -58,13 +59,6 @@ public class GrayReactiveLoadBalancerFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        /**
-         * 灰度识别
-         * 1，直接header传递过来的label
-         * 2，通过用户标签识别是否是灰度
-         */
-
-
         /**
          * 1，根据url判断，如果不是lb开头的，不走灰度路由
          */
@@ -132,11 +126,7 @@ public class GrayReactiveLoadBalancerFilter implements GlobalFilter, Ordered {
         if (Objects.isNull(info)){
             return null;
         }
-        try {
-            info = URLDecoder.decode(info, StandardCharsets.UTF_8.name());
-        } catch (UnsupportedEncodingException e) {
-            log.error("解析LoginInfo异常",e);
-        }
+        info = new String(Base64.decodeUrlSafe(info.getBytes()));
         final LoginInfo loginInfo = JsonUtils.fromJson(info, LoginInfo.class);
         if (Objects.isNull(loginInfo)){
             return null;
@@ -211,6 +201,11 @@ public class GrayReactiveLoadBalancerFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
+        /**
+         * RouteToRequestUrlFilter 是10000
+         *  系统默认的ReactiveLoadBalancerClientFilter order是10150
+         *  得在这两个之间 ,取：10100
+         */
         return SpringBeanOrderConstant.LOAD_BALANCER_CLIENT_FILTER_ORDER;
     }
 }

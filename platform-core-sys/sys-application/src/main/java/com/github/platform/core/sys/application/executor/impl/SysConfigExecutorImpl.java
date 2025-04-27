@@ -60,7 +60,7 @@ public class SysConfigExecutorImpl extends SysExecutor implements ISysConfigExec
     @Override
     public void reload(SysConfigQueryContext context) {
         String key = context.getKey();
-        Integer tenantId = getTenantId(context);
+        Integer tenantId = getMustTenantId(context);
         if (StringUtils.isNotEmpty(key)){
             gateway.deleteCache(tenantId,key);
             gateway.getConfig(tenantId,key);

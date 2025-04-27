@@ -68,10 +68,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing</artifactId>
-        </dependency>
         <!-- 用于与分布式追踪工具Brave集成-->
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -100,6 +96,12 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
         </dependency>
+        <!-- 如果使用 Kafka 传输追踪数据 -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-kafka</artifactId>
+        </dependency>
+
         <!--哪个项目使用websocket在外引入-->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->

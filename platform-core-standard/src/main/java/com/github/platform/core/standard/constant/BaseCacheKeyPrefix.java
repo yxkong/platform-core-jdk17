@@ -11,6 +11,6 @@ public interface BaseCacheKeyPrefix {
         return key;
     }
     default String handlerPrefixWithColon(String key) {
-        return key+SymbolConstant.colon;
+        return key+SymbolConstant.COLON;
     }
 }

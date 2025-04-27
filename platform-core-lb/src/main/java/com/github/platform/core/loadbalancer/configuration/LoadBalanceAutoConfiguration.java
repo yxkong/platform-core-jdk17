@@ -2,6 +2,7 @@ package com.github.platform.core.loadbalancer.configuration;
 
 import com.github.platform.core.loadbalancer.GrayLoadBalancer;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.cloud.client.ConditionalOnDiscoveryEnabled;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;
@@ -18,6 +19,7 @@ import org.springframework.core.env.Environment;
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnDiscoveryEnabled
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class LoadBalanceAutoConfiguration {
     @Bean
     public ReactorLoadBalancer<ServiceInstance> reactorServiceInstanceLoadBalancer(Environment environment, LoadBalancerClientFactory loadBalancerClientFactory) {

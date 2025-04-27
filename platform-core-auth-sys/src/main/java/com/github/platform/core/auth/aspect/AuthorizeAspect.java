@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
@@ -120,7 +121,7 @@ public class AuthorizeAspect {
                 String basic = authorization.substring(HeaderConstant.AUTH_BASIC.length()).trim();
                 // base64解码
                 String s = new String(Base64.decode(basic));
-                String[] split = s.split(SymbolConstant.space);
+                String[] split = s.split(SymbolConstant.SPACE);
                 Integer tenantId = Integer.parseInt(split[0]);
                 String loginName = split[1];
                 String pwd = split[2];
@@ -150,7 +151,7 @@ public class AuthorizeAspect {
 //        MDC.put(HeaderConstant.TRACE_ID,getTraceId());
         LoginUserInfoUtil.setLoginUserInfo(loginInfo);
         //不包含登出的时候
-        if (!uri.contains("sys/token/expire") && StringUtils.isNotEmpty(token) && loginInfo.isSuc()){
+        if (!uri.contains("sys/token/expire") && StringUtils.isNotEmpty(token) && loginInfo.isSuc() && ThreadLocalRandom.current().nextDouble() < 0.1){
             //续租
             tokenService.saveOrUpdate(null, token,loginInfo.getLoginName(),loginInfo.getLoginName(),loginStr,false);
         }
@@ -208,7 +209,7 @@ public class AuthorizeAspect {
     private  boolean checkMethodAnnotation(Method method) {
         AuthProperties.Sys sys = authProperties.getSys();
         String path = httpRequest.getRequestURI().toString();
-        if (StringUtils.isNotEmpty(path) && path.startsWith(SymbolConstant.divide)){
+        if (StringUtils.isNotEmpty(path) && path.startsWith(SymbolConstant.DIVIDE)){
             path = path.substring(1);
         }
         NoLogin noLogin = method.getAnnotation(NoLogin.class);
