@@ -38,6 +38,12 @@ public interface ISysUploadFileExecutor {
     SysUploadFileDto findById(Long id);
 
     /**
+     * 根据文件id查询附件
+     * @param fileId
+     * @return
+     */
+    SysUploadFileDto findByFileId(String fileId);
+    /**
      * 修改上传文件表
      *
      * @param context 更新上下文
@@ -52,4 +58,5 @@ public interface ISysUploadFileExecutor {
      * @return 删除结果
      */
     void delete(Long id);
+
 }

@@ -30,10 +30,10 @@ import java.util.Objects;
 public abstract class AbstractUploadFileService implements IUploadFileService {
 
     protected SysUploadFileMapper uploadFileMapper;
-    protected UploadProperties properties;
+    protected UploadProperties uploadProperties;
     protected SysUploadFileInfraConvert convert;
     /**获取云的配置*/
-    protected abstract UploadProperties.OssProperties getOssProperties();
+    protected abstract UploadProperties.OssProperties getProperties();
 
     /**
      * 获cnamed的对应的t图片url
@@ -41,15 +41,15 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
      * @return
      */
     protected String getCnameUrl(SysUploadFileDto dto){
-        if (StringUtils.isEmpty(getOssProperties().getCname())){
+        if (StringUtils.isEmpty(getProperties().getCname())){
             return null;
         }
         //如果配置了cname，则直接返回cname的地址
-        return getOssProperties().getCname() + SymbolConstant.DIVIDE + getOssProperties().getBucketName() +
+        return getProperties().getCname() + SymbolConstant.DIVIDE + getProperties().getBucketName() +
                 SymbolConstant.DIVIDE + dto.getFilePath();
     }
     protected String getThumbCnameUrl(String thumbUrl,String url){
-        if (StringUtils.isEmpty(getOssProperties().getCname())){
+        if (StringUtils.isEmpty(getProperties().getCname())){
             return url;
         }
         return url+ thumbUrl.substring(thumbUrl.indexOf(SymbolConstant.QUESTION));
@@ -86,7 +86,7 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
                 .fileHash(fileHash)
                 .fileType(fileType)
                 .fileSize(actualFileSize)
-                .storage(properties.getStorage().name())
+                .storage(uploadProperties.getStorage())
                 .tenantId(LoginUserInfoUtil.getTenantId())
                 .createBy(LoginUserInfoUtil.getLoginName())
                 .createTime(LocalDateTimeUtil.dateTime())

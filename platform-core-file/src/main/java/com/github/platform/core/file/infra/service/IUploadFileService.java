@@ -19,6 +19,11 @@ import java.util.Objects;
  */
 public interface IUploadFileService {
     /**
+     * 支持存储方式
+     * @param storage 传入存储方式
+     */
+    boolean support(String storage);
+    /**
      * 文件上传并保存数据库（建议用这个）
      * @param module 业务模块
      * @param bizNo  业务唯一标识

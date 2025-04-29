@@ -1,11 +1,13 @@
 package com.github.platform.core.file.domain.gateway;
 
-import com.github.platform.core.file.domain.common.entity.SysUploadFileBase;
+import com.github.platform.core.cache.domain.constant.CacheConstant;
+import com.github.platform.core.file.domain.constant.FileCacheKeyPrefix;
 import com.github.platform.core.file.domain.context.SysUploadFileContext;
 import com.github.platform.core.file.domain.context.SysUploadFileQueryContext;
 import com.github.platform.core.file.domain.dto.SysUploadFileDto;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -17,6 +19,12 @@ import java.util.List;
 * @version 1.0
 */
 public interface ISysUploadFileGateway {
+    /**缓存前缀*/
+    String PREFIX = FileCacheKeyPrefix.FILE.getPrefix();
+    /**缓存前缀加冒号*/
+    String PREFIX_COLON = FileCacheKeyPrefix.FILE.getWithColon();
+    /**缓存名称*/
+    String CACHE_NAME = CacheConstant.c12h;
     /**
     * 查询上传文件表列表
     * @param context 查询上下文
@@ -42,6 +50,14 @@ public interface ISysUploadFileGateway {
     * @return 结果
     */
     SysUploadFileDto findById(Long id);
+
+    /**
+     * 查询文件id
+     * @param fileId
+     * @return
+     */
+    @Cacheable(cacheNames = CACHE_NAME, key = "#root.target.PREFIX_COLON+#fileId", cacheManager = CacheConstant.cacheManager, unless = "#result == null")
+    SysUploadFileDto findByFileId(String fileId);
     /**
     * 修改上传文件表
     * @param context 修改上下文
@@ -54,6 +70,7 @@ public interface ISysUploadFileGateway {
     * @return 删除结果
     */
     Pair<Boolean, String> delete(Long id);
+
 
 
 }

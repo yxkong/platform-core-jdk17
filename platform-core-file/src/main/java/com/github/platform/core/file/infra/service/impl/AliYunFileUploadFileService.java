@@ -8,6 +8,7 @@ import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.common.utils.StringUtils;
+import com.github.platform.core.file.domain.constant.FileUploadEnum;
 import com.github.platform.core.file.domain.dto.SysUploadFileDto;
 import com.github.platform.core.file.infra.configuration.properties.UploadProperties;
 import com.github.platform.core.file.infra.convert.SysUploadFileInfraConvert;
@@ -27,23 +28,29 @@ import java.util.Objects;
  * @version: 1.0
  */
 @Slf4j
-public class AliyunFileUploadFileService extends AbstractUploadFileService{
-    private OSS ossClient;
-    public AliyunFileUploadFileService(OSS ossClient, SysUploadFileMapper uploadFileMapper, UploadProperties properties, SysUploadFileInfraConvert convert) {
+public class AliYunFileUploadFileService extends AbstractUploadFileService{
+    private final OSS ossClient;
+    public AliYunFileUploadFileService(OSS ossClient, SysUploadFileMapper uploadFileMapper, UploadProperties properties, SysUploadFileInfraConvert convert) {
         this.uploadFileMapper = uploadFileMapper;
-        this.properties = properties;
+        this.uploadProperties = properties;
         this.ossClient = ossClient;
         this.convert = convert;
     }
+
     @Override
-    protected UploadProperties.OssProperties getOssProperties() {
-        return this.properties.getAliyun();
+    public boolean support(String storage) {
+        return FileUploadEnum.isAliYun(storage);
+    }
+
+    @Override
+    protected UploadProperties.OssProperties getProperties() {
+        return this.uploadProperties.getAliyun();
     }
     @Override
     public String upload(String module, String bizNo, String uploadFileName, InputStream is) {
         try {
             String objectName = getObjectName(module, getDatePath(), bizNo,uploadFileName);
-            PutObjectRequest putObjectRequest = new PutObjectRequest(getOssProperties().getBucketName(),objectName, is);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(getProperties().getBucketName(),objectName, is);
             // 创建PutObject请求。
             PutObjectResult result = ossClient.putObject(putObjectRequest);
             log.info("上传阿里云oss结果{}", JsonUtils.toJson(result));
@@ -74,10 +81,10 @@ public class AliyunFileUploadFileService extends AbstractUploadFileService{
      * @return
      */
     private String getUrlStr(SysUploadFileDto dto,String style) {
-        GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(getOssProperties().getBucketName(), dto.getFilePath());
+        GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(getProperties().getBucketName(), dto.getFilePath());
         // 设置失效时间
         int activeMinutes = Objects.equals(dto.getPermanent() ,Boolean.TRUE) ? Integer.MAX_VALUE :
-                Objects.isNull(getOssProperties().getLinkExpireMinutes()) ? 30 : getOssProperties().getLinkExpireMinutes();
+                Objects.isNull(getProperties().getLinkExpireMinutes()) ? 30 : getProperties().getLinkExpireMinutes();
         req.setExpiration(DateUtils.addDays(new Date(), activeMinutes));
         if (StringUtils.isNotEmpty(style)){
             req.setProcess(style);

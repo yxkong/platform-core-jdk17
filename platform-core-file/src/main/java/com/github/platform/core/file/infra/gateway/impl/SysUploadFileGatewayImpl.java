@@ -60,6 +60,12 @@ public class SysUploadFileGatewayImpl implements ISysUploadFileGateway {
     }
 
     @Override
+    public SysUploadFileDto findByFileId(String fileId) {
+        SysUploadFileBase sysUploadFileBase = sysUploadFileMapper.findByFileId(fileId);
+        return convert.toDto(sysUploadFileBase);
+    }
+
+    @Override
     public Pair<Boolean, String> update(SysUploadFileContext context) {
         SysUploadFileBase sysUploadFileBase = convert.toSysUploadFileBase(context);
         int flag = sysUploadFileMapper.updateById(sysUploadFileBase);

@@ -14,6 +14,7 @@ import com.github.platform.core.standard.constant.ResultStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -36,7 +37,7 @@ import java.util.Objects;
 @Slf4j
 public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileExecutor {
     @Resource
-    private Map<String, IUploadFileService> maps;
+    private ObjectProvider<IUploadFileService> uploadFileServices;
     @Resource
     private UploadProperties properties;
     @Resource
@@ -49,19 +50,22 @@ public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileE
             log.info("module:{} bizNo:{} path:{} fileName:{} fileSize:{}",module,bizNo,path,fileName,fileSize);
         }
         //上传的时候用系统配置的
-        IUploadFileService uploadFileService = maps.get(properties.getStorage() + "UploadFileService");
-        if (Objects.isNull(uploadFileService)){
-            log.warn("未找到对应存储类型{}的实现",properties.getStorage());
-            throw exception(ResultStatusEnum.NO_FOUND_IMPLEMENT);
-        }
+        IUploadFileService uploadFileService = getUploadFileService(properties.getStorage());
         SysUploadFileDto uploadFileDto = uploadFileService.uploadAndSave(module, bizNo, fileName, fileSize, fileBytes);
         uploadFileDto.setPermanent(true);
         return UploadEntity.builder()
-                .storage(properties.getStorage().name())
+                .storage(properties.getStorage())
                 .fileId(uploadFileDto.getFileId())
                 .url(uploadFileService.getUrl(uploadFileDto))
                 .thumbUrl(uploadFileService.getThumbUrl(uploadFileDto))
                 .build() ;
+    }
+
+    private IUploadFileService getUploadFileService(String storage) {
+        return uploadFileServices.stream()
+                .filter(v -> v.support(storage))
+                .findFirst()
+                .orElseThrow(() ->exception(ResultStatusEnum.NO_FOUND_IMPLEMENT));
     }
 
     @Override
@@ -86,9 +90,9 @@ public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileE
     @Override
     public String getUrl(SysUploadFileDto dto) {
         //获取url用的是指定的
-        IUploadFileService uploadFileService = maps.get(dto.getStorage() + "UploadFileService");
+        IUploadFileService uploadFileService = getUploadFileService(dto.getStorage());
         if (Objects.isNull(uploadFileService)){
-            log.warn("未找到对应存储类型{}的实现",dto.getStorage());
+            log.warn("获取图片url未找到对应存储类型{}的实现",dto.getStorage());
             return null;
         }
         return uploadFileService.getUrl(dto);
@@ -97,9 +101,9 @@ public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileE
     @Override
     public String getThumbUrl(SysUploadFileDto dto) {
         //获取url用的是指定的
-        IUploadFileService uploadFileService = maps.get(dto.getStorage() + "UploadFileService");
+        IUploadFileService uploadFileService = getUploadFileService(dto.getStorage());
         if (Objects.isNull(uploadFileService)){
-            log.warn("未找到对应存储类型{}的实现",dto.getStorage());
+            log.warn("获取缩略图url未找到对应存储类型{}的实现",dto.getStorage());
             return null;
         }
         return uploadFileService.getThumbUrl(dto);

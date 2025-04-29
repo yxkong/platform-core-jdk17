@@ -1,22 +1,29 @@
 package com.github.platform.core.file.infra.service.impl;
 
 import com.github.platform.core.common.utils.StringUtils;
+import com.github.platform.core.file.domain.constant.FileUploadEnum;
 import com.github.platform.core.file.domain.dto.SysUploadFileDto;
 import com.github.platform.core.file.infra.configuration.properties.UploadProperties;
 import com.github.platform.core.file.infra.convert.SysUploadFileInfraConvert;
 import com.github.platform.core.persistence.mapper.file.SysUploadFileMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 
+/**
+ * @author yxkong
+ */
 @Slf4j
 public class DiskUploadFileService extends AbstractUploadFileService {
-
-
     public DiskUploadFileService(SysUploadFileMapper uploadFileMapper, UploadProperties properties, SysUploadFileInfraConvert convert) {
         this.uploadFileMapper = uploadFileMapper;
-        this.properties = properties;
+        this.uploadProperties = properties;
         this.convert = convert;
+    }
+    @Override
+    public boolean support(String storage) {
+        return FileUploadEnum.isDisk(storage);
     }
 
     /**
@@ -31,7 +38,7 @@ public class DiskUploadFileService extends AbstractUploadFileService {
     public String upload(String module, String bizNo, String uploadFileName, InputStream is) {
         DataOutputStream out = null;
         try {
-            UploadProperties.DiskProperties disk = properties.getDisk();
+            UploadProperties.DiskProperties disk = uploadProperties.getDisk();
             StringBuilder relativePath = new StringBuilder(module);
             relativePath.append(module).append(File.separator).append(getDatePath());
             if (StringUtils.isNotEmpty(bizNo)){
@@ -60,7 +67,7 @@ public class DiskUploadFileService extends AbstractUploadFileService {
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException e) {
+                } catch (IOException ignored) {
                 }
             }
         }
@@ -68,13 +75,13 @@ public class DiskUploadFileService extends AbstractUploadFileService {
     }
 
     @Override
-    protected UploadProperties.OssProperties getOssProperties() {
+    protected UploadProperties.OssProperties getProperties() {
         return null;
     }
 
     @Override
     public String getUrl(SysUploadFileDto dto) {
         //需要nginx去做转发
-        return properties.getDisk().getFileUrl() + File.separator +dto.getFilePath() ;
+        return uploadProperties.getDisk().getFileUrl() + File.separator +dto.getFilePath() ;
     }
 }

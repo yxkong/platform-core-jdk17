@@ -13,7 +13,7 @@ import com.github.platform.core.common.constant.PropertyConstant;
 import com.github.platform.core.file.infra.configuration.properties.UploadProperties;
 import com.github.platform.core.file.infra.convert.SysUploadFileInfraConvert;
 import com.github.platform.core.file.infra.service.IUploadFileService;
-import com.github.platform.core.file.infra.service.impl.AliyunFileUploadFileService;
+import com.github.platform.core.file.infra.service.impl.AliYunFileUploadFileService;
 import com.github.platform.core.file.infra.service.impl.CTYunFileUploadService;
 import com.github.platform.core.file.infra.service.impl.DiskUploadFileService;
 import com.github.platform.core.persistence.mapper.file.SysUploadFileMapper;
@@ -59,7 +59,7 @@ public class FileUploadConfiguration {
             throw new RuntimeException("请配置file.aliyun操作文件的相关的参数");
         }
         OSS ossClient =  new OSSClientBuilder().build(oss.getEndpoint(), oss.getAccessId(), oss.getAccessKey());
-        return new AliyunFileUploadFileService(ossClient,uploadFileMapper,properties,convert);
+        return new AliYunFileUploadFileService(ossClient,uploadFileMapper,properties,convert);
     }
 
     /**

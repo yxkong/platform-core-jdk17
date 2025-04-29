@@ -8,6 +8,7 @@ import com.github.platform.core.file.domain.context.SysUploadFileContext;
 import com.github.platform.core.file.domain.context.SysUploadFileQueryContext;
 import com.github.platform.core.file.domain.dto.SysUploadFileDto;
 import com.github.platform.core.file.domain.gateway.ISysUploadFileGateway;
+import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,18 @@ public class SysUploadFileExecutorImpl extends SysExecutor implements ISysUpload
     public SysUploadFileDto findById(Long id) {
         return gateway.findById(id);
     }
+
+    @Override
+    public SysUploadFileDto findByFileId(String fileId) {
+        SysUploadFileDto dto = gateway.findByFileId(fileId);
+        if (Objects.isNull(dto)){
+            throw  exception(ResultStatusEnum.NO_DATA);
+        }
+        dto.setUrl(uploadFileExecutor.getUrl(dto));
+        dto.setThumbUrl(uploadFileExecutor.getThumbUrl(dto));
+        return dto;
+    }
+
     @Override
     public void update(SysUploadFileContext context) {
         context.setTenantId(getTenantId(context));

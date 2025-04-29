@@ -1,5 +1,6 @@
 package com.github.platform.core.file.adapter.api.controller;
 
+import com.github.platform.core.auth.annotation.NoLogin;
 import com.github.platform.core.auth.annotation.RequiredLogin;
 import com.github.platform.core.common.entity.StrIdReq;
 import com.github.platform.core.common.utils.CollectionUtil;
@@ -21,15 +22,19 @@ import com.github.platform.core.standard.entity.dto.ResultBean;
 import com.github.platform.core.web.web.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +143,25 @@ public class SysUploadFileController extends BaseController{
         SysUploadFileDto dto = executor.findById(id.getId());
         return buildSucResp(dto);
     }
+    /**
+     * 直接重定向到文件的临时访问地址（适用于图片、PDF 等可直接浏览的文件）
+     *
+     * @param fileId 文件唯一标识
+     * @return 302 重定向到文件 URL
+     */
+    @NoLogin
+    @GetMapping("/redirect/{fileId}")
+    public ResponseEntity<Void> redirectToFile(@PathVariable String fileId) {
+        SysUploadFileDto fileDto = executor.findByFileId(fileId);
+        if (fileDto == null || fileDto.getUrl() == null) {
+            throw new ResourceNotFoundException("File not found with ID: " + fileId);
+        }
+        return ResponseEntity.status(HttpStatus.FOUND)
+                // 缓存 1 小时
+                .header("Cache-Control", "max-age=3600")
+                .location(URI.create(fileDto.getUrl()))
+                .build();
+    }
 
     /**
      * 根据id删除上传文件表记录
@@ -151,7 +175,6 @@ public class SysUploadFileController extends BaseController{
         executor.delete(id.getId());
         return buildSucResp();
     }
-
     /**
      * 修改上传文件表
      * @param cmd 修改实体

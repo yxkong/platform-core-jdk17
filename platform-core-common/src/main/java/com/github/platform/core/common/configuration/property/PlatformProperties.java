@@ -5,6 +5,8 @@ import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.common.utils.StringUtils;
 import com.google.common.collect.Sets;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,6 +38,9 @@ public class PlatformProperties {
     private Integer defaultTenantId;
     /**通道类型*/
     private String channelType;
+    /**加签密钥配置*/
+    private Sign sign;
+
 
     public Set<String> getIncludeHeaders() {
         if (CollectionUtil.isNotEmpty(includeHeaders)){
@@ -72,5 +77,15 @@ public class PlatformProperties {
             return false;
         }
         return Objects.equals(this.logLevel,"warn");
+    }
+    @Data
+    @SuperBuilder
+    @NoArgsConstructor
+    public static class Sign{
+        /**用户盐值*/
+        private String user;
+        /**open api 默认盐值*/
+        private String open;
+        private String md5;
     }
 }

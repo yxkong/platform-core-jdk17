@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.github.platform.core.common.utils.StringUtils;
+import com.github.platform.core.file.domain.constant.FileUploadEnum;
 import com.github.platform.core.file.domain.dto.SysUploadFileDto;
 import com.github.platform.core.file.infra.configuration.properties.UploadProperties;
 import com.github.platform.core.file.infra.convert.SysUploadFileInfraConvert;
@@ -29,17 +30,20 @@ import java.util.Objects;
 @Slf4j
 public class CTYunFileUploadService extends AbstractUploadFileService  {
 
-    private AmazonS3 oosClient;
-    public CTYunFileUploadService(AmazonS3 oosClient, SysUploadFileMapper uploadFileMapper, UploadProperties properties, SysUploadFileInfraConvert convert) {
+    private final AmazonS3 oosClient;
+    public CTYunFileUploadService(AmazonS3 oosClient, SysUploadFileMapper uploadFileMapper, UploadProperties uploadProperties, SysUploadFileInfraConvert convert) {
         this.uploadFileMapper = uploadFileMapper;
-        this.properties = properties;
+        this.uploadProperties = uploadProperties;
         this.oosClient = oosClient;
         this.convert = convert;
     }
-
     @Override
-    protected UploadProperties.OssProperties getOssProperties() {
-        return this.properties.getCtyun();
+    public boolean support(String storage) {
+        return FileUploadEnum.isCtYun(storage);
+    }
+
+    protected UploadProperties.OssProperties getProperties() {
+        return this.uploadProperties.getCtyun();
     }
 
     /**
@@ -54,7 +58,7 @@ public class CTYunFileUploadService extends AbstractUploadFileService  {
     public String upload(String module, String bizNo, final String uploadFileName, InputStream is) {
         try {
             String objectName = getObjectName(module, getDatePath(), bizNo,uploadFileName);
-            PutObjectRequest request = new PutObjectRequest(getOssProperties().getBucketName(),objectName, is, new ObjectMetadata());
+            PutObjectRequest request = new PutObjectRequest(getProperties().getBucketName(),objectName, is, new ObjectMetadata());
             oosClient.putObject(request);
             return objectName;
         } catch (AmazonServiceException as){
@@ -72,11 +76,11 @@ public class CTYunFileUploadService extends AbstractUploadFileService  {
         if (StringUtils.isNotEmpty(cnameUrl)){
             return cnameUrl;
         }
-        String bucketName = getOssProperties().getBucketName();
+        String bucketName = getProperties().getBucketName();
         GeneratePresignedUrlRequest shareUrlRequest = new GeneratePresignedUrlRequest(bucketName,dto.getFilePath());
 
         // 失效时间如果没有配置，则默认30分钟
-        int activeMinutes = Objects.isNull(getOssProperties().getLinkExpireMinutes()) ? 30 : getOssProperties().getLinkExpireMinutes();
+        int activeMinutes = Objects.isNull(getProperties().getLinkExpireMinutes()) ? 30 : getProperties().getLinkExpireMinutes();
         shareUrlRequest.setExpiration(DateUtils.addMinutes(new Date(), activeMinutes));
         URL url = oosClient.generatePresignedUrl(shareUrlRequest);
         return url.toString();

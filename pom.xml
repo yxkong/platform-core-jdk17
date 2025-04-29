@@ -46,7 +46,7 @@
     </modules>
     <properties>
         <!--公共配置-->
-        <revision>0.3.10-SNAPSHOT</revision>
+        <revision>0.3.11-SNAPSHOT</revision>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -716,11 +716,6 @@
                 <artifactId>swagger-models-jakarta</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${springdoc.openapi.version}</version>
-            </dependency>
             <!-- SpringDoc -->
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -1079,7 +1074,35 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>${deploy.snapshot.id}</id>
+        </snapshotRepository>
+        <repository>
+            <id>${deploy.release.id}</id>
+        </repository>
+    </distributionManagement>
+    <!-- 保留profiles，但只包含变量定义 -->
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <deploy.snapshot.id>prod-snapshots</deploy.snapshot.id>
+                <deploy.release.id>prod-releases</deploy.release.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <deploy.snapshot.id>test-snapshots</deploy.snapshot.id>
+                <deploy.release.id>test-releases</deploy.release.id>
+            </properties>
+        </profile>
+    </profiles>
 </project>

@@ -185,7 +185,7 @@
 		select <include refid="BaseColumnList" /> from t_sys_upload_file t where t.id=#{id}
 	</select>
 	<select id="findByFileId" resultMap="BaseResultMap">
-		select <include refid="BaseColumnList" /> from t_sys_upload_file t where t.storage = #{storage} and  t.file_id = #{fileId}
+		select <include refid="BaseColumnList" /> from t_sys_upload_file t where t.file_id = #{fileId} order by t.id desc limit 1
 	</select>
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select <include refid="BaseColumnList" /> from t_sys_upload_file

@@ -1,5 +1,6 @@
 package com.github.platform.core.common.utils;
 
+import com.github.platform.core.common.configuration.property.PlatformProperties;
 import com.github.platform.core.standard.constant.SymbolConstant;
 
 import java.util.*;
@@ -11,22 +12,17 @@ import java.util.stream.Collectors;
  * @author yxkong
  */
 public class SignUtil {
-
-
-    /**
-     * 通用api验签密钥
-     */
-    public static final String OPEN_SALT = "M3A2OrXBF3ZcOFx0oCnZQ";
-
-    /**
-     * 加密解密用户id的秘钥
-     */
-    private static final String USER_SALT = "pVrG+nGlxU4amKi39E6bTA==";
-    
-    /**
-     * MD5加密用户手机号用的盐值
-     */
-    public static final String MD5_SALT = "NsArzbOcYie4XMW5iGrkA";
+    // 将加签，验签秘钥提取到配置
+    private static final PlatformProperties platformProperties;
+    static {
+        platformProperties = ApplicationContextHolder.getBean(PlatformProperties.class);
+    }
+    private static String getUserSign(){
+        if (Objects.nonNull(platformProperties.getSign()) && Objects.nonNull( platformProperties.getSign().getUser())){
+            return  platformProperties.getSign().getUser();
+        }
+        return "pVrG+nGlxU4amKi39E6bTA==";
+    }
 
     /**
      * 根据id 获取加密后的字符串
@@ -62,7 +58,7 @@ public class SignUtil {
         if (StringUtils.isEmpty(strId)){
             return null;
         }
-        return getLongId(strId, USER_SALT);
+        return getLongId(strId, getUserSign());
     }
 
     public static Long getLongId(String strId, String secretKey) {
@@ -100,7 +96,7 @@ public class SignUtil {
      * @updateDate
      */
     public static String encode(String str) {
-        return encode(str, USER_SALT);
+        return encode(str, getUserSign());
     }
 
     /**
@@ -113,7 +109,7 @@ public class SignUtil {
      * @updateDate
      */
     public static String decode(String encryptStr) {
-        return decode(encryptStr, USER_SALT);
+        return decode(encryptStr, getUserSign());
     }
 
     /**

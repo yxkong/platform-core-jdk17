@@ -25,7 +25,7 @@ public class UploadProperties {
     /**
      * 文件上传类型，只支持单一一种，需要配置对应的配置
      */
-    private FileUploadEnum storage;
+    private String storage;
     /**
      * 访问路由配置
      */

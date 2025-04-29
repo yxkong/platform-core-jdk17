@@ -65,9 +65,8 @@ public interface SysUploadFileMapper {
     int deleteByIds(@Param("ids")Long[] ids);
     /**
      * 根据fileId查询记录
-     * @param storage
-     * @param fileId
+     * @param fileId 文件id
      * @return
      */
-    SysUploadFileBase findByFileId(@Param("storage")String storage,@Param("fileId")String fileId);
+    SysUploadFileBase findByFileId(@Param("fileId")String fileId);
 }
