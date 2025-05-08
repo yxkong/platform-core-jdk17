@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * flowable 管理服务
+ * @author yxkong
  */
 public interface IProcessDefinitionService {
 
@@ -58,10 +59,16 @@ public interface IProcessDefinitionService {
 
     /**
      * 根据deployId 查询最新的
-     * @param deployId
+     * @param deployId 部署id
+     */
+    ProcessDefinition queryByDeployId(String deployId);
+
+    /**
+     * 根据流程编号查询 流程定义信息
+     * @param processNo
      * @return
      */
-    ProcessDefinition queryLatest(String deployId);
+    ProcessDefinition queryByProcessNo(String processNo);
 
 
 

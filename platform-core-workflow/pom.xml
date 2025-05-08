@@ -2,27 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>platform-core</artifactId>
-        <groupId>com.github.platform</groupId>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>core</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>platform-core-workflow</artifactId>
+    <artifactId>workflow</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.github.platform.sys</groupId>
+           <groupId>com.github.platform.core</groupId>
             <artifactId>sys-infra</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.flowable</groupId>
-            <artifactId>flowable-spring-boot-starter-process</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>

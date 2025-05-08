@@ -50,7 +50,7 @@ public class FlowableDefinitionServiceImpl implements IProcessDefinitionService 
                 // 流程类型
                 .deploymentProperty("processType",processType)
                 .deploy();
-        log.info("工作流发布成功 流程标识 = {} 流程ID = {}", processNo, deployment.getId());
+        log.warn("工作流发布成功 流程标识 = {} 流程ID = {}", processNo, deployment.getId());
         return deployment.getId();
     }
 
@@ -94,10 +94,14 @@ public class FlowableDefinitionServiceImpl implements IProcessDefinitionService 
     }
 
     @Override
-    public ProcessDefinition queryLatest(String deployId) {
+    public ProcessDefinition queryByDeployId(String deployId) {
         return repositoryService.createProcessDefinitionQuery().processDefinitionId(deployId)
                 .latestVersion().singleResult();
     }
 
-
+    @Override
+    public ProcessDefinition queryByProcessNo(String processNo) {
+        return repositoryService.createProcessDefinitionQuery().processDefinitionKey(processNo)
+                .latestVersion().singleResult();
+    }
 }

@@ -3,159 +3,87 @@
 <mapper namespace="com.github.platform.core.persistence.mapper.workflow.FormInfoMapper">
 
 	<resultMap type="com.github.platform.core.workflow.domain.common.entity.FormInfoBase" id="BaseResultMap">
-		<id column="id" property="id" />
-		<id column="formNo" property="formNo" />
-		<id column="type" property="type" />
-		<id column="label" property="label" />
-		<id column="name" property="name" />
-		<id column="groupName" property="groupName" />
-		<id column="len" property="len" />
-		<id column="required" property="required" />
-		<id column="sort" property="sort" />
-		<id column="optionName" property="optionName" />
-		<id column="status" property="status" />
-		<id column="defaultVal" property="defaultVal" />
-		<id column="tenantId" property="tenantId" />
-		<id column="createTime" property="createTime" />
-		<id column="updateTime" property="updateTime" />
-		<id column="updateBy" property="updateBy" />
-		<id column="createBy" property="createBy" />
-		<id column="remark" property="remark" />
-    </resultMap>
-    <sql id="BaseColumnList">
-		t.id,
-		t.form_no as formNo,
-		t.type,
-		t.label,
-		t.name,
-		t.group_name as groupName,
-		t.len,
-		t.required,
-		t.sort,
-		t.option_name as optionName,
-		t.status,
-		t.default_val as defaultVal,
-		t.tenant_id as tenantId,
-		t.create_time as createTime,
-		t.update_time as updateTime,
-		t.update_by as updateBy,
-		t.create_by as createBy,
-		t.remark
-    </sql>
+		<id column="id" property="id"/>
+		<id column="form_no" property="formNo"/>
+		<id column="type" property="type"/>
+		<id column="label" property="label"/>
+		<id column="name" property="name"/>
+		<id column="group_name" property="groupName"/>
+		<id column="len" property="len"/>
+		<id column="required" property="required"/>
+		<id column="sort" property="sort"/>
+		<id column="option_name" property="optionName"/>
+		<id column="status" property="status"/>
+		<id column="default_val" property="defaultVal"/>
+		<id column="tenant_id" property="tenantId"/>
+		<id column="create_time" property="createTime"/>
+		<id column="update_time" property="updateTime"/>
+		<id column="update_by" property="updateBy"/>
+		<id column="create_by" property="createBy"/>
+		<id column="remark" property="remark"/>
+	</resultMap>
+	<sql id="BaseColumnList">
+	t.id,
+	t.form_no,
+	t.type,
+	t.label,
+	t.name,
+	t.group_name,
+	t.len,
+	t.required,
+	t.sort,
+	t.option_name,
+	t.status,
+	t.default_val,
+	t.tenant_id,
+	t.create_time,
+	t.update_time,
+	t.update_by,
+	t.create_by,
+	t.remark
+	</sql>
 
-	<insert id="insert" useGeneratedKeys="true"  keyColumn="id" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
 		insert into t_flw_form_info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null ">
-				id,
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				form_no,
-			</if>
-			<if test="type != null  and type != ''">
-				`type`,
-			</if>
-			<if test="label != null  and label != ''">
-				label,
-			</if>
-			<if test="name != null  and name != ''">
-				name,
-			</if>
-			<if test="groupName != null  and groupName != ''">
-				group_name,
-			</if>
-			<if test="len != null ">
-				len,
-			</if>
-			<if test="required != null ">
-				required,
-			</if>
-			<if test="sort != null ">
-				sort,
-			</if>
-			<if test="optionName != null  and optionName != ''">
-				option_name,
-			</if>
-			<if test="status != null ">
-				status,
-			</if>
-			<if test="defaultVal != null  and defaultVal != ''">
-				default_val,
-			</if>
-			<if test="tenantId != null ">
-				tenant_id,
-			</if>
-			<if test="createTime != null ">
-				create_time,
-			</if>
-			<if test="updateTime != null ">
-				update_time,
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by,
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by,
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark,
-			</if>
+			<if test="id != null">id,</if>
+			<if test="formNo != null and formNo != ''">form_no,</if>
+			<if test="type != null and type != ''">`type`,</if>
+			<if test="label != null and label != ''">label,</if>
+			<if test="name != null and name != ''">name,</if>
+			<if test="groupName != null and groupName != ''">group_name,</if>
+			<if test="len != null">len,</if>
+			<if test="required != null">required,</if>
+			<if test="sort != null">sort,</if>
+			<if test="optionName != null and optionName != ''">option_name,</if>
+			<if test="status != null">status,</if>
+			<if test="defaultVal != null and defaultVal != ''">default_val,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="updateBy != null and updateBy != ''">update_by,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="remark != null and remark != ''">remark,</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
-			<if test="id != null ">
-				#{id},
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				#{formNo},
-			</if>
-			<if test="type != null  and type != ''">
-				#{type},
-			</if>
-			<if test="label != null  and label != ''">
-				#{label},
-			</if>
-			<if test="name != null  and name != ''">
-				#{name},
-			</if>
-			<if test="groupName != null  and groupName != ''">
-				#{groupName},
-			</if>
-			<if test="len != null ">
-				#{len},
-			</if>
-			<if test="required != null ">
-				#{required},
-			</if>
-			<if test="sort != null ">
-				#{sort},
-			</if>
-			<if test="optionName != null  and optionName != ''">
-				#{optionName},
-			</if>
-			<if test="status != null ">
-				#{status},
-			</if>
-			<if test="defaultVal != null  and defaultVal != ''">
-				#{defaultVal},
-			</if>
-			<if test="tenantId != null ">
-				#{tenantId},
-			</if>
-			<if test="createTime != null ">
-				#{createTime},
-			</if>
-			<if test="updateTime != null ">
-				#{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				#{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				#{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				#{remark},
-			</if>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="formNo != null and formNo != ''">#{formNo},</if>
+			<if test="type != null and type != ''">#{type},</if>
+			<if test="label != null and label != ''">#{label},</if>
+			<if test="name != null and name != ''">#{name},</if>
+			<if test="groupName != null and groupName != ''">#{groupName},</if>
+			<if test="len != null">#{len},</if>
+			<if test="required != null">#{required},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="optionName != null and optionName != ''">#{optionName},</if>
+			<if test="status != null">#{status},</if>
+			<if test="defaultVal != null and defaultVal != ''">#{defaultVal},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
 		</trim>
 	</insert>
 	<insert id="insertList"  parameterType="java.util.List">
@@ -169,60 +97,27 @@
 	<update id="updateById" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
 		update t_flw_form_info
 		<set>
-			<if test="formNo != null  and formNo != ''">
-				form_no = #{formNo},
-			</if>
-			<if test="type != null  and type != ''">
-				`type` = #{type},
-			</if>
-			<if test="label != null  and label != ''">
-				label = #{label},
-			</if>
-			<if test="name != null  and name != ''">
-				name = #{name},
-			</if>
-			<if test="groupName != null  and groupName != ''">
-				group_name = #{groupName},
-			</if>
-			<if test="len != null ">
-				len = #{len},
-			</if>
-			<if test="required != null ">
-				required = #{required},
-			</if>
-			<if test="sort != null ">
-				sort = #{sort},
-			</if>
-			<if test="optionName != null  and optionName != ''">
-				option_name = #{optionName},
-			</if>
-			<if test="status != null ">
-				status = #{status},
-			</if>
-			<if test="defaultVal != null  and defaultVal != ''">
-				default_val = #{defaultVal},
-			</if>
-			<if test="tenantId != null ">
-				tenant_id = #{tenantId},
-			</if>
-			<if test="createTime != null ">
-				create_time = #{createTime},
-			</if>
-			<if test="updateTime != null ">
-				update_time = #{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by = #{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by = #{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark = #{remark},
-			</if>
+			<if test="formNo != null  and formNo != ''">form_no = #{formNo},</if>
+			<if test="type != null  and type != ''">`type` = #{type},</if>
+			<if test="label != null  and label != ''">label = #{label},</if>
+			<if test="name != null  and name != ''">name = #{name},</if>
+			<if test="groupName != null  and groupName != ''">group_name = #{groupName},</if>
+			<if test="len != null ">len = #{len},</if>
+			<if test="required != null ">required = #{required},</if>
+			<if test="sort != null ">sort = #{sort},</if>
+			<if test="optionName != null  and optionName != ''">option_name = #{optionName},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="defaultVal != null  and defaultVal != ''">default_val = #{defaultVal},</if>
+			<if test="tenantId != null ">tenant_id = #{tenantId},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateTime != null ">update_time = #{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="remark != null  and remark != ''">remark = #{remark},</if>
 		</set>
 		where id = #{id}
 	</update>
+
 	<update id="updateList" parameterType="java.util.List">
 		<foreach collection="list" item="item" separator=";">
 			UPDATE t_flw_form_info
@@ -255,110 +150,47 @@
 		limit 200
 	</select>
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
-		select 
-		<include refid="BaseColumnList" />
-		from t_flw_form_info t
+		select <include refid="BaseColumnList" /> from t_flw_form_info t
 		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="type != null  and type != ''">
-				and t.type = #{type}
-			</if>
-			<if test="label != null  and label != ''">
-				and t.label = #{label}
-			</if>
-			<if test="name != null  and name != ''">
-				and t.name = #{name}
-			</if>
-			<if test="len != null ">
-				and t.len = #{len}
-			</if>
-			<if test="required != null ">
-				and t.required = #{required}
-			</if>
-			<if test="sort != null ">
-				and t.sort = #{sort}
-			</if>
-			<if test="optionName != null  and optionName != ''">
-				and t.option_name = #{optionName}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="formNo != null  and formNo != ''">and t.form_no = #{formNo}</if>
+			<if test="type != null  and type != ''">and t.type = #{type}</if>
+			<if test="label != null  and label != ''">and t.label = #{label}</if>
+			<if test="name != null  and name != ''">and t.name = #{name}</if>
+			<if test="len != null ">and t.len = #{len}</if>
+			<if test="required != null ">and t.required = #{required}</if>
+			<if test="sort != null ">and t.sort = #{sort}</if>
+			<if test="optionName != null  and optionName != ''">and t.option_name = #{optionName}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null ">and t.tenant_id = #{tenantId}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
 		</where>
 	</select>
-	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
+	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">
 		select count(t.id) from t_flw_form_info t
 		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="type != null  and type != ''">
-				and t.type = #{type}
-			</if>
-			<if test="label != null  and label != ''">
-				and t.label = #{label}
-			</if>
-			<if test="name != null  and name != ''">
-				and t.name = #{name}
-			</if>
-			<if test="len != null ">
-				and t.len = #{len}
-			</if>
-			<if test="required != null ">
-				and t.required = #{required}
-			</if>
-			<if test="sort != null ">
-				and t.sort = #{sort}
-			</if>
-			<if test="optionName != null  and optionName != ''">
-				and t.option_name = #{optionName}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createTime != null ">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="updateTime != null ">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="remark != null  and remark != ''">
-				and t.remark = #{remark}
-			</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="formNo != null  and formNo != ''">and t.form_no = #{formNo}</if>
+			<if test="type != null  and type != ''">and t.type = #{type}</if>
+			<if test="label != null  and label != ''">and t.label = #{label}</if>
+			<if test="name != null  and name != ''">and t.name = #{name}</if>
+			<if test="len != null ">and t.len = #{len}</if>
+			<if test="required != null ">and t.required = #{required}</if>
+			<if test="sort != null ">and t.sort = #{sort}</if>
+			<if test="optionName != null  and optionName != ''">and t.option_name = #{optionName}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null ">and t.tenant_id = #{tenantId}</if>
+			<if test="createTime != null ">and t.create_time = #{createTime}</if>
+			<if test="updateTime != null ">and t.update_time = #{updateTime}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="remark != null  and remark != ''">and t.remark = #{remark}</if>
 		</where>
 	</select>
+
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_flw_form_info where id = #{id}
 	</delete>

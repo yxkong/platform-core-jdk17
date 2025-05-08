@@ -4,7 +4,8 @@ import com.github.platform.core.workflow.domain.constant.InstanceStatusEnum;
 import com.github.platform.core.workflow.domain.context.ProcessQueryContext;
 import com.github.platform.core.workflow.domain.context.ProcessRunContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.flowable.engine.delegate.DelegateExecution;
+import org.flowable.engine.migration.ActivityMigrationMapping;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.task.api.Task;
 
@@ -74,11 +75,19 @@ public interface IProcessInstanceService {
 
     /**
      * 强制执行到下一节点
-     * @param processInstanceId
-     * @param currentActivityId
-     * @param targetActivityId
+     * @param processInstanceId 流程实例id
+     * @param currentActivityId 当前活动节点
+     * @param targetActivityId 目标活动节点
      */
     void changeState(String processInstanceId, String currentActivityId, String targetActivityId,Map<String, Object> variables);
+
+    /**
+     * 流程实例迁移
+     * @param processInstanceId
+     * @param targetDefinition
+     * @param mappingList
+     */
+    void migrationProcessInstance(String processInstanceId, ProcessDefinition targetDefinition, List<ActivityMigrationMapping> mappingList);
 
     /**
      * 完成指定用户任务

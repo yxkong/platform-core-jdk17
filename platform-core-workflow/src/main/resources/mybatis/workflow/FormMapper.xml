@@ -4,149 +4,79 @@
 
 	<resultMap type="com.github.platform.core.workflow.domain.common.entity.FormBase" id="BaseResultMap">
 		<id column="id" property="id" />
-		<id column="formNo" property="formNo" />
-		<id column="formName" property="formName" />
-		<id column="formDesc" property="formDesc" />
-		<id column="formChannel" property="formChannel" />
+		<id column="form_no" property="formNo" />
+		<id column="form_name" property="formName" />
+		<id column="form_desc" property="formDesc" />
+		<id column="form_channel" property="formChannel" />
 		<id column="status" property="status" />
-		<id column="tenantId" property="tenantId" />
-		<id column="createTime" property="createTime" />
-		<id column="updateTime" property="updateTime" />
-		<id column="updateBy" property="updateBy" />
-		<id column="createBy" property="createBy" />
+		<id column="tenant_id" property="tenantId" />
+		<id column="create_time" property="createTime" />
+		<id column="update_time" property="updateTime" />
+		<id column="update_by" property="updateBy" />
+		<id column="create_by" property="createBy" />
 		<id column="remark" property="remark" />
-    </resultMap>
-    <sql id="BaseColumnList">
+	</resultMap>
+	<sql id="BaseColumnList">
 		t.id,
-		t.form_no as formNo,
-		t.form_name as formName,
-		t.form_desc as formDesc,
-		t.form_channel as formChannel,
+		t.form_no,
+		t.form_name,
+		t.form_desc,
+		t.form_channel,
 		t.status,
-		t.tenant_id as tenantId,
-		t.create_time as createTime,
-		t.update_time as updateTime,
-		t.update_by as updateBy,
-		t.create_by as createBy,
+		t.tenant_id,
+		t.create_time,
+		t.update_time,
+		t.update_by,
+		t.create_by,
 		t.remark
-    </sql>
+	</sql>
 
 	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.workflow.domain.common.entity.FormBase">
 		insert into t_flw_form
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null ">
-				id,
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				form_no,
-			</if>
-			<if test="formName != null  and formName != ''">
-				form_name,
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				form_desc,
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				form_channel,
-			</if>
-			<if test="status != null ">
-				status,
-			</if>
-			<if test="tenantId != null ">
-				tenant_id,
-			</if>
-			<if test="createTime != null ">
-				create_time,
-			</if>
-			<if test="updateTime != null ">
-				update_time,
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by,
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by,
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark,
-			</if>
+			<if test="id != null ">id,</if>
+			<if test="formNo != null  and formNo != ''">form_no,</if>
+			<if test="formName != null  and formName != ''">form_name,</if>
+			<if test="formDesc != null  and formDesc != ''">form_desc,</if>
+			<if test="formChannel != null  and formChannel != ''">form_channel,</if>
+			<if test="status != null ">status,</if>
+			<if test="tenantId != null ">tenant_id,</if>
+			<if test="createTime != null ">create_time,</if>
+			<if test="updateTime != null ">update_time,</if>
+			<if test="updateBy != null  and updateBy != ''">update_by,</if>
+			<if test="createBy != null  and createBy != ''">create_by,</if>
+			<if test="remark != null  and remark != ''">remark,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-			<if test="id != null ">
-				#{id},
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				#{formNo},
-			</if>
-			<if test="formName != null  and formName != ''">
-				#{formName},
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				#{formDesc},
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				#{formChannel},
-			</if>
-			<if test="status != null ">
-				#{status},
-			</if>
-			<if test="tenantId != null ">
-				#{tenantId},
-			</if>
-			<if test="createTime != null ">
-				#{createTime},
-			</if>
-			<if test="updateTime != null ">
-				#{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				#{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				#{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				#{remark},
-			</if>
+			<if test="id != null ">#{id},</if>
+			<if test="formNo != null  and formNo != ''">#{formNo},</if>
+			<if test="formName != null  and formName != ''">#{formName},</if>
+			<if test="formDesc != null  and formDesc != ''">#{formDesc},</if>
+			<if test="formChannel != null  and formChannel != ''">#{formChannel},</if>
+			<if test="status != null ">#{status},</if>
+			<if test="tenantId != null ">#{tenantId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+			<if test="createBy != null  and createBy != ''">#{createBy},</if>
+			<if test="remark != null  and remark != ''">#{remark},</if>
 		</trim>
 	</insert>
-	
+
 	<update id="updateById" parameterType="com.github.platform.core.workflow.domain.common.entity.FormBase">
 		update t_flw_form
 		<set>
-			<if test="formNo != null  and formNo != ''">
-				form_no = #{formNo},
-			</if>
-			<if test="formName != null  and formName != ''">
-				form_name = #{formName},
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				form_desc = #{formDesc},
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				form_channel = #{formChannel},
-			</if>
-			<if test="status != null ">
-				status = #{status},
-			</if>
-			<if test="tenantId != null ">
-				tenant_id = #{tenantId},
-			</if>
-			<if test="createTime != null ">
-				create_time = #{createTime},
-			</if>
-			<if test="updateTime != null ">
-				update_time = #{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by = #{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by = #{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark = #{remark},
-			</if>
+			<if test="formNo != null  and formNo != ''">form_no = #{formNo},</if>
+			<if test="formName != null  and formName != ''">form_name = #{formName},</if>
+			<if test="formDesc != null  and formDesc != ''">form_desc = #{formDesc},</if>
+			<if test="formChannel != null  and formChannel != ''">form_channel = #{formChannel},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="tenantId != null ">tenant_id = #{tenantId},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateTime != null ">update_time = #{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="remark != null  and remark != ''">remark = #{remark},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -162,166 +92,37 @@
 		</where>
 		limit 200
 	</select>
-	<select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select 
-		<include refid="BaseColumnList" />
-		from t_flw_form t
-		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="formName != null  and formName != ''">
-				and t.form_name like concat('%', #{formName}, '%')
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				and t.form_desc = #{formDesc}
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				and t.form_channel = #{formChannel}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
-		</where>
-	</select>
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.workflow.domain.common.entity.FormBase">
-		select 
-		<include refid="BaseColumnList" />
-		from t_flw_form t
+		select <include refid="BaseColumnList" /> from t_flw_form t
 		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="formName != null  and formName != ''">
-				and t.form_name like concat('%', #{formName}, '%')
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				and t.form_desc = #{formDesc}
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				and t.form_channel = #{formChannel}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
-		</where>
-	</select>
-	<select id="findListCount" resultType="java.lang.Long"  parameterType="java.util.Map">
-		select count(t.id) from t_flw_form t
-		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="formName != null  and formName != ''">
-				and t.form_name = #{formName}
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				and t.form_desc = #{formDesc}
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				and t.form_channel = #{formChannel}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createTime != null ">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="updateTime != null ">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="remark != null  and remark != ''">
-				and t.remark = #{remark}
-			</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="formNo != null  and formNo != ''">and t.form_no = #{formNo}</if>
+			<if test="formName != null  and formName != ''">and t.form_name like concat('%', #{formName}, '%')</if>
+			<if test="formDesc != null  and formDesc != ''">and t.form_desc = #{formDesc}</if>
+			<if test="formChannel != null  and formChannel != ''">and t.form_channel = #{formChannel}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null ">and t.tenant_id = #{tenantId}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
 		</where>
 	</select>
 	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.workflow.domain.common.entity.FormBase">
 		select count(t.id) from t_flw_form t
 		<where>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="formNo != null  and formNo != ''">
-				and t.form_no = #{formNo}
-			</if>
-			<if test="formName != null  and formName != ''">
-				and t.form_name = #{formName}
-			</if>
-			<if test="formDesc != null  and formDesc != ''">
-				and t.form_desc = #{formDesc}
-			</if>
-			<if test="formChannel != null  and formChannel != ''">
-				and t.form_channel = #{formChannel}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createTime != null ">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="updateTime != null ">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="remark != null  and remark != ''">
-				and t.remark = #{remark}
-			</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="formNo != null  and formNo != ''">and t.form_no = #{formNo}</if>
+			<if test="formName != null  and formName != ''">and t.form_name = #{formName}</if>
+			<if test="formDesc != null  and formDesc != ''">and t.form_desc = #{formDesc}</if>
+			<if test="formChannel != null  and formChannel != ''">and t.form_channel = #{formChannel}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null ">and t.tenant_id = #{tenantId}</if>
+			<if test="createTime != null ">and t.create_time = #{createTime}</if>
+			<if test="updateTime != null ">and t.update_time = #{updateTime}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="remark != null  and remark != ''">and t.remark = #{remark}</if>
 		</where>
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Long">

@@ -2,19 +2,21 @@ package com.github.platform.core.workflow.infra.gateway.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.platform.core.common.gateway.BaseGatewayImpl;
+import com.github.platform.core.common.utils.StringUtils;
+import com.github.platform.core.persistence.mapper.workflow.ProcessApprovalRecordMapper;
+import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.workflow.domain.common.entity.ProcessApprovalRecordBase;
 import com.github.platform.core.workflow.domain.context.ProcessApprovalRecordContext;
 import com.github.platform.core.workflow.domain.context.ProcessApprovalRecordQueryContext;
 import com.github.platform.core.workflow.domain.dto.ProcessApprovalRecordDto;
 import com.github.platform.core.workflow.domain.gateway.IProcessApprovalRecordGateway;
-import com.github.platform.core.persistence.mapper.workflow.ProcessApprovalRecordMapper;
 import com.github.platform.core.workflow.infra.convert.ProcessApprovalRecordInfraConvert;
-import com.github.platform.core.common.gateway.BaseGatewayImpl;
-import com.github.platform.core.standard.entity.dto.PageBean;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 /**
 * 流程审批记录网关层实现
@@ -70,6 +72,9 @@ public class ProcessApprovalRecordGatewayImpl extends BaseGatewayImpl implements
 
     @Override
     public List<ProcessApprovalRecordDto> findByInstanceId(@NotNull  String instanceId) {
+        if (StringUtils.isEmpty(instanceId)){
+            return null;
+        }
         ProcessApprovalRecordBase processApprovalRecordBase = ProcessApprovalRecordBase.builder().instanceId(instanceId).build();
         List<ProcessApprovalRecordBase> list = processApprovalRecordMapper.findListBy(processApprovalRecordBase);
         return convert.toDtos(list);

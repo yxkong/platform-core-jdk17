@@ -64,11 +64,19 @@ public interface IProcessDefinitionGateway {
     */
     @Caching(
             evict = {
-                    @CacheEvict(cacheNames = {CacheConstant.c8h}, key = "'wf:d:' + #context.processNo",allEntries = true, cacheManager = CacheConstant.cacheManager),
+                    @CacheEvict(cacheNames = {CacheConstant.c8h}, key = "'wf:d:' + #context.processNo+':'+#context.version",cacheManager = CacheConstant.cacheManager),
                     @CacheEvict(cacheNames = {CacheConstant.c8h}, key = "'wf:d:' + #context.tenantId+':'+#context.processType", cacheManager = CacheConstant.cacheManager),
             }
     )
     Pair<Boolean, ProcessDefinitionDto> update(ProcessDefinitionContext context);
+
+    /**
+     * 清理缓存
+     * @param processNo
+     * @param version
+     */
+    @CacheEvict(cacheNames = {CacheConstant.c8h}, key = "'wf:d:' + #processNo+':'+#version",cacheManager = CacheConstant.cacheManager)
+    void clearCache(String processNo, Integer version);
     /**
     * 根据id删除流程管理记录
     * @param id 主键id

@@ -39,12 +39,6 @@ public interface ProcessDefinitionMapper {
     */
     List<ProcessDefinitionBase> findByIds(@Param("ids") Long[] ids);
     /**
-    * 通过map参数获取列表
-    * @param params 参数map
-    * @return List<$FlwProcessManageDO>
-    */
-    List<ProcessDefinitionBase> findList(Map<String,Object> params);
-    /**
     * 通过实体查询
     * @param record 参数实体
     * @return List<ProcessDefinitionBase>

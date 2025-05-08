@@ -6,9 +6,13 @@ import com.github.platform.core.workflow.domain.context.ProcessInstanceContext;
 import com.github.platform.core.workflow.domain.context.ProcessInstanceQueryContext;
 import com.github.platform.core.workflow.domain.context.ProcessRunContext;
 import com.github.platform.core.workflow.domain.dto.FormDataDto;
+import com.github.platform.core.workflow.domain.dto.ProcessDefinitionDto;
 import com.github.platform.core.workflow.domain.dto.ProcessInstanceDto;
+import org.flowable.engine.migration.ActivityMigrationMapping;
+import org.flowable.engine.repository.ProcessDefinition;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 流程实例执行器
@@ -105,6 +109,14 @@ public interface IProcessInstanceExecutor {
      * @param bizNo
      */
     void stop(String bizNo,String reason);
+
+    /**
+     * 流程实例迁移
+     * @param bizNo 业务编号
+     * @param targetProcessNo 目标流程
+     * @param migrationMap 节点映射
+     */
+    ProcessDefinitionDto migrationProcessInstance(String bizNo, String targetProcessNo, Map<String,String> migrationMap);
 
 
 }

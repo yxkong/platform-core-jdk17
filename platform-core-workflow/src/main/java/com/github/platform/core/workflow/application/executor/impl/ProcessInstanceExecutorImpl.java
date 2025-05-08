@@ -4,7 +4,6 @@ import com.github.platform.core.auth.application.executor.SysExecutor;
 import com.github.platform.core.auth.util.AuthUtil;
 import com.github.platform.core.auth.util.LoginUserInfoUtil;
 import com.github.platform.core.cache.infra.utils.SequenceUtil;
-import com.github.platform.core.common.service.BaseExecutor;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.constant.ResultStatusEnum;
@@ -25,12 +24,16 @@ import com.github.platform.core.workflow.domain.gateway.IFormDataGateway;
 import com.github.platform.core.workflow.domain.gateway.IProcessDefinitionGateway;
 import com.github.platform.core.workflow.domain.gateway.IProcessInstanceGateway;
 import com.github.platform.core.workflow.infra.convert.ProcessInstanceInfraConvert;
+import com.github.platform.core.workflow.infra.service.IProcessDefinitionService;
 import com.github.platform.core.workflow.infra.service.IProcessInstanceService;
+import com.github.platform.core.workflow.infra.util.BpmnModelUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 /**
 * 流程实例执行器
@@ -43,44 +46,45 @@ import java.util.Objects;
 @Slf4j
 public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcessInstanceExecutor {
     @Resource
-    private IProcessInstanceGateway gateway;
+    private IProcessInstanceGateway instanceGateway;
     @Resource
-    private IProcessDefinitionGateway processManageGateway;
+    private IProcessDefinitionGateway definitionGateway;
     @Resource(name = "flowableProcessInstanceService")
     private IProcessInstanceService processInstanceService;
+    @Resource(name = "flowableManagerService")
+    private IProcessDefinitionService processDefinitionService;
     @Resource
     private IFormDataGateway formDataGateway;
-
     @Resource
     private ProcessInstanceInfraConvert flwProcessInstanceInfraConvert;
     @Override
     public PageBean<ProcessInstanceDto> query(ProcessInstanceQueryContext context){
-        return gateway.query(context);
+        return instanceGateway.query(context);
     };
     @Override
     public void insert(ProcessInstanceContext context){
         context.setTenantId(getTenantId(context));
-        ProcessInstanceDto record = gateway.insert(context);
+        ProcessInstanceDto record = instanceGateway.insert(context);
         if (Objects.isNull(record.getId())){
             throw exception(ResultStatusEnum.COMMON_INSERT_ERROR);
         }
     }
     @Override
     public ProcessInstanceDto findById(Long id) {
-        return gateway.findById(id);
+        return instanceGateway.findById(id);
     }
     @Override
     public void updateStatus(Long id, String reason) {
         ProcessInstanceDto dto = getProcessInstanceDto(id);
         InstanceStatusEnum statusEnum = processInstanceService.updateStatus(dto.getInstanceId(), reason);
         ProcessInstanceContext context = ProcessInstanceContext.builder().id(id).status(statusEnum.getStatus()).remark(reason).build();
-        gateway.update(context);
+        instanceGateway.update(context);
     }
 
     @Override
     public void delete(Long id) {
         ProcessInstanceDto dto = getProcessInstanceDto(id);
-        int d = gateway.delete(id);
+        int d = instanceGateway.delete(id);
         processInstanceService.delete(dto.getInstanceId(), LoginUserInfoUtil.getLoginName()+"删除流程实例！");
         if (d <=0 ){
             throw exception(ResultStatusEnum.COMMON_DELETE_ERROR);
@@ -110,7 +114,7 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
             log.debug("流程启动参数：{}", JsonUtils.toJson(context));
         }
         // 获取流程信息
-        ProcessDefinitionDto definitionDto = processManageGateway.findByProcessNo(context.getProcessNo(), ProcessStatusEnum.ON.getStatus(),null);
+        ProcessDefinitionDto definitionDto = definitionGateway.findByProcessNo(context.getProcessNo(), ProcessStatusEnum.ON.getStatus(),null);
         if (Objects.isNull(definitionDto)){
             log.warn("processNo:{} 流程定义为空",context.getProcessNo());
             throw exception(WorkflowApplicationEnum.PROCESS_DEFINITION_EMPTY);
@@ -123,7 +127,7 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
             context.setInstanceNo(SequenceUtil.nextSequenceNum(WorkFlowSequenceEnum.FLW_INSTANCE));
         }
         // 查询对应的业务编号是否有流程实例
-        ProcessInstanceDto dto = gateway.findByBizNoAndProcessNo(context.getBizNo(),context.getProcessNo());
+        ProcessInstanceDto dto = instanceGateway.findByBizNoAndProcessNo(context.getBizNo(),context.getProcessNo());
         if (Objects.nonNull(dto) && dto.isNormal()){
             log.warn("processNo:{} 流程实例已存在，轻核查",context.getProcessNo());
             throw exception(WorkflowApplicationEnum.PROCESS_INSTANCE_EXIST);
@@ -136,7 +140,7 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
             insertContext.setProcessType(definitionDto.getProcessType());
             //保存实例信息，因为在创建实例的时候会启动任务，任务里的监听有通过instanceNo 查询
             insertContext.setStatus(InstanceStatusEnum.INIT.getStatus());
-            dto = gateway.insert(insertContext);
+            dto = instanceGateway.insert(insertContext);
 
             context.putParam(FlwConstant.INSTANCE_NO,context.getInstanceNo());
             context.putParam(FlwConstant.INSTANCE_NAME,dto.getInstanceName());
@@ -169,7 +173,7 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
     private void suspendProcess( String reason, ProcessInstanceDto dto) {
         processInstanceService.suspend(dto.getInstanceId(), reason);
         ProcessInstanceContext context = ProcessInstanceContext.builder().id(dto.getId()).status(InstanceStatusEnum.SUSPEND.getStatus()).remark(reason).build();
-        gateway.update(context);
+        instanceGateway.update(context);
     }
     @Override
     public void resume(Long id,String reason) {
@@ -184,7 +188,7 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
     private void resumeProcess( String reason, ProcessInstanceDto dto) {
         processInstanceService.resume(dto.getInstanceId(), reason);
         ProcessInstanceContext context = ProcessInstanceContext.builder().id(dto.getId()).status(InstanceStatusEnum.ACTIVE.getStatus()).remark(reason).build();
-        gateway.update(context);
+        instanceGateway.update(context);
     }
     @Override
     public void stop(Long id,String reason) {
@@ -197,20 +201,39 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
         ProcessInstanceDto dto = getProcessInstanceDto(bizNo);
         stopProcess(reason, dto);
     }
+
+    @Override
+    public ProcessDefinitionDto migrationProcessInstance(String bizNo, String targetProcessNo, Map<String, String> map) {
+        //根据业务编号查询到实例信息
+        ProcessInstanceDto instanceDto = instanceGateway.findByBizNoAndProcessNo(bizNo, null);
+        ProcessDefinitionDto processDefinitionDto = definitionGateway.findLatestByProcessNo(targetProcessNo);
+        //根据目标流程编号查到流程定义
+        ProcessDefinition targetProcessDefinition = processDefinitionService.queryByProcessNo(targetProcessNo);
+        processInstanceService.migrationProcessInstance(instanceDto.getInstanceId(),targetProcessDefinition,null);
+        log.warn("迁移业务bizNo：{} instanceName:{} 到流程：processNo:{} processName:{}",bizNo,instanceDto.getInstanceName(),targetProcessNo,targetProcessDefinition.getName());
+        ProcessInstanceContext instanceContext = ProcessInstanceContext.builder()
+                .id(instanceDto.getId()).bizNo(bizNo).instanceId(instanceDto.getInstanceId())
+                .processNo(targetProcessNo).processVersion(processDefinitionDto.getProcessVersion())
+                .build();
+        // 迁移以后更新流程编号
+        instanceGateway.update(instanceContext);
+        return processDefinitionDto;
+    }
+
     private void stopProcess(String reason, ProcessInstanceDto dto) {
         processInstanceService.stopInstance(dto.getInstanceId(), reason);
         ProcessInstanceContext context = ProcessInstanceContext.builder().id(dto.getId()).status(InstanceStatusEnum.CANCELLED.getStatus()).build();
-        gateway.update(context);
+        instanceGateway.update(context);
     }
     private ProcessInstanceDto getProcessInstanceDto(String bizNo) {
-        ProcessInstanceDto dto = gateway.findByBizNoAndProcessNo(bizNo,null);
+        ProcessInstanceDto dto = instanceGateway.findByBizNoAndProcessNo(bizNo,null);
         if (Objects.isNull(dto)){
             throw exception(WorkflowApplicationEnum.PROCESS_INSTANCE_NO_FOUND);
         }
         return dto;
     }
     private ProcessInstanceDto getProcessInstanceDto(Long id) {
-        ProcessInstanceDto dto = gateway.findById(id);
+        ProcessInstanceDto dto = instanceGateway.findById(id);
         if (Objects.isNull(dto)){
             throw exception(WorkflowApplicationEnum.PROCESS_INSTANCE_NO_FOUND);
         }
@@ -224,6 +247,6 @@ public class ProcessInstanceExecutorImpl extends SysExecutor implements IProcess
                 .bizNo(bizNo)
                 .status(statusEnum.getStatus())
                 .build();
-        gateway.update(updateContext);
+        instanceGateway.update(updateContext);
     }
 }

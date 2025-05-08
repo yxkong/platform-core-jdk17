@@ -104,6 +104,11 @@ public class ProcessDefinitionGatewayImpl extends BaseGatewayImpl implements IPr
     }
 
     @Override
+    public void clearCache(String processNo, Integer version) {
+
+    }
+
+    @Override
     public int delete(Long id) {
         return processDefinitionMapper.deleteById(id);
     }

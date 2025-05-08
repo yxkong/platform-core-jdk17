@@ -4,6 +4,7 @@ import com.github.platform.core.auth.util.LoginUserInfoUtil;
 import com.github.platform.core.common.utils.CollectionUtil;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.entity.dto.PageBean;
+import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import com.github.platform.core.workflow.domain.constant.FlwConstant;
 import com.github.platform.core.workflow.domain.constant.InstanceStatusEnum;
 import com.github.platform.core.workflow.domain.constant.ProcessOptTypeEnum;
@@ -15,9 +16,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
+import org.flowable.engine.ProcessMigrationService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.history.HistoricProcessInstance;
+import org.flowable.engine.migration.ActivityMigrationMapping;
+import org.flowable.engine.migration.ProcessInstanceMigrationBuilder;
+import org.flowable.engine.migration.ProcessInstanceMigrationValidationResult;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
@@ -55,6 +61,9 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
      */
     @Autowired(required = false)
     private HistoryService historyService;
+
+    @Autowired(required = false)
+    private ProcessMigrationService processMigrationService;
 
 
 
@@ -235,6 +244,34 @@ public class FlowableProcessInstanceServiceImpl implements IProcessInstanceServi
                 .moveActivityIdTo(currentActivityId,targetActivityId)
                 .processVariables(variables)
                 .changeState();
+    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void migrationProcessInstance(String processInstanceId, ProcessDefinition targetDefinition, List<ActivityMigrationMapping> mappingList){
+        // 1. 构建迁移文档
+        ProcessInstanceMigrationBuilder instanceMigrationBuilder = processMigrationService.createProcessInstanceMigrationBuilder();
+        instanceMigrationBuilder
+                .migrateToProcessDefinition(targetDefinition.getId())
+                // 继承原实例所有变量
+                .withProcessInstanceVariables(
+                        getVariables(processInstanceId)
+                )
+                .withProcessInstanceVariable("migrationSource", processInstanceId)
+                .withProcessInstanceVariable("originalProcessInstanceId", processInstanceId)
+                .withProcessInstanceVariable("_MIGRATION_TIME_", LocalDateTimeUtil.dateTime());
+        if (CollectionUtil.isNotEmpty(mappingList)){
+            mappingList.forEach(instanceMigrationBuilder::addActivityMigrationMapping);
+        }
+
+        //2. 预验证
+        ProcessInstanceMigrationValidationResult validationResult = processMigrationService.validateMigrationForProcessInstance(
+                processInstanceId, instanceMigrationBuilder.getProcessInstanceMigrationDocument());
+        if (!validationResult.isMigrationValid()) {
+            throw new IllegalStateException("迁移验证失败: " +
+                    String.join(", ", validationResult.getValidationMessages()));
+        }
+        // 3. 执行迁移
+        processMigrationService.migrateProcessInstance(processInstanceId, instanceMigrationBuilder.getProcessInstanceMigrationDocument());
     }
 
     @Override

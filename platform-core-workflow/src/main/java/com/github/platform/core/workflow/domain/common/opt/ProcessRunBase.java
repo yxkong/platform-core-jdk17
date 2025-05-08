@@ -3,6 +3,7 @@ package com.github.platform.core.workflow.domain.common.opt;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.platform.core.common.utils.CollectionUtil;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -44,6 +45,7 @@ public class ProcessRunBase implements Serializable {
     /**
      * 流程变量,必须有FlwConstant.APPROVAL_NO
      */
+    @Builder.Default
     protected Map<String, Object> variables = new HashMap<>();
 
     /**

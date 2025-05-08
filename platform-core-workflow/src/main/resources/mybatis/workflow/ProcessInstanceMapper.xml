@@ -4,196 +4,106 @@
 
 	<resultMap type="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase" id="BaseResultMap">
 		<id column="id" property="id" />
-		<id column="bizNo" property="bizNo" />
-		<id column="processNo" property="processNo" />
-		<id column="formInstNo" property="formInstNo" />
-		<id column="processVersion" property="processVersion" />
-		<id column="processType" property="processType" />
-		<id column="instanceNo" property="instanceNo" />
-		<id column="instanceName" property="instanceName" />
-		<id column="instanceId" property="instanceId" />
-		<id column="endTime" property="endTime" />
-		<id column="deptId" property="deptId" />
+		<id column="biz_no" property="bizNo" />
+		<id column="process_no" property="processNo" />
+		<id column="form_inst_no" property="formInstNo" />
+		<id column="process_version" property="processVersion" />
+		<id column="process_type" property="processType" />
+		<id column="instance_no" property="instanceNo" />
+		<id column="instance_name" property="instanceName" />
+		<id column="instance_id" property="instanceId" />
+		<id column="end_time" property="endTime" />
+		<id column="dept_id" property="deptId" />
 		<id column="status" property="status" />
-		<id column="tenantId" property="tenantId" />
-		<id column="createTime" property="createTime" />
-		<id column="updateTime" property="updateTime" />
-		<id column="updateBy" property="updateBy" />
-		<id column="createBy" property="createBy" />
+		<id column="tenant_id" property="tenantId" />
+		<id column="create_time" property="createTime" />
+		<id column="update_time" property="updateTime" />
+		<id column="update_by" property="updateBy" />
+		<id column="create_by" property="createBy" />
 		<id column="remark" property="remark" />
 	</resultMap>
 	<sql id="BaseColumnList">
 		t.id,
-		t.biz_no as bizNo,
-		t.process_no as processNo,
-		t.process_version as processVersion,
-		t.process_type as processType,
-		t.instance_no as instanceNo,
-		t.instance_name as instanceName,
-		t.instance_id as instanceId,
-		t.end_time as endTime,
-		t.dept_id as deptId,
+		t.biz_no ,
+		t.process_no,
+		t.form_inst_no,
+		t.process_version,
+		t.process_type,
+		t.instance_no ,
+		t.instance_name,
+		t.instance_id ,
+		t.end_time ,
+		t.dept_id ,
 		t.status,
-		t.tenant_id as tenantId,
-		t.create_time as createTime,
-		t.update_time as updateTime,
-		t.update_by as updateBy,
-		t.create_by as createBy,
+		t.tenant_id ,
+		t.create_time ,
+		t.update_time ,
+		t.update_by ,
+		t.create_by,
 		t.remark
 	</sql>
 
 	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
 		insert into t_flw_process_instance
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null ">
-				id,
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				biz_no,
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				process_no,
-			</if>
-			<if test="processVersion != null ">
-				process_version,
-			</if>
-		    <if test="processType != null ">
-				process_type,
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				instance_no,
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				instance_name,
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				instance_id,
-			</if>
-			<if test="deptId != null ">
-				dept_id,
-			</if>
-			<if test="status != null ">
-				status,
-			</if>
-			<if test="tenantId != null">
-				tenant_id,
-			</if>
-			<if test="createTime != null ">
-				create_time,
-			</if>
-			<if test="updateTime != null ">
-				update_time,
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by,
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by,
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark,
-			</if>
+			<if test="id != null ">id,</if>
+			<if test="bizNo != null  and bizNo != ''">biz_no,</if>
+			<if test="processNo != null  and processNo != ''">process_no,</if>
+			<if test="formInstNo != null  and formInstNo != ''">form_inst_no,</if>
+			<if test="processVersion != null ">process_version,</if>
+		    <if test="processType != null ">process_type,</if>
+			<if test="instanceNo != null  and instanceNo != ''">instance_no,</if>
+			<if test="instanceName != null  and instanceName != ''">instance_name,</if>
+			<if test="instanceId != null  and instanceId != ''">instance_id,</if>
+			<if test="deptId != null ">dept_id,</if>
+			<if test="status != null ">status,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="createTime != null ">create_time,</if>
+			<if test="updateTime != null ">update_time,</if>
+			<if test="updateBy != null  and updateBy != ''">update_by,</if>
+			<if test="createBy != null  and createBy != ''">create_by,</if>
+			<if test="remark != null  and remark != ''">remark,</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
-			<if test="id != null ">
-				#{id},
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				#{bizNo},
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				#{processNo},
-			</if>
-			<if test="processVersion != null ">
-				#{processVersion},
-			</if>
-		    <if test="processType != null  and processType != ''">
-				#{processType},
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				#{instanceNo},
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				#{instanceName},
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				#{instanceId},
-			</if>
-			<if test="deptId != null ">
-				#{deptId},
-			</if>
-			<if test="status != null ">
-				#{status},
-			</if>
-			<if test="tenantId != null">
-				#{tenantId},
-			</if>
-			<if test="createTime != null ">
-				#{createTime},
-			</if>
-			<if test="updateTime != null ">
-				#{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				#{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				#{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				#{remark},
-			</if>
+			<if test="id != null ">#{id},</if>
+			<if test="bizNo != null  and bizNo != ''">#{bizNo},</if>
+			<if test="processNo != null  and processNo != ''">#{processNo},</if>
+			<if test="formInstNo != null  and formInstNo != ''">#{formInstNo},</if>
+			<if test="processVersion != null ">#{processVersion},</if>
+		    <if test="processType != null  and processType != ''">#{processType},</if>
+			<if test="instanceNo != null  and instanceNo != ''">#{instanceNo},</if>
+			<if test="instanceName != null  and instanceName != ''">#{instanceName},</if>
+			<if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+			<if test="deptId != null ">#{deptId},</if>
+			<if test="status != null ">#{status},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+			<if test="createBy != null  and createBy != ''">#{createBy},</if>
+			<if test="remark != null  and remark != ''">#{remark},</if>
 		</trim>
 	</insert>
 
 	<update id="updateById" parameterType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
 		update t_flw_process_instance
 		<set>
-			<if test="processType != null  and processType != ''">
-				process_type = #{processType},
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				instance_no = #{instanceNo},
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				instance_name = #{instanceName},
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				instance_id = #{instanceId},
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				biz_no = #{bizNo},
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				process_no = #{processNo},
-			</if>
-			<if test="processVersion != null ">
-				process_version = #{processVersion},
-			</if>
-			<if test="deptId != null ">
-				dept_id = #{deptId},
-			</if>
-			<if test="status != null ">
-				status = #{status},
-			</if>
-			<if test="tenantId != null">
-				tenant_id = #{tenantId},
-			</if>
-			<if test="createTime != null ">
-				create_time = #{createTime},
-			</if>
-			<if test="updateTime != null ">
-				update_time = #{updateTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by = #{updateBy},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by = #{createBy},
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark = #{remark},
-			</if>
+			<if test="processType != null  and processType != ''">process_type = #{processType},</if>
+			<if test="instanceNo != null  and instanceNo != ''">instance_no = #{instanceNo},</if>
+			<if test="formInstNo != null  and formInstNo != ''">form_inst_no = #{formInstNo},</if>
+			<if test="instanceName != null  and instanceName != ''">instance_name = #{instanceName},</if>
+			<if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+			<if test="bizNo != null  and bizNo != ''">biz_no = #{bizNo},</if>
+			<if test="processNo != null  and processNo != ''">process_no = #{processNo},</if>
+			<if test="processVersion != null ">process_version = #{processVersion},</if>
+			<if test="deptId != null ">dept_id = #{deptId},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateTime != null ">update_time = #{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="remark != null  and remark != ''">remark = #{remark},</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -219,218 +129,50 @@
 		</where>
 		limit 200
 	</select>
-	<select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select
-		<include refid="BaseColumnList" />
-		from t_flw_process_instance t
-		<where>
-			<if test="processType != null ">
-				and t.process_type = #{processType}
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				and t.instance_no = #{instanceNo}
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				and t.instance_name  like concat('%', #{instanceName}, '%')
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				and t.instance_id = #{instanceId}
-			</if>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				and t.biz_no = #{bizNo}
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				and t.process_no = #{processNo}
-			</if>
-			<if test="processVersion != null ">
-				and t.process_version = #{processVersion}
-			</if>
-			<if test="deptId != null ">
-				and t.dept_id = #{deptId}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
-		</where>
-	</select>
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
-		select
-		<include refid="BaseColumnList" />
-		from t_flw_process_instance t
+		select <include refid="BaseColumnList" /> from t_flw_process_instance t
 		<where>
-			<if test="processType != null  and processType != ''">
-				and t.process_type = #{processType}
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				and t.instance_no = #{instanceNo}
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				and t.instance_name like concat('%', #{instanceName}, '%')
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				and t.instance_id = #{instanceId}
-			</if>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				and t.biz_no = #{bizNo}
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				and t.process_no = #{processNo}
-			</if>
-			<if test="processVersion != null ">
-				and t.process_version = #{processVersion}
-			</if>
-			<if test="deptId != null ">
-				and t.dept_id = #{deptId}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
-		</where>
-	</select>
-	<select id="findListCount" resultType="java.lang.Long"  parameterType="java.util.Map">
-		select count(t.id) from t_flw_process_instance t
-		<where>
-			<if test="processType != null  and processType != ''">
-				and t.process_type = #{processType}
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				and t.instance_no = #{instanceNo}
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				and t.instance_name = #{instanceName}
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				and t.instance_id = #{instanceId}
-			</if>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				and t.biz_no = #{bizNo}
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				and t.process_no = #{processNo}
-			</if>
-			<if test="processVersion != null ">
-				and t.process_version = #{processVersion}
-			</if>
-			<if test="deptId != null ">
-				and t.dept_id = #{deptId}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createTime != null ">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="updateTime != null ">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="remark != null  and remark != ''">
-				and t.remark = #{remark}
-			</if>
+			<if test="processType != null  and processType != ''">and t.process_type = #{processType}</if>
+			<if test="instanceNo != null  and instanceNo != ''">and t.instance_no = #{instanceNo}</if>
+			<if test="instanceName != null  and instanceName != ''">and t.instance_name like concat('%', #{instanceName}, '%')</if>
+			<if test="instanceId != null  and instanceId != ''">and t.instance_id = #{instanceId}</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="bizNo != null  and bizNo != ''">and t.biz_no = #{bizNo}</if>
+			<if test="processNo != null  and processNo != ''">and t.process_no = #{processNo}</if>
+			<if test="processVersion != null ">and t.process_version = #{processVersion}</if>
+			<if test="deptId != null ">and t.dept_id = #{deptId}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
 		</where>
 	</select>
 	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
 		select count(t.id) from t_flw_process_instance t
 		<where>
-			<if test="processType != null  and processType != ''">
-				and t.process_type = #{processType}
-			</if>
-			<if test="instanceNo != null  and instanceNo != ''">
-				and t.instance_no = #{instanceNo}
-			</if>
-			<if test="instanceName != null  and instanceName != ''">
-				and t.instance_name = #{instanceName}
-			</if>
-			<if test="instanceId != null  and instanceId != ''">
-				and t.instance_id = #{instanceId}
-			</if>
-			<if test="id != null ">
-				and t.id = #{id}
-			</if>
-			<if test="bizNo != null  and bizNo != ''">
-				and t.biz_no = #{bizNo}
-			</if>
-			<if test="processNo != null  and processNo != ''">
-				and t.process_no = #{processNo}
-			</if>
-			<if test="processVersion != null ">
-				and t.process_version = #{processVersion}
-			</if>
-			<if test="deptId != null ">
-				and t.dept_id = #{deptId}
-			</if>
-			<if test="status != null ">
-				and t.status = #{status}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createTime != null ">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="updateTime != null ">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="remark != null  and remark != ''">
-				and t.remark = #{remark}
-			</if>
+			<if test="processType != null  and processType != ''">and t.process_type = #{processType}</if>
+			<if test="instanceNo != null  and instanceNo != ''">and t.instance_no = #{instanceNo}</if>
+			<if test="instanceName != null  and instanceName != ''">and t.instance_name = #{instanceName}</if>
+			<if test="instanceId != null  and instanceId != ''">and t.instance_id = #{instanceId}</if>
+			<if test="id != null ">and t.id = #{id}</if>
+			<if test="bizNo != null  and bizNo != ''">and t.biz_no = #{bizNo}</if>
+			<if test="processNo != null  and processNo != ''">and t.process_no = #{processNo</if>
+			<if test="processVersion != null ">and t.process_version = #{processVersion}</if>
+			<if test="deptId != null ">and t.dept_id = #{deptId}</if>
+			<if test="status != null ">and t.status = #{status}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="createTime != null ">and t.create_time = #{createTime}</if>
+			<if test="updateTime != null ">and t.update_time = #{updateTime}</if>
+			<if test="updateBy != null  and updateBy != ''">and t.update_by = #{updateBy}</if>
+			<if test="createBy != null  and createBy != ''">and t.create_by = #{createBy}</if>
+			<if test="remark != null  and remark != ''">and t.remark = #{remark}</if>
 		</where>
 	</select>
+
 	<select id="findByBizNoAndProcessNo"
-	        resultType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
+			resultMap="BaseResultMap" >
 		select
 		<include refid="BaseColumnList" />
 		from t_flw_process_instance t
@@ -441,14 +183,14 @@
 			   limit 1
 	</select>
 	<select id="findByInstanceNo"
-	        resultType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
+			resultMap="BaseResultMap" >
 		select
 		<include refid="BaseColumnList" />
 		from t_flw_process_instance t
 		where t.instance_no = #{instanceNo} limit 1
 	</select>
 	<select id="findByInstanceId"
-	        resultType="com.github.platform.core.workflow.domain.common.entity.ProcessInstanceBase">
+			resultMap="BaseResultMap" >
 		select
 		<include refid="BaseColumnList" />
 		from t_flw_process_instance t
