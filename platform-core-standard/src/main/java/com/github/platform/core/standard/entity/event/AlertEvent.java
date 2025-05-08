@@ -27,6 +27,7 @@ public class AlertEvent<T> implements Serializable {
     /**事件唯一标识符*/
     private String msgId;
     /**事件产生时间*/
+    @Builder.Default
     private LocalDateTime createTime = LocalDateTime.now();
     /**业务状态：1,成功，0失败*/
     private ResultStatusEnum status;

@@ -99,7 +99,7 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
                     String requestIp = WebUtil.getIpAddr(exchange.getRequest());
                     // 根据不同的authType设置不同的请求头
                     ServerHttpRequest.Builder requestBuilder = buildForwardRequest(exchange, token,
-                            Base64.encodeToUrlSafeString(loginInfoStr.getBytes()),
+                            URLEncoder.encode(loginInfoStr,StandardCharsets.UTF_8),
                             requestIp, tenantId);
 
                     return chain.filter(corsConfig(exchange).mutate()

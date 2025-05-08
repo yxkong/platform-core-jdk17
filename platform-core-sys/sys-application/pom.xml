@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.platform.sys</groupId>
-        <artifactId>platform-core-sys</artifactId>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>sys</artifactId>
         <version>${revision}</version>
     </parent>
     <artifactId>sys-application</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.github.platform.sys</groupId>
+           <groupId>com.github.platform.core</groupId>
             <artifactId>sys-infra</artifactId>
         </dependency>
     </dependencies>

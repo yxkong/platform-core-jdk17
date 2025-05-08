@@ -56,16 +56,20 @@ public class LoginUserInfo extends LoginInfo {
      * 角色列表
      */
     @Schema(description ="角色列表id")
+    @Builder.Default
     private List<Long> roleIds = new ArrayList<>();
     @Schema(description ="角色列表key")
+    @Builder.Default
     private List<String> roleKeys = new ArrayList<>();
     @Schema(description ="角色名称列表")
+    @Builder.Default
     private List<String> roleNames = new ArrayList<>();
 
     /**
      * 菜单权限列表
      */
     @Schema(description ="菜单权限列表")
+    @Builder.Default
     private Set<String> perms = new HashSet<>();
 
     /**

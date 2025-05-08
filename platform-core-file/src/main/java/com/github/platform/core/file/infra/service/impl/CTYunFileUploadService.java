@@ -41,7 +41,7 @@ public class CTYunFileUploadService extends AbstractUploadFileService  {
     public boolean support(String storage) {
         return FileUploadEnum.isCtYun(storage);
     }
-
+    @Override
     protected UploadProperties.OssProperties getProperties() {
         return this.uploadProperties.getCtyun();
     }

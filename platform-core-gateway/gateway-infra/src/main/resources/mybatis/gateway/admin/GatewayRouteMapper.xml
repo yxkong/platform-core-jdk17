@@ -82,8 +82,8 @@
 		<set>
 			<if test="routeId != null  and routeId != ''">route_id = #{routeId},</if>
 			<if test="uri != null  and uri != ''">uri = #{uri},</if>
-			<if test="authType != null  and authType != ''">auth_type=${authType},</if>
-			<if test="authConfig != null  and authConfig != ''">auth_config =${authConfig},</if>
+			<if test="authType != null  and authType != ''">auth_type = #{authType},</if>
+			<if test="authConfig != null  and authConfig != ''">auth_config = #{authConfig},</if>
 			<if test="tags != null  and tags != ''">tags = #{tags},</if>
 			<if test="gateway != null  and gateway != ''">gateway = #{gateway},</if>
 			<if test="module != null  and module != ''">module = #{module},</if>

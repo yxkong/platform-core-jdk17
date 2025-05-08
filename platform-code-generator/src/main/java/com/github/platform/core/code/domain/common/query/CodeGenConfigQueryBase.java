@@ -3,6 +3,7 @@ package com.github.platform.core.code.domain.common.query;
 import com.github.platform.core.common.entity.query.PageQueryBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 /**
@@ -12,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 * @datetime 2023-08-14 14:20:40.789
 * @version 1.0
 */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor

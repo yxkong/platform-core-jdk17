@@ -5,24 +5,24 @@
   <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>platform-core</artifactId>
-        <groupId>com.github.platform</groupId>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>core</artifactId>
         <version>${revision}</version>
     </parent>
 
-  <artifactId>platform-core-auth</artifactId>
+  <artifactId>auth</artifactId>
   <dependencies>
       <dependency>
-          <groupId>com.github.platform</groupId>
-          <artifactId>platform-core-common</artifactId>
+          <groupId>com.github.platform.core</groupId>
+          <artifactId>common</artifactId>
       </dependency>
       <dependency>
-          <groupId>com.github.platform</groupId>
-          <artifactId>platform-core-web</artifactId>
+          <groupId>com.github.platform.core</groupId>
+          <artifactId>web</artifactId>
       </dependency>
       <dependency>
-          <groupId>com.github.platform</groupId>
-          <artifactId>platform-core-cache</artifactId>
+          <groupId>com.github.platform.core</groupId>
+          <artifactId>cache</artifactId>
       </dependency>
   </dependencies>
 </project>

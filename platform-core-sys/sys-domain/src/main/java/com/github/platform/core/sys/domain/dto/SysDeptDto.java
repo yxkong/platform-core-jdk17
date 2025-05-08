@@ -2,6 +2,7 @@ package com.github.platform.core.sys.domain.dto;
 
 import com.github.platform.core.sys.domain.common.entity.SysDeptBase;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,6 @@ public class SysDeptDto extends SysDeptBase{
      * 子部门
      */
     @Schema(description ="子部门")
+    @Builder.Default
     private List<SysDeptDto> children = new ArrayList<>();
 }

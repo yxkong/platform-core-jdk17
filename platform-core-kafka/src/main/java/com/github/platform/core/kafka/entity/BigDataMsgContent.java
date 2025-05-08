@@ -21,6 +21,7 @@ import java.io.Serializable;
 public class BigDataMsgContent<T> implements Serializable {
     private String serviceName;
     private String tableName;
+    @Builder.Default
     private Integer tenantId = 1001;
     @Builder.Default
     private Long sendTime = System.currentTimeMillis();

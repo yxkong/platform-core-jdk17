@@ -13,6 +13,7 @@ import lombok.Data;
 @Builder
 public class SendSmsResultEntity {
 	/**发送状态   2，已发送，1 发送成功，-1 发送失败 */
+    @Builder.Default
 	private int status = 2;
 
     /**三方唯一id,只有成功才会有*/

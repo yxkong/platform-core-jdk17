@@ -18,6 +18,7 @@ import java.util.Objects;
 * @datetime 2023-09-05 11:37:59.627
 * @version 1.0
 */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor

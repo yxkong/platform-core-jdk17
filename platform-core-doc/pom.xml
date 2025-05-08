@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.platform</groupId>
-        <artifactId>platform-core</artifactId>
+       <groupId>com.github.platform.core</groupId>
+        <artifactId>core</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>platform-core-doc</artifactId>
+    <artifactId>doc</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.github.platform</groupId>
-            <artifactId>platform-core-web</artifactId>
+           <groupId>com.github.platform.core</groupId>
+            <artifactId>web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

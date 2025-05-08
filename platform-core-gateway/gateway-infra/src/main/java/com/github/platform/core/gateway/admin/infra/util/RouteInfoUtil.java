@@ -85,6 +85,7 @@ public class RouteInfoUtil {
     @Getter
     public static class RouteCondition {
         private String name;
+        @Builder.Default
         private Map<String, String> args = new LinkedHashMap<>();
     }
     /**

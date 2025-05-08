@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.platform.core</groupId>
+    <artifactId>bom</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <description>Platform Core BOM</description>
+    <properties>
+        <revision>0.3.12-SNAPSHOT</revision>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 代码生成 -->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>code-generator</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- ai模块 -->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>ai</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--auth 封装-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>auth</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--后端项目 auth 封装-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>auth-sys</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--api项目 auth 封装-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>auth-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--缓存模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>cache</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--cloud模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>cloud</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--common模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--swagger模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>doc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--file模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>file</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--gateway 基础设施模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>gateway-infra</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--gateway 后端管理模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>gateway-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--gateway 核心模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>gateway-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--kafka对接模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>kafka</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--负载均衡模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>lb</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--负载均衡扩展模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>lb-extend</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--日志模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--message 消息模块-->
+            <!--message domain模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>notice-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--message 基础设施模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>notice-infra</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--message 应用模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>notice-application</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--message 后端管理模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>notice-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--message 钉钉对接模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>dingtalk-service</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!--mybatis模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--mysql模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>mysql</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--oauth2 领域模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>oauth2-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--oauth2 基础设施模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>oauth2-infra</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--oauth2 应用模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>oauth2-application</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--oauth2 钉钉对接模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>oauth2-dingtalk</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--prometheus 对接模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>prometheus</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--调度模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>schedule</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--短信模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>sms</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- platform 平台基础实体包 -->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>standard</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!--后端管理领域模块-->
+            <dependency>
+               <groupId>com.github.platform.core</groupId>
+                <artifactId>sys-domain</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--后端管理基础设施模块-->
+            <dependency>
+               <groupId>com.github.platform.core</groupId>
+                <artifactId>sys-infra</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--后端管理应用模块-->
+            <dependency>
+               <groupId>com.github.platform.core</groupId>
+                <artifactId>sys-application</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--后端管理web模块-->
+            <dependency>
+               <groupId>com.github.platform.core</groupId>
+                <artifactId>sys-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--链路追踪模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>tracing</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--web 模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--websocket 模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>websocket</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!--工作流模块-->
+            <dependency>
+                <groupId>com.github.platform.core</groupId>
+                <artifactId>workflow</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.platform.gateway</groupId>
-        <artifactId>platform-core-gateway</artifactId>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>gateway</artifactId>
         <version>${revision}</version>
     </parent>
 
@@ -14,34 +14,34 @@
     <dependencies>
         <!--公共实体-->
         <dependency>
-            <groupId>com.github.platform</groupId>
-            <artifactId>platform-core-common</artifactId>
+           <groupId>com.github.platform.core</groupId>
+            <artifactId>common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.platform.gateway</groupId>
+            <groupId>com.github.platform.core</groupId>
             <artifactId>gateway-infra</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.platform</groupId>
-            <artifactId>platform-core-cloud</artifactId>
+           <groupId>com.github.platform.core</groupId>
+            <artifactId>cloud</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.platform</groupId>
-            <artifactId>platform-core-auth</artifactId>
+           <groupId>com.github.platform.core</groupId>
+            <artifactId>auth</artifactId>
             <exclusions>
                 <exclusion>
-                    <artifactId>platform-core-web</artifactId>
-                    <groupId>com.github.platform</groupId>
+                    <groupId>com.github.platform.core</groupId>
+                    <artifactId>web</artifactId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>spring-boot-starter-web</artifactId>
                     <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.github.platform</groupId>
-            <artifactId>platform-core-lb</artifactId>
+           <groupId>com.github.platform.core</groupId>
+            <artifactId>lb</artifactId>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-boot-starter-web</artifactId>

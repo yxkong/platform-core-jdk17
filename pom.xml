@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.9</version>
+        <version>3.4.5</version>
         <relativePath/>
     </parent>
-    <artifactId>platform-core</artifactId>
-    <groupId>com.github.platform</groupId>
+    <groupId>com.github.platform.core</groupId>
+    <artifactId>core</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <name>platform-core</name>
@@ -40,13 +40,56 @@
         <module>platform-core-sms</module>
         <module>platform-core-schedule</module>
         <module>platform-core-workflow</module>
-        <module>platform-core-message</module>
+        <module>platform-core-notice</module>
         <module>platform-core-oauth2</module>
         <module>platform-core-doc</module>
+        <module>platform-core-ai</module>
+        <module>platform-core-bom</module>
     </modules>
+    <!-- 保留profiles，但只包含变量定义 -->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>local</profiles.active>
+                <logging.level>debug</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+                <logging.level>debug</logging.level>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <logging.level>debug</logging.level>
+                <deploy.snapshot.id>test-snapshots</deploy.snapshot.id>
+                <deploy.release.id>test-releases</deploy.release.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+                <logging.level>debug</logging.level>
+                <deploy.snapshot.id>prod-snapshots</deploy.snapshot.id>
+                <deploy.release.id>prod-releases</deploy.release.id>
+            </properties>
+        </profile>
+    </profiles>
     <properties>
         <!--公共配置-->
-        <revision>0.3.11-SNAPSHOT</revision>
+        <revision>0.3.12-SNAPSHOT</revision>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -68,9 +111,9 @@
         <maven.javadoc.plugin.version>3.11.2</maven.javadoc.plugin.version>
         <flatten.maven.plugin.version>1.6.0</flatten.maven.plugin.version>
 
+        <spring.boot.version>3.4.5</spring.boot.version>
+        <spring.cloud.version>2024.0.1</spring.cloud.version>
         <spring.ai.bom.version>1.0.0-SNAPSHOT</spring.ai.bom.version>
-        <spring.boot.version>3.2.12</spring.boot.version>
-        <spring.cloud.version>2023.0.4</spring.cloud.version>
         <spring.cloud.loadbalancer.version>4.1.5</spring.cloud.loadbalancer.version>
         <spring.cloud.eureka.version>4.1.4</spring.cloud.eureka.version>
         <spring.cloud.openfeign.version>3.1.9</spring.cloud.openfeign.version>
@@ -84,6 +127,7 @@
         <joda.time.version>2.10</joda.time.version>
         <oos.sdk.version>6.5.0</oos.sdk.version>
         <!--
+        https://spring.io/projects/spring-cloud
         毕业版本依赖关系
         https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
 
@@ -93,7 +137,7 @@
         <!--数据库相关-->
         <mysql.connector.version>8.0.29</mysql.connector.version>
         <postgresql.connector.version>42.4.1</postgresql.connector.version>
-        <druid.version>1.2.22</druid.version>
+        <druid.version>1.2.24</druid.version>
         <flyway.version>5.2.1</flyway.version>
         <mybatis.version>3.5.16</mybatis.version>
         <mybaits.generator.version>3.4.1</mybaits.generator.version>
@@ -148,13 +192,13 @@
 
         <!-- 其他工具 -->
         <springdoc.openapi.version>2.3.0</springdoc.openapi.version>
-        <swagger.version>2.2.27</swagger.version>
+        <swagger.version>2.2.30</swagger.version>
         <aviator.version>5.3.0</aviator.version>
         <fastjson.version>1.2.83</fastjson.version>
         <fastjson2.version>2.0.38</fastjson2.version>
         <gson.version>2.9.1</gson.version>
         <easy.rules.version>4.1.0</easy.rules.version>
-        <freemarker.version>2.3.31</freemarker.version>
+        <freemarker.version>2.3.34</freemarker.version>
         <kaptcha.version>2.3.5</kaptcha.version>
         <quartz.version>2.3.2</quartz.version>
         <hutool.version>5.8.36</hutool.version>
@@ -166,9 +210,8 @@
         <commons.csv.version>1.10.0</commons.csv.version>
         <jsch.version>0.1.55</jsch.version>
 
-
-
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -195,220 +238,13 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
-            <!--导入依赖的pom文件,顺序靠前，先被引入-->
+            <!--项目依赖-->
             <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-mysql</artifactId>
+               <groupId>com.github.platform.core</groupId>
+                <artifactId>bom</artifactId>
                 <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-mybatis</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-prometheus</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-tracing</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-kafka</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-code-generator</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <!-- platform Core -->
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-standard</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-lb</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-lb-extend</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-common</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-file</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-workflow</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-log</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-sms</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-schedule</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-cache</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-gateway</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-gateway-admin</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-gateway-admin-infra</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-cloud</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-auth</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-auth-sys</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-auth-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-web</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform</groupId>
-                <artifactId>platform-core-doc</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet-api.version}</version>
-            </dependency>
-            <!--组合包-->
-            <dependency>
-                <groupId>com.github.platform.sys</groupId>
-                <artifactId>sys-domain</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.sys</groupId>
-                <artifactId>sys-infra</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.sys</groupId>
-                <artifactId>sys-application</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.sys</groupId>
-                <artifactId>sys-admin</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.oauth2</groupId>
-                <artifactId>oauth2-domain</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.oauth2</groupId>
-                <artifactId>oauth2-infra</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.oauth2</groupId>
-                <artifactId>oauth2-application</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.oauth2</groupId>
-                <artifactId>oauth2-dingtalk</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.gateway</groupId>
-                <artifactId>gateway-infra</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.gateway</groupId>
-                <artifactId>gateway-admin</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.gateway</groupId>
-                <artifactId>gateway-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.message</groupId>
-                <artifactId>notice-domain</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.message</groupId>
-                <artifactId>notice-infra</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.message</groupId>
-                <artifactId>notice-application</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.message</groupId>
-                <artifactId>notice-admin</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.platform.message</groupId>
-                <artifactId>dingtalk-service</artifactId>
-                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <!-- 链路追踪依赖 -->
             <dependency>
@@ -447,6 +283,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- 引入 Spring AI BOM，统一管理所有 spring-ai-* 模块版本 -->
             <dependency>
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
@@ -461,9 +298,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-
-
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
+            </dependency>
             <!-- 负载均衡,由于springcloud2020弃用了Ribbon，因此Alibaba在2021版本nacos中删除了Ribbon的jar包，因此无法通过lb路由到指定微服务，出现了503情况-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -525,12 +364,6 @@
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
             </dependency>
-
-            <!--            <dependency>-->
-            <!--                <groupId>com.fasterxml.jackson.datatype</groupId>-->
-            <!--                <artifactId>jackson-datatype-jsr310</artifactId>-->
-            <!--                <version>${jackson.version}</version>-->
-            <!--            </dependency>-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -597,38 +430,6 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${apache.commons.codec.version}</version>
             </dependency>
-<!--            &lt;!&ndash; 升级log4j2,安全漏洞修复 &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-api</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-core</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-slf4j-impl</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-jcl</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-jul</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
-<!--            &lt;!&ndash;用于收集日志所在的ip&ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.apache.logging.log4j</groupId>-->
-<!--                <artifactId>log4j-spring-boot</artifactId>-->
-<!--                <version>${log4j2.version}</version>-->
-<!--            </dependency>-->
             <!--sl4j 依赖-->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -899,6 +700,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
@@ -1005,13 +807,15 @@
                     <useIncrementalCompilation>true</useIncrementalCompilation>
                     <compilerArgs>
                         <arg>-parameters</arg>
+                        <arg>-Xlint:unchecked</arg>
 <!--                        <arg>-Amapstruct.verbose=true</arg>-->
 <!--                        <arg>-verbose</arg>-->
 <!--                        <arg>-Xlint:unchecked</arg>-->
 <!--                        <arg>-Xlint:deprecation</arg>-->
-<!--                        &lt;!&ndash; 关闭所有未使用注解处理器 &ndash;&gt;-->
+<!--                         关闭所有未使用注解处理器 -->
 <!--                        <arg>-proc:only</arg>-->
                     </compilerArgs>
+                    <!--注解处理-->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -1034,6 +838,8 @@
                 <configuration>
                     <!-- 根据需要调整，这里设置为false以运行测试 -->
                     <skipTests>true</skipTests>
+                    <!-- 排除标签 -->
+                    <excludedGroups>exclude</excludedGroups>
                 </configuration>
             </plugin>
             <plugin>
@@ -1088,21 +894,5 @@
             <id>${deploy.release.id}</id>
         </repository>
     </distributionManagement>
-    <!-- 保留profiles，但只包含变量定义 -->
-    <profiles>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <deploy.snapshot.id>prod-snapshots</deploy.snapshot.id>
-                <deploy.release.id>prod-releases</deploy.release.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>test</id>
-            <properties>
-                <deploy.snapshot.id>test-snapshots</deploy.snapshot.id>
-                <deploy.release.id>test-releases</deploy.release.id>
-            </properties>
-        </profile>
-    </profiles>
+
 </project>

@@ -77,8 +77,10 @@ public class UploadProperties {
         /**云的bucketName*/
         private String bucketName;
         /**云的链接超时时间*/
+        @Builder.Default
         private Integer connectionTimeout = 30 * 1000;
         /**云的socketTimeout*/
+        @Builder.Default
         private Integer socketTimeout = 30 * 1000;
         /**链接过期时间*/
         private Integer linkExpireMinutes;

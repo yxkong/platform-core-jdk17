@@ -4,6 +4,7 @@ import com.github.platform.core.common.entity.query.PageQueryBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
  * @date: 2023/4/25 3:09 PM
  * @version: 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Schema(name = "TableQuery",description = "表查询")
 @Data
 @SuperBuilder

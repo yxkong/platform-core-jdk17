@@ -22,7 +22,7 @@ public class ValidatorUtil {
         validator = factory.getValidator();
     }
     public static String validate(Object obj){
-        return validate(obj,null);
+        return validate(obj, (Class<?>) null);
     }
     public static String validate(Object obj, Class<?>... groups) {
         // 手动校验对象，传入指定的分组

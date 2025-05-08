@@ -3,6 +3,7 @@ package com.github.platform.core.loadbalancer.domain.common.entity;
 import com.github.platform.core.common.entity.BaseAdminEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -15,6 +16,7 @@ import jakarta.validation.constraints.NotEmpty;
 * @datetime 2023-08-14 15:54:07.988
 * @version 1.0
 */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor

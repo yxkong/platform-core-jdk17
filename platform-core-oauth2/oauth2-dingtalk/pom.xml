@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.platform.oauth2</groupId>
-        <artifactId>platform-core-oauth2</artifactId>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>oauth2</artifactId>
         <version>${revision}</version>
     </parent>
     <artifactId>oauth2-dingtalk</artifactId>
     <dependencies>
         <dependency>
-            <groupId>com.github.platform.oauth2</groupId>
+            <groupId>com.github.platform.core</groupId>
             <artifactId>oauth2-application</artifactId>
         </dependency>
         <dependency>
@@ -19,11 +19,11 @@
             <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.platform.sys</groupId>
+           <groupId>com.github.platform.core</groupId>
             <artifactId>sys-application</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.platform.message</groupId>
+            <groupId>com.github.platform.core</groupId>
             <artifactId>notice-infra</artifactId>
         </dependency>
     </dependencies>

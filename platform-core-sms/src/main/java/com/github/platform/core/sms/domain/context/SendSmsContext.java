@@ -43,6 +43,7 @@ public class SendSmsContext {
     /**短信模板号*/
     private String  tempNo ;
     /**短信模板对应的参数*/
+    @Builder.Default
     private Map<String,Object> params = new HashMap<>();
     /**短信类型*/
     private SmsType smsType;

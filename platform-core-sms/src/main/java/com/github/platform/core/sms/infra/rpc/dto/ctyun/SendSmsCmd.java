@@ -20,6 +20,7 @@ public class SendSmsCmd {
     /**
      * 系统规定参数，固定
      */
+    @Builder.Default
     private String action = "SendSms";
     /**
      * 接收短信的手机号码，格式：国内短信：无任何前缀的11位手机号码
@@ -44,6 +45,7 @@ public class SendSmsCmd {
     /**
      * 上行短信扩展码，上行短信，指发送给通信服务提供商的短信，用于定制某种服务、完成查询，或是办理某种业务等，需要收费的按运营商普通短信资费进行扣费
      */
+    @Builder.Default
     private String extendCode = "";
 
     /**
