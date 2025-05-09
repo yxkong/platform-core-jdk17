@@ -44,19 +44,8 @@ public class SysOptLogServiceImpl implements ISysOptLogService {
     }
 
     @Override
-    public List<SysOptLogBase> findList(Map<String,Object> params){
-        return  sysOptLogMapper.findList(params);
-    }
-    @Override
     public List<SysOptLogBase> findListBy(SysOptLogBase record){
         return  sysOptLogMapper.findListBy(record);
-    }
-
-    @Override
-    public PageInfo<SysOptLogBase> findPageInfo(Map<String,Object> params, int pageNum, int pageSize){
-        PageHelper.startPage(pageNum,pageSize);
-        List<SysOptLogBase> list = sysOptLogMapper.findList(params);
-        return new PageInfo<>(list);
     }
 
     @Override
@@ -66,10 +55,6 @@ public class SysOptLogServiceImpl implements ISysOptLogService {
         return new PageInfo<>(list);
     }
 
-    @Override
-    public long findListCount(Map<String,Object> params){
-        return sysOptLogMapper.findListCount(params);
-    }
 
     @Override
     public long findListByCount(SysOptLogBase record){

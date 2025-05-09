@@ -126,7 +126,7 @@ public class GrayReactiveLoadBalancerFilter implements GlobalFilter, Ordered {
         if (Objects.isNull(info)){
             return null;
         }
-        info = new String(Base64.decodeUrlSafe(info.getBytes()));
+        info = URLDecoder.decode(info,StandardCharsets.UTF_8);
         final LoginInfo loginInfo = JsonUtils.fromJson(info, LoginInfo.class);
         if (Objects.isNull(loginInfo)){
             return null;

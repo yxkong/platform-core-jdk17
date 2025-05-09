@@ -32,6 +32,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -190,7 +192,7 @@ public class AuthorizeAspect {
         String loginStr = httpRequest.getHeader(HeaderConstant.LOGIN_INFO);
 
         if (StringUtils.isNotBlank(loginStr)) {
-            loginStr = new String(Base64.decodeUrlSafe(loginStr.getBytes()));
+            loginStr = URLDecoder.decode(loginStr, StandardCharsets.UTF_8);
             if (log.isTraceEnabled()){
                 log.trace("通过网关过来请求的,uri:{},loginInfoStr:{}", httpRequest.getRequestURI(),loginStr);
             }

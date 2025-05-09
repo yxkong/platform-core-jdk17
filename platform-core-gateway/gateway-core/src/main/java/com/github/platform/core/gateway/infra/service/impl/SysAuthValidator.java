@@ -44,7 +44,7 @@ public class SysAuthValidator implements AuthValidator {
 
     @Override
     public Mono<Void> validate(ServerWebExchange exchange) {
-        String token = exchange.getRequest().getHeaders().getFirst(HeaderConstant.TOKEN);
+         String token = exchange.getRequest().getHeaders().getFirst(HeaderConstant.TOKEN);
         if (StringUtils.isEmpty(token)) {
             return Mono.error(new AuthException("Missing system token"));
         }
@@ -61,6 +61,7 @@ public class SysAuthValidator implements AuthValidator {
             if (loginUserInfo.getPerms() == null) {
                 loginUserInfo.setPerms(new HashSet<>());
             }
+            //添加默认权限
             loginUserInfo.getPerms().addAll(authProperties.getSys().getDefaultPerms());
             // 权限校验
             if (!AuthUtil.isSuperAdmin() &&

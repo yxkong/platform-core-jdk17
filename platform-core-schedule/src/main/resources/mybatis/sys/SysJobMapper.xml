@@ -3,29 +3,30 @@
 <mapper namespace="com.github.platform.core.persistence.mapper.schedule.SysJobMapper">
 
 	<resultMap type="com.github.platform.core.schedule.domain.common.entity.SysJobBase" id="BaseResultMap">
-		<id column="id" property="id" />
-		<id column="name" property="name" />
-		<id column="bean_name" property="beanName" />
-		<id column="job_type" property="jobType" />
-		<id column="handler_param" property="handlerParam" />
-		<id column="call_back_url" property="callBackUrl" />
-		<id column="access_token" property="accessToken" />
-		<id column="cron_expression" property="cronExpression" />
-		<id column="start_date" property="startDate" />
-		<id column="end_date" property="endDate" />
-		<id column="retry_count" property="retryCount" />
-		<id column="retry_interval" property="retryInterval" />
-		<id column="monitor_timeout" property="monitorTimeout" />
-		<id column="tenant_id" property="tenantId" />
-		<id column="job_status" property="jobStatus" />
-		<id column="sub_job_ids" property="subJobIds" />
-		<id column="status" property="status" />
-		<id column="create_time" property="createTime" />
-		<id column="create_by" property="createBy" />
-		<id column="update_time" property="updateTime" />
-		<id column="update_by" property="updateBy" />
-		<id column="remark" property="remark" />
+		<id column="id" property="id"/>
+		<id column="name" property="name"/>
+		<id column="bean_name" property="beanName"/>
+		<id column="job_type" property="jobType"/>
+		<id column="handler_param" property="handlerParam"/>
+		<id column="call_back_url" property="callBackUrl"/>
+		<id column="access_token" property="accessToken"/>
+		<id column="cron_expression" property="cronExpression"/>
+		<id column="start_date" property="startDate"/>
+		<id column="end_date" property="endDate"/>
+		<id column="retry_count" property="retryCount"/>
+		<id column="retry_interval" property="retryInterval"/>
+		<id column="monitor_timeout" property="monitorTimeout"/>
+		<id column="tenant_id" property="tenantId"/>
+		<id column="job_status" property="jobStatus"/>
+		<id column="sub_job_ids" property="subJobIds"/>
+		<id column="status" property="status"/>
+		<id column="create_time" property="createTime"/>
+		<id column="create_by" property="createBy"/>
+		<id column="update_time" property="updateTime"/>
+		<id column="update_by" property="updateBy"/>
+		<id column="remark" property="remark"/>
 	</resultMap>
+
 	<sql id="BaseColumnList">
 		t.id,
 		t.name,
@@ -52,210 +53,145 @@
 	</sql>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
-		insert into t_sys_job <trim prefix="(" suffix=")" suffixOverrides=",">
-		<if test="id != null">id,</if>
-		<if test="name != null and name != ''">name,</if>
-		<if test="beanName != null and beanName != ''">bean_name,</if>
-		<if test="jobType != null and jobType != ''">job_type,</if>
-		<if test="handlerParam != null and handlerParam != ''">handler_param,</if>
-		<if test="callBackUrl != null and callBackUrl != ''">call_back_url,</if>
-		<if test="accessToken != null and accessToken != ''">access_token,</if>
-		<if test="cronExpression != null and cronExpression != ''">cron_expression,</if>
-		<if test="startDate != null">start_date,</if>
-		<if test="endDate != null">end_date,</if>
-		<if test="retryCount != null">retry_count,</if>
-		<if test="retryInterval != null">retry_interval,</if>
-		<if test="monitorTimeout != null">monitor_timeout,</if>
-		<if test="jobStatus != null">job_status,</if>
-		<if test="subJobIds != null">sub_job_ids,</if>
-		<if test="tenantId != null">tenant_id,</if>
-		<if test="status != null">status,</if>
-		<if test="createTime != null">create_time,</if>
-		<if test="createBy != null">create_by,</if>
-		<if test="updateTime != null">update_time,</if>
-		<if test="updateBy != null">update_by,</if>
-		<if test="remark != null">remark</if>
-	</trim> <trim prefixOverrides=",">
-		<if test="id != null">#{id}, </if>
-		<if test="name != null and name != ''">#{name}, </if>
-		<if test="beanName != null and beanName != ''">#{beanName}, </if>
-		<if test="jobType != null and jobType != ''">#{jobType}, </if>
-		<if test="handlerParam != null and handlerParam != ''">#{handlerParam}, </if>
-		<if test="callBackUrl != null and callBackUrl != ''">#{callBackUrl}, </if>
-		<if test="accessToken != null and accessToken != ''">#{accessToken}, </if>
-		<if test="cronExpression != null and cronExpression != ''">#{cronExpression}, </if>
-		<if test="startDate != null">#{startDate}, </if>
-		<if test="endDate != null">#{endDate}, </if>
-		<if test="retryCount != null">#{retryCount}, </if>
-		<if test="retryInterval != null">#{retryInterval}, </if>
-		<if test="monitorTimeout != null">#{monitorTimeout}, </if>
-		<if test="jobStatus != null">#{jobStatus}, </if>
-		<if test="subJobIds != null">#{subJobIds}, </if>
-		<if test="tenantId != null">#{tenantId}, </if>
-		<if test="status != null">#{status}, </if>
-		<if test="createTime != null">#{createTime}, </if>
-		<if test="createBy != null">#{createBy}, </if>
-		<if test="updateTime != null">#{updateTime}, </if>
-		<if test="updateBy != null">#{updateBy}, </if>
-		<if test="remark != null">#{remark}</if>
-	</trim >
+		insert into t_sys_job
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="name != null and name != ''">name,</if>
+			<if test="beanName != null and beanName != ''">bean_name,</if>
+			<if test="jobType != null and jobType != ''">job_type,</if>
+			<if test="handlerParam != null and handlerParam != ''">handler_param,</if>
+			<if test="callBackUrl != null and callBackUrl != ''">call_back_url,</if>
+			<if test="accessToken != null and accessToken != ''">access_token,</if>
+			<if test="cronExpression != null and cronExpression != ''">cron_expression,</if>
+			<if test="startDate != null">start_date,</if>
+			<if test="endDate != null">end_date,</if>
+			<if test="retryCount != null">retry_count,</if>
+			<if test="retryInterval != null">retry_interval,</if>
+			<if test="monitorTimeout != null">monitor_timeout,</if>
+			<if test="jobStatus != null">job_status,</if>
+			<if test="subJobIds != null">sub_job_ids,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="status != null">status,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="updateTime != null">update_time,</if>
+			<if test="updateBy != null">update_by,</if>
+			<if test="remark != null">remark,</if>
+		</trim>
+		<trim prefixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="name != null and name != ''">#{name},</if>
+			<if test="beanName != null and beanName != ''">#{beanName},</if>
+			<if test="jobType != null and jobType != ''">#{jobType},</if>
+			<if test="handlerParam != null and handlerParam != ''">#{handlerParam},</if>
+			<if test="callBackUrl != null and callBackUrl != ''">#{callBackUrl},</if>
+			<if test="accessToken != null and accessToken != ''">#{accessToken},</if>
+			<if test="cronExpression != null and cronExpression != ''">#{cronExpression},</if>
+			<if test="startDate != null">#{startDate},</if>
+			<if test="endDate != null">#{endDate},</if>
+			<if test="retryCount != null">#{retryCount},</if>
+			<if test="retryInterval != null">#{retryInterval},</if>
+			<if test="monitorTimeout != null">#{monitorTimeout},</if>
+			<if test="jobStatus != null">#{jobStatus},</if>
+			<if test="subJobIds != null">#{subJobIds},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="updateTime != null">#{updateTime},</if>
+			<if test="updateBy != null">#{updateBy},</if>
+			<if test="remark != null">#{remark},</if>
+		</trim>
 	</insert>
+
 	<update id="updateById" parameterType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
-		update t_sys_job <set>
-		<if test="name != null">name = #{name}, </if>
-		<if test="beanName != null and beanName != ''">bean_name = #{beanName}, </if>
-		<if test="jobType != null and jobType != ''">job_type = #{jobType}, </if>
-		<if test="handlerParam != null and handlerParam != ''">handler_param = #{handlerParam}, </if>
-		<if test="callBackUrl != null and callBackUrl != ''">call_back_url = #{callBackUrl}, </if>
-		<if test="accessToken != null and accessToken != ''">access_token = #{accessToken}, </if>
-		<if test="cronExpression != null and cronExpression != ''">cron_expression = #{cronExpression}, </if>
-		<if test="startDate != null">start_date = #{startDate}, </if>
-		<if test="endDate != null">end_date = #{endDate}, </if>
-		<if test="retryCount != null">retry_count = #{retryCount}, </if>
-		<if test="retryInterval != null">retry_interval = #{retryInterval}, </if>
-		<if test="monitorTimeout != null">monitor_timeout = #{monitorTimeout}, </if>
-		<if test="jobStatus != null">job_status = #{jobStatus}, </if>
-		<if test="subJobIds != null">sub_job_ids = #{subJobIds}, </if>
-		<if test="tenantId != null">tenant_id = #{tenantId}, </if>
-		<if test="status != null">status = #{status}, </if>
-		<if test="updateTime != null">update_time = #{updateTime}, </if>
-		<if test="updateBy != null">update_by = #{updateBy}, </if>
-		<if test="remark != null">remark = #{remark} </if>
-	</set>
-	 where id = #{id}>
+		update t_sys_job
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="beanName != null and beanName != ''">bean_name = #{beanName},</if>
+			<if test="jobType != null and jobType != ''">job_type = #{jobType},</if>
+			<if test="handlerParam != null and handlerParam != ''">handler_param = #{handlerParam},</if>
+			<if test="callBackUrl != null and callBackUrl != ''">call_back_url = #{callBackUrl},</if>
+			<if test="accessToken != null and accessToken != ''">access_token = #{accessToken},</if>
+			<if test="cronExpression != null and cronExpression != ''">cron_expression = #{cronExpression},</if>
+			<if test="startDate != null">start_date = #{startDate},</if>
+			<if test="endDate != null">end_date = #{endDate},</if>
+			<if test="retryCount != null">retry_count = #{retryCount},</if>
+			<if test="retryInterval != null">retry_interval = #{retryInterval},</if>
+			<if test="monitorTimeout != null">monitor_timeout = #{monitorTimeout},</if>
+			<if test="jobStatus != null">job_status = #{jobStatus},</if>
+			<if test="subJobIds != null">sub_job_ids = #{subJobIds},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="updateTime != null">update_time = #{updateTime},</if>
+			<if test="updateBy != null">update_by = #{updateBy},</if>
+			<if test="remark != null">remark = #{remark},</if>
+		</set>
+		where id = #{id}
 	</update>
+
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_job t where t.id=#{id}
+		select <include refid="BaseColumnList"/> from t_sys_job t where t.id=#{id}
 	</select>
+
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_job t
+		select <include refid="BaseColumnList"/> from t_sys_job t
 		<where>
-			<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+			<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 				#{id}
 			</foreach>
 		</where>
 		limit 200
 	</select>
+
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
-		select 
-		<include refid="BaseColumnList" />
-		from t_sys_job t
+		select <include refid="BaseColumnList"/> from t_sys_job t
 		<where>
-			<if test="id != null">
-				and t.id = #{id}
-			</if>
-			<if test="name != null">
-				and t.name  like concat('%',#{name},'%')
-			</if>
-			<if test="beanName != null">
-				and t.bean_name like concat('%',#{beanName},'%')
-			</if>
-			<if test="jobType != null">
-				and t.job_type = #{jobType}
-			</if>
-			<if test="handlerParam != null">
-				and t.handler_param = #{handlerParam}
-			</if>
-			<if test="cronExpression != null">
-				and t.cron_expression = #{cronExpression}
-			</if>
-			<if test="startDate != null">
-				and t.start_date = #{startDate}
-			</if>
-			<if test="endDate != null">
-				and t.end_date = #{endDate}
-			</if>
-			<if test="retryCount != null">
-				and t.retry_count = #{retryCount}
-			</if>
-			<if test="retryInterval != null">
-				and t.retry_interval = #{retryInterval}
-			</if>
-			<if test="monitorTimeout != null">
-				and t.monitor_timeout = #{monitorTimeout}
-			</if>
-			<if test="jobStatus != null">
-				and t.job_status = #{jobStatus}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="status != null">
-				and t.status = #{status}
-			</if>
-			<if test="createBy != null">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="updateBy != null">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
+			<if test="id != null">and t.id = #{id}</if>
+			<if test="name != null">and t.name like concat('%',#{name},'%')</if>
+			<if test="beanName != null">and t.bean_name like concat('%',#{beanName},'%')</if>
+			<if test="jobType != null">and t.job_type = #{jobType}</if>
+			<if test="handlerParam != null">and t.handler_param = #{handlerParam}</if>
+			<if test="cronExpression != null">and t.cron_expression = #{cronExpression}</if>
+			<if test="startDate != null">and t.start_date = #{startDate}</if>
+			<if test="endDate != null">and t.end_date = #{endDate}</if>
+			<if test="retryCount != null">and t.retry_count = #{retryCount}</if>
+			<if test="retryInterval != null">and t.retry_interval = #{retryInterval}</if>
+			<if test="monitorTimeout != null">and t.monitor_timeout = #{monitorTimeout}</if>
+			<if test="jobStatus != null">and t.job_status = #{jobStatus}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="status != null">and t.status = #{status}</if>
+			<if test="createBy != null">and t.create_by = #{createBy}</if>
+			<if test="updateBy != null">and t.update_by = #{updateBy}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
 		</where>
 	</select>
-	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
+
+	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
 		select count(t.id) from t_sys_job t
 		<where>
-			<if test="id != null">
-				and t.id = #{id}
-			</if>
-			<if test="name != null">
-				and t.name = #{name}
-			</if>
-			<if test="beanName != null">
-				and t.bean_name = #{beanName}
-			</if>
-			<if test="handlerParam != null">
-				and t.handler_param = #{handlerParam}
-			</if>
-			<if test="cronExpression != null">
-				and t.cron_expression = #{cronExpression}
-			</if>
-			<if test="startDate != null">
-				and t.start_date = #{startDate}
-			</if>
-			<if test="endDate != null">
-				and t.end_date = #{endDate}
-			</if>
-			<if test="retryCount != null">
-				and t.retry_count = #{retryCount}
-			</if>
-			<if test="retryInterval != null">
-				and t.retry_interval = #{retryInterval}
-			</if>
-			<if test="monitorTimeout != null">
-				and t.monitor_timeout = #{monitorTimeout}
-			</if>
-			<if test="jobStatus != null">
-				and t.job_status = #{jobStatus}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="status != null">
-				and t.status = #{status}
-			</if>
-			<if test="createTime != null">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="createBy != null">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="updateTime != null">
-				and t.update_time = #{updateTime}
-			</if>
-			<if test="updateBy != null">
-				and t.update_by = #{updateBy}
-			</if>
-			<if test="remark != null">
-				and t.remark = #{remark}
-			</if>
+			<if test="id != null">and t.id = #{id}</if>
+			<if test="name != null">and t.name = #{name}</if>
+			<if test="beanName != null">and t.bean_name = #{beanName}</if>
+			<if test="handlerParam != null">and t.handler_param = #{handlerParam}</if>
+			<if test="cronExpression != null">and t.cron_expression = #{cronExpression}</if>
+			<if test="startDate != null">and t.start_date = #{startDate}</if>
+			<if test="endDate != null">and t.end_date = #{endDate}</if>
+			<if test="retryCount != null">and t.retry_count = #{retryCount}</if>
+			<if test="retryInterval != null">and t.retry_interval = #{retryInterval}</if>
+			<if test="monitorTimeout != null">and t.monitor_timeout = #{monitorTimeout}</if>
+			<if test="jobStatus != null">and t.job_status = #{jobStatus}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="status != null">and t.status = #{status}</if>
+			<if test="createTime != null">and t.create_time = #{createTime}</if>
+			<if test="createBy != null">and t.create_by = #{createBy}</if>
+			<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+			<if test="updateBy != null">and t.update_by = #{updateBy}</if>
+			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
+
 	<select id="findByBeanNameNotId"
 	        resultType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
 		select

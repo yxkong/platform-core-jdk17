@@ -798,24 +798,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${maven.compiler.encoding}</encoding>
-                    <!-- 启用增量编译 -->
-                    <useIncrementalCompilation>true</useIncrementalCompilation>
+                    <!-- 按需决定是否跳过测试编译 -->
+                    <skip>true</skip>
+                    <!--传递额外的编译参数-->
                     <compilerArgs>
+                        <!-- 保留方法参数名（对Spring/Flowable很重要） -->
                         <arg>-parameters</arg>
+                        <!-- 基本的lint检查 -->
                         <arg>-Xlint:unchecked</arg>
-<!--                        <arg>-Amapstruct.verbose=true</arg>-->
-<!--                        <arg>-verbose</arg>-->
-<!--                        <arg>-Xlint:unchecked</arg>-->
-<!--                        <arg>-Xlint:deprecation</arg>-->
-<!--                         关闭所有未使用注解处理器 -->
-<!--                        <arg>-proc:only</arg>-->
+                        <arg>-Xlint:deprecation</arg>
+                        <!-- 如果使用MapStruct -->
+                        <!--						<arg>-Amapstruct.verbose=true</arg>-->
+                        <!--添加一些jar，让bootstrap ClassLoader加载-->
+                        <!--<arg>-Xbootclasspath:${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</arg>-->
+                        <!--解决本地jar包依赖问题-->
+                        <!--<arg>-Xextdirs:${basedir}\lib</arg>-->
                     </compilerArgs>
-                    <!--注解处理-->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

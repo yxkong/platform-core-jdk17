@@ -28,6 +28,7 @@ public class SysAuthCacheResolver implements CacheResolver {
     @Override
     public Collection<? extends Cache> resolveCaches(CacheOperationInvocationContext<?> context) {
         String cacheName = authProperties.getSys().getLogin().getToken();
-        return Collections.singleton(cacheManager.getCache(cacheName));
+        Cache cache = cacheManager.getCache(cacheName);
+        return Collections.singleton(cache);
     }
 }

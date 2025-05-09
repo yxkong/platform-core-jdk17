@@ -114,6 +114,12 @@ public interface ISysUserGateway {
     void reloadToken(String  token, LoginUserInfo loginUserInfo);
 
     /**
+     * 根据token获取用户信息
+     * @param token
+     * @return
+     */
+    String getLoginInfoStr(String token);
+    /**
      * 基础校验 密码+账户状态
      * @param loginName
      * @param pwd

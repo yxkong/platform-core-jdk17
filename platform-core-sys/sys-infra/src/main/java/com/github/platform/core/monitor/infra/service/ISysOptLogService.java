@@ -39,24 +39,10 @@ public interface ISysOptLogService  {
     List<SysOptLogBase> findByIds(Long[] ids);
     /**
     * 通过map参数获取列表
-    * @param params 查询参数
-    * @return List<SysOptLogBase>
-    */
-    List<SysOptLogBase> findList(Map<String,Object> params);
-    /**
-    * 通过map参数获取列表
     * @param record 查询参数
     * @return List<SysOptLogBase>
     */
     List<SysOptLogBase> findListBy(SysOptLogBase record);
-    /**
-    * 通过map参数获取列表 分页
-    * @param params 查询参数
-    * @param pageNum 页数
-    * @param pageSize 每页大小
-    * @return PageInfo<SysOptLogBase> 分页结果
-    */
-    PageInfo<SysOptLogBase> findPageInfo(Map<String,Object> params,int pageNum,int pageSize);
     /**
     * 通过实体参数获取列表分页
     * @param record 查询实体
@@ -65,12 +51,7 @@ public interface ISysOptLogService  {
     * @return PageInfo<SysOptLogBase> 分页结果
     */
     PageInfo<SysOptLogBase> findPageInfo(SysOptLogBase record,int pageNum,int pageSize);
-    /**
-    * 通过map参数获取 总数
-    * @param params 查询参数
-    * @return 总数
-    */
-    long findListCount(Map<String,Object> params);
+
     /**
     * 通过实体参数获取 总数
     * @param record 查询实体

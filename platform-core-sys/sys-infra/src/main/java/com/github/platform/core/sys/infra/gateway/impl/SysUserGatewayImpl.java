@@ -349,6 +349,11 @@ public class SysUserGatewayImpl extends BaseGatewayImpl implements ISysUserGatew
         tokenService.saveOrUpdate(loginUserInfo.getTenantId(),token,loginUserInfo.getLoginName(),LoginUserInfoUtil.getLoginName(), JsonUtils.toJson(loginUserInfo),false);
     }
 
+    @Override
+    public String getLoginInfoStr(String token) {
+        return tokenService.getLoginInfoStr(token);
+    }
+
     /**
      * 处理权限
      * @param entity

@@ -38,23 +38,11 @@ public interface LoginLogMapper  {
     */
     List<SysLoginLogBase> findByIds(@Param("ids") Long[] ids);
     /**
-    * 通过map参数获取列表
-    * @param params
-    * @return List<$SysLoginLogBase>
-    */
-    List<SysLoginLogBase> findList(Map<String,Object> params);
-    /**
     * 通过实体查询
     * @param record
     * @return List<SysLoginLogBase>
     */
     List<SysLoginLogBase> findListBy(SysLoginLogBase record);
-    /**
-    * 通过map参数获取 总数
-    * @param params
-    * @return int
-    */
-    long findListCount(Map<String,Object> params);
     /**
     * 通过实体查询总数
     * @param record

@@ -44,19 +44,8 @@ public class GrayRuleServiceImpl implements IGrayRuleService {
     }
 
     @Override
-    public List<GrayRuleBase> findList(Map<String,Object> params){
-        return  grayRuleMapper.findList(params);
-    }
-    @Override
     public List<GrayRuleBase> findListBy(GrayRuleBase record){
         return  grayRuleMapper.findListBy(record);
-    }
-
-    @Override
-    public PageInfo<GrayRuleBase> findPageInfo(Map<String,Object> params, int pageNum, int pageSize){
-        PageHelper.startPage(pageNum,pageSize);
-        List<GrayRuleBase> list = grayRuleMapper.findList(params);
-        return new PageInfo<>(list);
     }
 
     @Override
@@ -64,11 +53,6 @@ public class GrayRuleServiceImpl implements IGrayRuleService {
         PageHelper.startPage(pageNum,pageSize);
         List<GrayRuleBase> list = grayRuleMapper.findListBy(record);
         return new PageInfo<>(list);
-    }
-
-    @Override
-    public long findListCount(Map<String,Object> params){
-        return grayRuleMapper.findListCount(params);
     }
 
     @Override

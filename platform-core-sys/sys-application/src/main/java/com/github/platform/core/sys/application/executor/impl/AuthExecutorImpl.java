@@ -123,4 +123,9 @@ public class AuthExecutorImpl extends BaseExecutor implements IAuthExecutor {
         userGateway.logout();
         return true;
     }
+
+    @Override
+    public String getLoginInfoStr(String token) {
+        return userGateway.getLoginInfoStr(token);
+    }
 }

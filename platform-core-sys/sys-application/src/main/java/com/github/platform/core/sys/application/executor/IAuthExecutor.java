@@ -37,4 +37,11 @@ public interface IAuthExecutor {
      * @return
      */
     Boolean logout();
+
+    /**
+     * 根据token获取用户信息
+     * @param token
+     * @return
+     */
+    String getLoginInfoStr(String token);
 }

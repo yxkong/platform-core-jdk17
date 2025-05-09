@@ -2,105 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.github.platform.core.persistence.mapper.sys.SysRoleDeptMapper">
 
-	 <resultMap type="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase" id="BaseResultMap">
-    	 <id column="roleId" property="roleId" />
-		 <id column="roleKey" property="roleKey" />
-		 <id column="deptId" property="deptId" />
-		 <id column="tenantId" property="tenantId" />
-		 <id column="createBy" property="createBy" />
-		 <id column="createTime" property="createTime" />
-  
-    </resultMap>
-    <sql id="BaseColumnList">
-    	 t.role_id as roleId ,
-    	 t.role_key as roleKey,
- 		 t.dept_id as deptId ,
- 		 t.tenant_id as tenantId,
-    	 t.create_by as createBy,
-    	 t.create_time as createTime
-    </sql>
+	<resultMap type="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase" id="BaseResultMap">
+		<id column="role_id" property="roleId" />
+		<id column="role_key" property="roleKey" />
+		<id column="dept_id" property="deptId" />
+		<id column="tenant_id" property="tenantId" />
+		<id column="create_by" property="createBy" />
+		<id column="create_time" property="createTime" />
+	</resultMap>
 
-	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase">
-		insert into  t_sys_role_dept
-		<trim prefix="(" suffix=")" suffixOverrides=","> 
- 			<if test="roleId != null">
- 				role_id,
- 			</if>
- 			<if test="deptId != null">
- 				dept_id,
- 			</if>
- 			<if test="tenantId != null">
- 				tenant_id,
- 			</if>
-			<if test="createBy != null and createBy != ''">
-				create_by,
-			</if>
-			<if test="createTime != null">
-				create_time,
-			</if>
+	<sql id="BaseColumnList">
+		t.role_id,
+		t.role_key,
+		t.dept_id,
+		t.tenant_id,
+		t.create_by,
+		t.create_time
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase">
+		insert into t_sys_role_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">role_id,</if>
+			<if test="deptId != null">dept_id,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="createBy != null and createBy != ''">create_by,</if>
+			<if test="createTime != null">create_time,</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
- 			<if test="roleId != null">
- 				#{roleId},
- 			</if>
-			<if test="roleKey != null and roleKey != ''">
-				#{roleKey},
-			</if>
- 			<if test="deptId != null">
- 				#{deptId},
- 			</if>
- 			<if test="tenantId != null">
- 				#{tenantId},
- 			</if>
-			<if test="createBy != null and createBy != ''">
-				#{createBy},
-			</if>
-			<if test="createTime != null">
-				#{createTime},
-			</if>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="roleId != null">#{roleId},</if>
+			<if test="roleKey != null and roleKey != ''">#{roleKey},</if>
+			<if test="deptId != null">#{deptId},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="createBy != null and createBy != ''">#{createBy},</if>
+			<if test="createTime != null">#{createTime},</if>
 		</trim>
 	</insert>
-	
+
 	<update id="updateById" parameterType="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase">
-		update   t_sys_role_dept
- 		 <set>
- 			 <if test="deptId != null">
- 				dept_id = #{deptId},
- 			 </if>
- 			 <if test="tenantId != null">
- 				tenant_id = #{tenantId},
- 			 </if>
- 		 </set>
-     where role_id = #{roleId}
+		update t_sys_role_dept
+		<set>
+			<if test="deptId != null">dept_id = #{deptId},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+		</set>
+		where role_id = #{roleId}
 	</update>
+
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select <include refid="BaseColumnList" /> from t_sys_role_dept t where t.role_id=#{roleId}
 	</select>
+
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select <include refid="BaseColumnList" /> from t_sys_role_dept
 		<where>
-			<foreach item="id"  collection="ids" open="role_id  in (" separator="," close=")" >
+			<foreach item="id" collection="ids" open="role_id in (" separator="," close=")">
 				#{id}
 			</foreach>
 		</where>
 		limit 200
 	</select>
+
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.sys.domain.common.entity.SysRoleDeptBase">
-		select 
- 		<include refid="BaseColumnList" />
- 		from t_sys_role_dept t
- 		<where>
- 			<if test="roleId != null">
- 				and t.role_id = #{roleId}
- 			</if>
- 			<if test="deptId != null">
- 				and t.dept_id = #{deptId}
- 			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
+		select
+		<include refid="BaseColumnList" />
+		from t_sys_role_dept t
+		<where>
+			<if test="roleId != null">and t.role_id = #{roleId}</if>
+			<if test="deptId != null">and t.dept_id = #{deptId}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 		</where>
 	</select>
+
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_sys_role_dept where role_id = #{roleId}
 	</delete>

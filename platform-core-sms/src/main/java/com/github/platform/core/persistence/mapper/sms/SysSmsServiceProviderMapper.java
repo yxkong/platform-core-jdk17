@@ -39,23 +39,11 @@ public interface SysSmsServiceProviderMapper {
     */
     List<SysSmsServiceProviderBase> findByIds(@Param("ids") Long[] ids);
     /**
-    * 通过map参数获取列表
-    * @param params 参数map
-    * @return List<$SmsServiceProviderDO>
-    */
-    List<SysSmsServiceProviderBase> findList(Map<String,Object> params);
-    /**
     * 通过实体查询
     * @param record 参数实体
     * @return List<SysSmsServiceProviderBase>
     */
     List<SysSmsServiceProviderBase> findListBy(SysSmsServiceProviderBase record);
-    /**
-    * 通过map参数获取 总数
-    * @param params 参数map
-    * @return 总数
-    */
-    long findListCount(Map<String,Object> params);
     /**
     * 通过实体查询总数
     * @param record 参数实体

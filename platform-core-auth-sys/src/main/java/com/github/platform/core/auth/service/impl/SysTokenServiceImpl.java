@@ -3,14 +3,13 @@ package com.github.platform.core.auth.service.impl;
 import com.github.platform.core.auth.entity.TokenCacheEntity;
 import com.github.platform.core.auth.gateway.ITokenCacheGateway;
 import com.github.platform.core.auth.service.ITokenService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
-import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,7 +25,6 @@ import java.util.Optional;
 public class SysTokenServiceImpl implements ITokenService {
     @Resource
     private Optional<ITokenCacheGateway> tokenCacheGateway;
-    private SecureRandom randGen = new SecureRandom();
     /**
      * 三层缓存
      * <br> 第一层：p:s:t:+token 缓存，默认30分钟，可配置，如果通过网关，网关只查第一层缓存，会有一定的概率出现1008
@@ -39,7 +37,7 @@ public class SysTokenServiceImpl implements ITokenService {
     @Cacheable(
             cacheResolver = "sysAuthCacheResolver",
             key = "''+#token",
-            unless = "#result == null")
+            unless = "#result == null ")
     public String getLoginInfoStr(String token) {
         return tokenCacheGateway
                 .map(gateway -> gateway.findByToken(token))

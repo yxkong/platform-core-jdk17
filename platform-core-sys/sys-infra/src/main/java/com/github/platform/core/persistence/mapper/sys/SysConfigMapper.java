@@ -37,24 +37,13 @@ public interface SysConfigMapper  {
 	* @return
 	*/
 	List<SysConfigBase> findByIds(@Param("ids") Long[] ids);
-	/**
-	 * 通过map参数获取列表
-	 * @param params
-	 * @return List<SysConfigBase>
-	 */
-	List<SysConfigBase> findList(Map<String,Object> params);
+
 	/**
 	* 通过实体查询
 	* @param record
 	* @return List<SysConfigBase>
 	*/
 	List<SysConfigBase> findListBy(SysConfigBase record);
-	/**
-	 * 通过map参数获取 总数
-	 * @param params
-	 * @return int
-	 */
-	int findListCount(Map<String,Object> params);
 	/**
 	* 通过主键id 删除
 	* @param id

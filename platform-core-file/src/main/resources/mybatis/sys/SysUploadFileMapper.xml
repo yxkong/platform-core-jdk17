@@ -2,281 +2,159 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.github.platform.core.persistence.mapper.file.SysUploadFileMapper">
 
-	 <resultMap type="com.github.platform.core.file.domain.common.entity.SysUploadFileBase" id="BaseResultMap">
-    	 <id column="id" property="id" /> 
-		  <id column="module" property="module" /> 
-		  <id column="bizNo" property="bizNo" /> 
-		  <id column="fileId" property="fileId" /> 
-		  <id column="fileHash" property="fileHash" />
-		  <id column="filePath" property="filePath" />
-		  <id column="fileName" property="fileName" />
-		  <id column="fileType" property="fileType" />
-		  <id column="fileSize" property="fileSize" />
-		  <id column="storage" property="storage" />
-		  <id column="tenantId" property="tenantId" />
-		  <id column="status" property="status" /> 
-		  <id column="deleted" property="deleted" />
-		  <id column="createTime" property="createTime" />
-		  <id column="createBy" property="createBy" />
-		 <id column="updateBy" property="updateBy" />
-		 <id column="updateTime" property="updateTime" />
-		 <id column="remark" property="remark" />
-  
-    </resultMap>
-    <sql id="BaseColumnList">
-    	 t.id,
- 		 t.module,
- 		 t.biz_no as bizNo ,
- 		 t.file_id as fileId ,
- 		 t.file_hash as fileHash ,
- 		 t.file_path as filePath ,
- 		 t.file_name as fileName ,
- 		 t.file_type as fileType ,
- 		 t.file_size as fileSize ,
- 		 t.storage,
- 		 t.tenant_id as tenantId ,
- 		 t.status ,
- 		 t.deleted ,
- 		 t.create_time as createTime ,
- 		 t.create_by as createBy ,
-    	 t.update_time as updateTime ,
- 		 t.update_by as updateBy ,
- 		 t.remark
-    </sql>
+	<resultMap type="com.github.platform.core.file.domain.common.entity.SysUploadFileBase" id="BaseResultMap">
+		<id column="id" property="id"/>
+		<id column="module" property="module"/>
+		<id column="biz_no" property="bizNo"/>
+		<id column="file_id" property="fileId"/>
+		<id column="file_hash" property="fileHash"/>
+		<id column="file_path" property="filePath"/>
+		<id column="file_name" property="fileName"/>
+		<id column="file_type" property="fileType"/>
+		<id column="file_size" property="fileSize"/>
+		<id column="storage" property="storage"/>
+		<id column="tenant_id" property="tenantId"/>
+		<id column="status" property="status"/>
+		<id column="deleted" property="deleted"/>
+		<id column="create_time" property="createTime"/>
+		<id column="create_by" property="createBy"/>
+		<id column="update_by" property="updateBy"/>
+		<id column="update_time" property="updateTime"/>
+		<id column="remark" property="remark"/>
+	</resultMap>
 
-	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
-		insert into  t_sys_upload_file
-		<trim prefix="(" suffix=")" suffixOverrides=","> 
- 			<if test="id != null">
- 				id,
- 			</if>
- 			<if test="module != null">
- 				module,
- 			</if>
- 			<if test="bizNo != null">
- 				biz_no,
- 			</if>
- 			<if test="fileId != null and fileId !=''">
- 				file_id,
- 			</if>
-		    <if test="fileHash != null  and fileHash !=''">
-				file_hash,
- 			</if>
- 			<if test="filePath != null and filePath !=''">
- 				file_path,
- 			</if>
-			<if test="fileName != null and fileName !=''">
- 				file_name,
- 			</if>
-			<if test="fileType != null">
-				file_type,
-			</if>
-			<if test="fileSize != null">
-				file_size,
-			</if>
- 			<if test="storage != null">
- 				storage,
- 			</if>
- 			<if test="tenantId != null">
- 				tenant_id,
- 			</if>
- 			<if test="status != null">
- 				status,
- 			</if>
- 			<if test="createTime != null">
- 				create_time,
- 			</if>
- 			<if test="createBy != null">
- 				create_by,
- 			</if>
- 			<if test="remark != null">
- 				remark,
- 			</if>
+	<sql id="BaseColumnList">
+		t.id,
+		t.module,
+		t.biz_no,
+		t.file_id,
+		t.file_hash,
+		t.file_path,
+		t.file_name,
+		t.file_type,
+		t.file_size,
+		t.storage,
+		t.tenant_id,
+		t.status,
+		t.deleted,
+		t.create_time,
+		t.create_by,
+		t.update_time,
+		t.update_by,
+		t.remark
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
+		insert into t_sys_upload_file
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="module != null and module !=''">module,</if>
+			<if test="bizNo != null and bizNo !=''">biz_no,</if>
+			<if test="fileId != null and fileId !=''">file_id,</if>
+			<if test="fileHash != null and fileHash !=''">file_hash,</if>
+			<if test="filePath != null and filePath !=''">file_path,</if>
+			<if test="fileName != null and fileName !=''">file_name,</if>
+			<if test="fileType != null and fileType !=''">file_type,</if>
+			<if test="fileSize != null">file_size,</if>
+			<if test="storage != null and storage !=''">storage,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="status != null">status,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="remark != null">remark,</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
- 			<if test="id != null">
- 				#{id},
- 			</if>
- 			<if test="module != null">
- 				#{module},
- 			</if>
- 			<if test="bizNo != null">
- 				#{bizNo},
- 			</if>
- 			<if test="fileId != null and fileId !=''">
- 				#{fileId},
- 			</if>
-			<if test="fileHash != null and fileHash !=''">
- 				#{fileHash},
- 			</if>
-			<if test="filePath != null">
-				#{filePath},
-			</if>
-			<if test="fileName != null">
-				#{fileName},
-			</if>
-			<if test="fileType != null">
-				#{fileType},
-			</if>
-			<if test="fileSize != null">
-				#{fileSize},
-			</if>
- 			<if test="storage != null">
- 				#{storage},
- 			</if>
- 			<if test="tenantId != null">
- 				#{tenantId},
- 			</if>
- 			<if test="status != null">
- 				#{status},
- 			</if>
- 			<if test="createTime != null">
- 				#{createTime},
- 			</if>
- 			<if test="createBy != null">
- 				#{createBy},
- 			</if>
- 			<if test="remark != null">
- 				#{remark},
- 			</if>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="module != null and module !=''">#{module},</if>
+			<if test="bizNo != null and bizNo !=''">#{bizNo},</if>
+			<if test="fileId != null and fileId !=''">#{fileId},</if>
+			<if test="fileHash != null and fileHash !=''">#{fileHash},</if>
+			<if test="filePath != null and filePath !=''">#{filePath},</if>
+			<if test="fileName != null and fileName !=''">#{fileName},</if>
+			<if test="fileType != null and fileType !=''">#{fileType},</if>
+			<if test="fileSize != null">#{fileSize},</if>
+			<if test="storage != null and storage !=''">#{storage},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="status != null">#{status},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="remark != null">#{remark},</if>
 		</trim>
 	</insert>
-	
+
 	<update id="updateById" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
-		update   t_sys_upload_file
- 		 <set>
- 			 <if test="module != null">
- 				module = #{module},
- 			 </if>
- 			 <if test="bizNo != null  and bizNo != ''">
- 				biz_no = #{bizNo},
- 			 </if>
- 			 <if test="fileId != null  and fileId != ''">
- 				file_id = #{fileId},
- 			 </if>
-		     <if test="fileHash != null and fileHash !=''">
- 				file_hash = #{fileHash},
- 			 </if>
- 			 <if test="fileName != null  and fileName != ''">
- 				file_name = #{fileName},
- 			 </if>
- 			 <if test="storage != null  and storage != ''">
- 				storage = #{storage},
- 			 </if>
- 			 <if test="tenantId != null">
- 				tenant_id = #{tenantId},
- 			 </if>
- 			 <if test="status != null">
- 				status = #{status},
- 			 </if>
-		     <if test="updateBy != null  and updateBy != ''">
-			     update_by = #{updateBy},
-		     </if>
-		     <if test="updateTime != null ">
-			     update_time = #{updateTime},
-		     </if>
- 			 <if test="remark != null">
- 				remark = #{remark},
- 			 </if>
- 		 </set>
-     where id = #{id}
+		update t_sys_upload_file
+		<set>
+			<if test="module != null">module = #{module},</if>
+			<if test="bizNo != null and bizNo != ''">biz_no = #{bizNo},</if>
+			<if test="fileId != null and fileId != ''">file_id = #{fileId},</if>
+			<if test="fileHash != null and fileHash !=''">file_hash = #{fileHash},</if>
+			<if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+			<if test="storage != null and storage != ''">storage = #{storage},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="status != null">status = #{status},</if>
+			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="updateTime != null">update_time = #{updateTime},</if>
+			<if test="remark != null">remark = #{remark},</if>
+		</set>
+		where id = #{id}
 	</update>
+
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_upload_file t where t.id=#{id}
+		select <include refid="BaseColumnList"/> from t_sys_upload_file t where t.id=#{id}
 	</select>
+
 	<select id="findByFileId" resultMap="BaseResultMap">
-		select <include refid="BaseColumnList" /> from t_sys_upload_file t where t.file_id = #{fileId} order by t.id desc limit 1
+		select <include refid="BaseColumnList"/> from t_sys_upload_file t where t.file_id = #{fileId} order by t.id desc limit 1
 	</select>
+
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_upload_file
+		select <include refid="BaseColumnList"/> from t_sys_upload_file
 		<where>
-			<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+			<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 				#{id}
 			</foreach>
 		</where>
 		limit 200
 	</select>
-	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
-		select 
- 		<include refid="BaseColumnList" />
- 		from t_sys_upload_file t
- 		<where>
- 			<if test="module != null">
- 				and t.module = #{module}
- 			</if>
- 			<if test="bizNo != null">
- 				and t.biz_no = #{bizNo}
- 			</if>
- 			<if test="fileId != null">
- 				and t.file_id = #{fileId}
- 			</if>
- 			<if test="fileName != null">
- 				and t.file_name = #{fileName}
- 			</if>
- 			<if test="storage != null">
- 				and t.storage = #{storage}
- 			</if>
- 			<if test="tenantId != null">
- 				and t.tenant_id = #{tenantId}
- 			</if>
- 			<if test="status != null">
- 				and t.status = #{status}
- 			</if>
-		    <if test="searchStartTime != null">
-			    and t.create_time <![CDATA[>=]]> #{searchStartTime}
-		    </if>
-		    <if test="searchEndTime != null">
-			    and t.create_time <![CDATA[<=]]> #{searchEndTime}
-		    </if>
-		    <if test="deleted != null">
-			    and t.deleted = #{deleted}
-		    </if>
-		    <if test="deleted == null">
-			    and t.deleted = 0
-		    </if>
 
+	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
+		select
+		<include refid="BaseColumnList"/>
+		from t_sys_upload_file t
+		<where>
+			<if test="module != null and module != ''">and t.module = #{module}</if>
+			<if test="bizNo != null and bizNo != ''">and t.biz_no = #{bizNo}</if>
+			<if test="fileId != null and fileId != ''">and t.file_id = #{fileId}</if>
+			<if test="fileName != null and fileName != ''">and t.file_name = #{fileName}</if>
+			<if test="storage != null and storage != ''">and t.storage = #{storage}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="status != null">and t.status = #{status}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
+			<if test="deleted != null">and t.deleted = #{deleted}</if>
+			<if test="deleted == null">and t.deleted = 0</if>
 		</where>
 		order by id desc
 	</select>
 
-	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
-		select  count(t.id) from t_sys_upload_file t
-		<where> 
- 			<if test="id != null">
- 				and t.id = #{id}
- 			</if>
- 			<if test="module != null">
- 				and t.module = #{module}
- 			</if>
- 			<if test="bizNo != null">
- 				and t.biz_no = #{bizNo}
- 			</if>
- 			<if test="fileId != null">
- 				and t.file_id = #{fileId}
- 			</if>
- 			<if test="fileName != null">
- 				and t.file_name = #{fileName}
- 			</if>
- 			<if test="storage != null">
- 				and t.storage = #{storage}
- 			</if>
- 			<if test="tenantId != null">
- 				and t.tenant_id = #{tenantId}
- 			</if>
- 			<if test="status != null">
- 				and t.status = #{status}
- 			</if>
-			<if test="searchStartTime != null">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]> #{searchEndTime}
-			</if>
- 			<if test="remark != null">
- 				and t.remark = #{remark}
- 			</if>
+	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.file.domain.common.entity.SysUploadFileBase">
+		select count(t.id) from t_sys_upload_file t
+		<where>
+			<if test="id != null">and t.id = #{id}</if>
+			<if test="module != null and module != ''">and t.module = #{module}</if>
+			<if test="bizNo != null and bizNo != ''">and t.biz_no = #{bizNo}</if>
+			<if test="fileId != null and fileId != ''">and t.file_id = #{fileId}</if>
+			<if test="fileName != null and fileName != ''">and t.file_name = #{fileName}</if>
+			<if test="storage != null and storage != ''">and t.storage = #{storage}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="status != null">and t.status = #{status}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
+			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
+
 	<delete id="deleteById" parameterType="java.lang.Long">
 		update t_sys_upload_file set deleted=1 where id = #{id}
 	</delete>

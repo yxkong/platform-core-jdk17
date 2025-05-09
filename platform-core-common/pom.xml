@@ -56,6 +56,12 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- springboot 开发工具类集成 -->
@@ -160,6 +166,12 @@
         <dependency>
             <groupId>org.apache.velocity.tools</groupId>
             <artifactId>velocity-tools-generic</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

@@ -3,8 +3,6 @@ package com.github.platform.core.sys.adapter.api.controller;
 import com.github.platform.core.auth.annotation.NoLogin;
 import com.github.platform.core.auth.annotation.RequiredLogin;
 import com.github.platform.core.auth.entity.LoginUserInfo;
-import com.github.platform.core.auth.service.ITokenService;
-import com.github.platform.core.cache.domain.constant.CacheConstant;
 import com.github.platform.core.cache.infra.annotation.RepeatSubmit;
 import com.github.platform.core.common.configuration.property.PlatformProperties;
 import com.github.platform.core.common.utils.JsonUtils;
@@ -58,8 +56,6 @@ public class AuthController extends BaseController {
     private SysUserAdapterConvert convert;
     @Resource
     private IAuthExecutor authExecutor;
-    @Resource(name = CacheConstant.sysTokenService)
-    private ITokenService tokenService;
     @Resource
     private PlatformProperties platformProperties;
     /**
@@ -178,7 +174,7 @@ public class AuthController extends BaseController {
     @PostMapping("/info")
     @ApiResponse
     public ResultBean<LoginUserInfo> info() {
-        String loginInfoStr = tokenService.getLoginInfoStr(getToken());
+        String loginInfoStr = authExecutor.getLoginInfoStr(getToken());
         LoginUserInfo userInfo = JsonUtils.fromJson(loginInfoStr,LoginUserInfo.class);
         return buildSucResp(userInfo);
     }

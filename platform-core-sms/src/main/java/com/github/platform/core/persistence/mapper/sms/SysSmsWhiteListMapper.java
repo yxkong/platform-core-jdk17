@@ -45,23 +45,11 @@ public interface SysSmsWhiteListMapper {
     */
     List<SysSmsWhiteListBase> findByIds(@Param("ids") Long[] ids);
     /**
-    * 通过map参数获取列表
-    * @param params 参数map
-    * @return List<$SmsWhiteListDO>
-    */
-    List<SysSmsWhiteListBase> findList(Map<String,Object> params);
-    /**
     * 通过实体查询
     * @param record 参数实体
     * @return List<SysSmsWhiteListBase>
     */
     List<SysSmsWhiteListBase> findListBy(SysSmsWhiteListBase record);
-    /**
-    * 通过map参数获取 总数
-    * @param params 参数map
-    * @return 总数
-    */
-    long findListCount(Map<String,Object> params);
     /**
     * 通过实体查询总数
     * @param record 参数实体

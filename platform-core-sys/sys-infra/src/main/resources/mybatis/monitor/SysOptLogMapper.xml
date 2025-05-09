@@ -2,418 +2,163 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.github.platform.core.persistence.mapper.monitor.SysOptLogMapper">
 
-	 <resultMap type="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase" id="BaseResultMap">
-    	 <id column="id" property="id" />
-		  <id column="traceId" property="traceId" />
-		  <id column="module" property="module" />
-		  <id column="title" property="title" />
-		  <id column="method" property="method" />
-		  <id column="url" property="url" />
-		  <id column="requestIp" property="requestIp" />
-		  <id column="exception" property="exception" />
-		  <id column="executeTime" property="executeTime" />
-		  <id column="tenantId" property="tenantId" />
-		  <id column="createBy" property="createBy" />
-		  <id column="createTime" property="createTime" />
-		  <id column="remark" property="remark" />
-		  <id column="headers" property="headers" />
-		  <id column="requestBody" property="requestBody" />
-		  <id column="responseBody" property="responseBody" />
+	<resultMap type="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase" id="BaseResultMap">
+		<id column="id" property="id"/>
+		<id column="trace_id" property="traceId"/>
+		<id column="module" property="module"/>
+		<id column="title" property="title"/>
+		<id column="method" property="method"/>
+		<id column="url" property="url"/>
+		<id column="request_ip" property="requestIp"/>
+		<id column="exception" property="exception"/>
+		<id column="execute_time" property="executeTime"/>
+		<id column="tenant_id" property="tenantId"/>
+		<id column="create_by" property="createBy"/>
+		<id column="create_time" property="createTime"/>
+		<id column="remark" property="remark"/>
+		<id column="headers" property="headers"/>
+		<id column="request_body" property="requestBody"/>
+		<id column="response_body" property="responseBody"/>
+	</resultMap>
 
-    </resultMap>
-    <sql id="BaseColumnList">
-    	 t.id as id ,
- 		 t.trace_id as traceId ,
- 		 t.module as module ,
- 		 t.title as title ,
- 		 t.method as method ,
- 		 t.url as url ,
- 		 t.request_ip as requestIp ,
- 		 t.exception as exception ,
- 		 t.execute_time as executeTime ,
-    	 t.headers as headers ,
- 		 t.request_body as requestBody ,
- 		 t.response_body as responseBody,
- 		 t.tenant_id as tenantId ,
- 		 t.create_by as createBy ,
- 		 t.create_time as createTime ,
- 		 t.remark as remark
+	<sql id="BaseColumnList">
+		t.id,
+		t.trace_id,
+		t.module,
+		t.title,
+		t.method,
+		t.url,
+		t.request_ip,
+		t.exception,
+		t.execute_time,
+		t.headers,
+		t.request_body,
+		t.response_body,
+		t.tenant_id,
+		t.create_by,
+		t.create_time,
+		t.remark
+	</sql>
 
-    </sql>
-
-	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
-		insert into  t_sys_opt_log
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
+		insert into t_sys_opt_log
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				id,
-			</if>
-			<if test="traceId != null">
-				trace_id,
-			</if>
-			<if test="module != null">
-				module,
-			</if>
-			<if test="title != null">
-				title,
-			</if>
-			<if test="method != null">
-				method,
-			</if>
-			<if test="url != null">
-				url,
-			</if>
-			<if test="headers != null">
-				headers,
-			</if>
-			<if test="requestBody != null">
-				request_body,
-			</if>
-			<if test="responseBody != null">
-				response_body,
-			</if>
-			<if test="requestIp != null">
-				request_ip,
-			</if>
-			<if test="exception != null">
-				exception,
-			</if>
-			<if test="executeTime != null">
-				execute_time,
-			</if>
-			<if test="tenantId != null">
-				tenant_id,
-			</if>
-			<if test="createBy != null">
-				create_by,
-			</if>
-			<if test="createTime != null">
-				create_time,
-			</if>
-			<if test="remark != null">
-				remark,
-			</if>
+			<if test="id != null">id,</if>
+			<if test="traceId != null">trace_id,</if>
+			<if test="module != null">module,</if>
+			<if test="title != null">title,</if>
+			<if test="method != null">method,</if>
+			<if test="url != null">url,</if>
+			<if test="headers != null">headers,</if>
+			<if test="requestBody != null">request_body,</if>
+			<if test="responseBody != null">response_body,</if>
+			<if test="requestIp != null">request_ip,</if>
+			<if test="exception != null">exception,</if>
+			<if test="executeTime != null">execute_time,</if>
+			<if test="tenantId != null">tenant_id,</if>
+			<if test="createBy != null">create_by,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="remark != null">remark,</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
-			<if test="id != null">
-				#{id},
-			</if>
-			<if test="traceId != null">
-				#{traceId},
-			</if>
-			<if test="module != null">
-				#{module},
-			</if>
-			<if test="title != null">
-				#{title},
-			</if>
-			<if test="method != null">
-				#{method},
-			</if>
-			<if test="url != null">
-				#{url},
-			</if>
-			<if test="headers != null">
-				#{headers},
-			</if>
-			<if test="requestBody != null">
-				#{requestBody},
-			</if>
-			<if test="responseBody != null">
-				#{responseBody},
-			</if>
-			<if test="requestIp != null">
-				#{requestIp},
-			</if>
-			<if test="exception != null">
-				#{exception},
-			</if>
-			<if test="executeTime != null">
-				#{executeTime},
-			</if>
-			<if test="tenantId != null">
-				#{tenantId},
-			</if>
-			<if test="createBy != null">
-				#{createBy},
-			</if>
-			<if test="createTime != null">
-				#{createTime},
-			</if>
-			<if test="remark != null">
-				#{remark},
-			</if>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="traceId != null">#{traceId},</if>
+			<if test="module != null">#{module},</if>
+			<if test="title != null">#{title},</if>
+			<if test="method != null">#{method},</if>
+			<if test="url != null">#{url},</if>
+			<if test="headers != null">#{headers},</if>
+			<if test="requestBody != null">#{requestBody},</if>
+			<if test="responseBody != null">#{responseBody},</if>
+			<if test="requestIp != null">#{requestIp},</if>
+			<if test="exception != null">#{exception},</if>
+			<if test="executeTime != null">#{executeTime},</if>
+			<if test="tenantId != null">#{tenantId},</if>
+			<if test="createBy != null">#{createBy},</if>
+			<if test="createTime != null">#{createTime},</if>
+			<if test="remark != null">#{remark},</if>
 		</trim>
 	</insert>
 
 	<update id="updateById" parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
-		update   t_sys_opt_log
+		update t_sys_opt_log
 		<set>
-			<if test="traceId != null">
-				trace_id = #{traceId},
-			</if>
-			<if test="module != null">
-				module = #{module},
-			</if>
-			<if test="title != null">
-				title = #{title},
-			</if>
-			<if test="method != null">
-				method = #{method},
-			</if>
-			<if test="url != null">
-				url = #{url},
-			</if>
-			<if test="headers != null">
-				headers = #{headers},
-			</if>
-			<if test="requestBody != null">
-				request_body = #{requestBody},
-			</if>
-			<if test="responseBody != null">
-				response_body = #{responseBody},
-			</if>
-			<if test="requestIp != null">
-				request_ip = #{requestIp},
-			</if>
-			<if test="exception != null">
-				exception = #{exception},
-			</if>
-			<if test="executeTime != null">
-				execute_time = #{executeTime},
-			</if>
-			<if test="tenantId != null">
-				tenant_id = #{tenantId}
-			</if>
-			<if test="createBy != null">
-				create_by = #{createBy},
-			</if>
-			<if test="createTime != null">
-				create_time = #{createTime},
-			</if>
-			<if test="remark != null">
-				remark = #{remark},
-			</if>
+			<if test="traceId != null">trace_id = #{traceId},</if>
+			<if test="module != null">module = #{module},</if>
+			<if test="title != null">title = #{title},</if>
+			<if test="method != null">method = #{method},</if>
+			<if test="url != null">url = #{url},</if>
+			<if test="headers != null">headers = #{headers},</if>
+			<if test="requestBody != null">request_body = #{requestBody},</if>
+			<if test="responseBody != null">response_body = #{responseBody},</if>
+			<if test="requestIp != null">request_ip = #{requestIp},</if>
+			<if test="exception != null">exception = #{exception},</if>
+			<if test="executeTime != null">execute_time = #{executeTime},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="createBy != null">create_by = #{createBy},</if>
+			<if test="createTime != null">create_time = #{createTime},</if>
+			<if test="remark != null">remark = #{remark},</if>
 		</set>
 		where id = #{id}
 	</update>
+
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_opt_log t where t.id=#{id}
+		select <include refid="BaseColumnList"/> from t_sys_opt_log t where t.id=#{id}
 	</select>
+
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList" /> from t_sys_opt_log
+		select <include refid="BaseColumnList"/> from t_sys_opt_log
 		<where>
-			<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+			<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 				#{id}
 			</foreach>
 		</where>
 		limit 200
 	</select>
-	<select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
-		select
-		<include refid="BaseColumnList" />
-		from t_sys_opt_log t
-		<where>
-			<if test="id!= null">
-				and t.id =  #{id}
-			</if>
-			<if test="traceId!= null">
-				and t.trace_id =  #{traceId}
-			</if>
-			<if test="module!= null">
-				and t.module =  #{module}
-			</if>
-			<if test="title!= null">
-				and t.title =  #{title}
-			</if>
-			<if test="method!= null">
-				and t.method =  #{method}
-			</if>
-			<if test="url!= null">
-				and t.url =  #{url}
-			</if>
-			<if test="headers!= null">
-				and t.headers =  #{headers}
-			</if>
-			<if test="requestBody!= null">
-				and t.request_body =  #{requestBody}
-			</if>
-			<if test="responseBody!= null">
-				and t.response_body =  #{responseBody}
-			</if>
-			<if test="requestIp!= null">
-				and t.request_ip =  #{requestIp}
-			</if>
-			<if test="exception!= null">
-				and t.exception =  #{exception}
-			</if>
-			<if test="executeTime!= null">
-				and t.execute_time =  #{executeTime}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createBy!= null">
-				and t.create_by =  #{createBy}
-			</if>
-			<if test="searchStartTime != null and searchStartTime != ''">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null and searchEndTime != ''">
-				and t.create_time <![CDATA[<=]]>  #{searchEndTime}
-			</if>
-		</where>
-		order by t.id desc
-	</select>
+
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
 		select
- 		<include refid="BaseColumnList" />
- 		from t_sys_opt_log t
- 		<where>
- 			<if test="id!= null">
- 				and t.id =  #{id}
- 			</if>
- 			<if test="traceId!= null">
- 				and t.trace_id =  #{traceId}
- 			</if>
- 			<if test="module!= null">
- 				and t.module =  #{module}
- 			</if>
- 			<if test="title!= null">
- 				and t.title =  #{title}
- 			</if>
- 			<if test="method!= null">
- 				and t.method =  #{method}
- 			</if>
- 			<if test="url!= null">
- 				and t.url =  #{url}
- 			</if>
- 			<if test="requestIp!= null">
- 				and t.request_ip =  #{requestIp}
- 			</if>
- 			<if test="executeTime!= null">
- 				and t.execute_time =  #{executeTime}
- 			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
- 			<if test="createBy!= null">
- 				and t.create_by =  #{createBy}
- 			</if>
-			<if test="searchStartTime != null ">
-				and t.create_time <![CDATA[>=]]> #{searchStartTime}
-			</if>
-			<if test="searchEndTime != null">
-				and t.create_time <![CDATA[<=]]>  #{searchEndTime}
-			</if>
+		<include refid="BaseColumnList"/>
+		from t_sys_opt_log t
+		<where>
+			<if test="id!= null">and t.id = #{id}</if>
+			<if test="traceId!= null">and t.trace_id = #{traceId}</if>
+			<if test="module!= null">and t.module = #{module}</if>
+			<if test="title!= null">and t.title = #{title}</if>
+			<if test="method!= null">and t.method = #{method}</if>
+			<if test="url!= null">and t.url = #{url}</if>
+			<if test="requestIp!= null">and t.request_ip = #{requestIp}</if>
+			<if test="executeTime!= null">and t.execute_time = #{executeTime}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="createBy!= null">and t.create_by = #{createBy}</if>
+			<if test="searchStartTime != null">and t.create_time <![CDATA[>=]]> #{searchStartTime}</if>
+			<if test="searchEndTime != null">and t.create_time <![CDATA[<=]]> #{searchEndTime}</if>
 		</where>
 		order by t.id desc
 	</select>
-	<select id="findListCount" resultType="java.lang.Long"  parameterType="java.util.Map">
-		select  count(t.id) from t_sys_opt_log t
+
+	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
+		select count(t.id) from t_sys_opt_log t
 		<where>
-			<if test="id != null">
-				and t.id = #{id}
-			</if>
-			<if test="traceId != null">
-				and t.trace_id = #{traceId}
-			</if>
-			<if test="module != null">
-				and t.module = #{module}
-			</if>
-			<if test="title != null">
-				and t.title = #{title}
-			</if>
-			<if test="method != null">
-				and t.method = #{method}
-			</if>
-			<if test="url != null">
-				and t.url = #{url}
-			</if>
-			<if test="headers != null">
-				and t.headers = #{headers}
-			</if>
-			<if test="requestBody != null">
-				and t.request_body = #{requestBody}
-			</if>
-			<if test="responseBody != null">
-				and t.response_body = #{responseBody}
-			</if>
-			<if test="requestIp != null">
-				and t.request_ip = #{requestIp}
-			</if>
-			<if test="exception != null">
-				and t.exception = #{exception}
-			</if>
-			<if test="executeTime != null">
-				and t.execute_time = #{executeTime}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createBy != null">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="createTime != null">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="remark != null">
-				and t.remark = #{remark}
-			</if>
+			<if test="id != null">and t.id = #{id}</if>
+			<if test="traceId != null">and t.trace_id = #{traceId}</if>
+			<if test="module != null">and t.module = #{module}</if>
+			<if test="title != null">and t.title = #{title}</if>
+			<if test="method != null">and t.method = #{method}</if>
+			<if test="url != null">and t.url = #{url}</if>
+			<if test="headers != null">and t.headers = #{headers}</if>
+			<if test="requestBody != null">and t.request_body = #{requestBody}</if>
+			<if test="responseBody != null">and t.response_body = #{responseBody}</if>
+			<if test="requestIp != null">and t.request_ip = #{requestIp}</if>
+			<if test="exception != null">and t.exception = #{exception}</if>
+			<if test="executeTime != null">and t.execute_time = #{executeTime}</if>
+			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
+			<if test="createBy != null">and t.create_by = #{createBy}</if>
+			<if test="createTime != null">and t.create_time = #{createTime}</if>
+			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
-	<select id="findListByCount" resultType="java.lang.Long"  parameterType="com.github.platform.core.monitor.domain.common.entity.SysOptLogBase">
-		select  count(t.id) from t_sys_opt_log t
-		<where>
-			<if test="id != null">
-				and t.id = #{id}
-			</if>
-			<if test="traceId != null">
-				and t.trace_id = #{traceId}
-			</if>
-			<if test="module != null">
-				and t.module = #{module}
-			</if>
-			<if test="title != null">
-				and t.title = #{title}
-			</if>
-			<if test="method != null">
-				and t.method = #{method}
-			</if>
-			<if test="url != null">
-				and t.url = #{url}
-			</if>
-			<if test="headers != null">
-				and t.headers = #{headers}
-			</if>
-			<if test="requestBody != null">
-				and t.request_body = #{requestBody}
-			</if>
-			<if test="responseBody != null">
-				and t.response_body = #{responseBody}
-			</if>
-			<if test="requestIp != null">
-				and t.request_ip = #{requestIp}
-			</if>
-			<if test="exception != null">
-				and t.exception = #{exception}
-			</if>
-			<if test="executeTime != null">
-				and t.execute_time = #{executeTime}
-			</if>
-			<if test="tenantId != null">
-				and t.tenant_id = #{tenantId}
-			</if>
-			<if test="createBy != null">
-				and t.create_by = #{createBy}
-			</if>
-			<if test="createTime != null">
-				and t.create_time = #{createTime}
-			</if>
-			<if test="remark != null">
-				and t.remark = #{remark}
-			</if>
-		</where>
-	</select>
+
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_sys_opt_log where id = #{id}
 	</delete>

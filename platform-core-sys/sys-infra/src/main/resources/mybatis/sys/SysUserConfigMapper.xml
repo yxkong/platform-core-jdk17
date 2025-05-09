@@ -4,178 +4,105 @@
 
 	<resultMap type="com.github.platform.core.sys.domain.common.entity.SysUserConfigBase" id="BaseResultMap">
 		<id column="id" property="id" />
-		<id column="loginName" property="loginName" />
-		<id column="configKey" property="configKey" />
+		<id column="login_name" property="loginName" />
+		<id column="config_key" property="configKey" />
 		<id column="value" property="value" />
-		<id column="valType" property="valType" />
-		<id column="tenantId" property="tenantId" />
+		<id column="val_type" property="valType" />
+		<id column="tenant_id" property="tenantId" />
 		<id column="status" property="status" />
-		<id column="createBy" property="createBy" />
-		<id column="createTime" property="createTime" />
-		<id column="updateBy" property="updateBy" />
-		<id column="updateTime" property="updateTime" />
+		<id column="create_by" property="createBy" />
+		<id column="create_time" property="createTime" />
+		<id column="update_by" property="updateBy" />
+		<id column="update_time" property="updateTime" />
 		<id column="remark" property="remark" />
-    </resultMap>
-    <sql id="BaseColumnList">
+	</resultMap>
+	<sql id="BaseColumnList">
 		t.id,
-		t.login_name as loginName,
-		t.config_key as configKey,
+		t.login_name,
+		t.config_key,
 		t.value,
-		t.val_type as valType,
-		t.tenant_id as tenantId,
+		t.val_type,
+		t.tenant_id,
 		t.status,
-		t.create_by as createBy,
-		t.create_time as createTime,
-		t.update_by as updateBy,
-		t.update_time as updateTime,
+		t.create_by,
+		t.create_time,
+		t.update_by,
+		t.update_time,
 		t.remark
-    </sql>
+	</sql>
 
-	<insert id="insert" useGeneratedKeys="true"  keyProperty="id" parameterType="com.github.platform.core.sys.domain.common.entity.SysUserConfigBase">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.sys.domain.common.entity.SysUserConfigBase">
 		insert into t_sys_user_config
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null ">
-				id,
-			</if>
-			<if test="loginName != null  and loginName != ''">
-				login_name,
-			</if>
-			<if test="configKey != null  and configKey != ''">
-				config_key,
-			</if>
-			<if test="value != null  and value != ''">
-				value,
-			</if>
-			<if test="valType != null  and valType != ''">
-				val_type,
-			</if>
-			<if test="tenantId != null ">
-				tenant_id,
-			</if>
-			<if test="status != null ">
-				status,
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by,
-			</if>
-			<if test="createTime != null ">
-				create_time,
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by,
-			</if>
-			<if test="updateTime != null ">
-				update_time,
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark,
-			</if>
+			<if test="id != null ">id,</if>
+			<if test="loginName != null  and loginName != ''">login_name,</if>
+			<if test="configKey != null  and configKey != ''">config_key,</if>
+			<if test="value != null  and value != ''">value,</if>
+			<if test="valType != null  and valType != ''">val_type,</if>
+			<if test="tenantId != null ">tenant_id,</if>
+			<if test="status != null ">status,</if>
+			<if test="createBy != null  and createBy != ''">create_by,</if>
+			<if test="createTime != null ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''">update_by,</if>
+			<if test="updateTime != null ">update_time,</if>
+			<if test="remark != null  and remark != ''">remark,</if>
 		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides="," >
-			<if test="id != null ">
-				#{id},
-			</if>
-			<if test="loginName != null  and loginName != ''">
-				#{loginName},
-			</if>
-			<if test="configKey != null  and configKey != ''">
-				#{configKey},
-			</if>
-			<if test="value != null  and value != ''">
-				#{value},
-			</if>
-			<if test="valType != null  and valType != ''">
-				#{valType},
-			</if>
-			<if test="tenantId != null ">
-				#{tenantId},
-			</if>
-			<if test="status != null ">
-				#{status},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				#{createBy},
-			</if>
-			<if test="createTime != null ">
-				#{createTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				#{updateBy},
-			</if>
-			<if test="updateTime != null ">
-				#{updateTime},
-			</if>
-			<if test="remark != null  and remark != ''">
-				#{remark},
-			</if>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null ">#{id},</if>
+			<if test="loginName != null  and loginName != ''">#{loginName},</if>
+			<if test="configKey != null  and configKey != ''">#{configKey},</if>
+			<if test="value != null  and value != ''">#{value},</if>
+			<if test="valType != null  and valType != ''">#{valType},</if>
+			<if test="tenantId != null ">#{tenantId},</if>
+			<if test="status != null ">#{status},</if>
+			<if test="createBy != null  and createBy != ''">#{createBy},</if>
+			<if test="createTime != null ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+			<if test="updateTime != null ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''">#{remark},</if>
 		</trim>
 	</insert>
-	
+
 	<update id="updateById" parameterType="com.github.platform.core.sys.domain.common.entity.SysUserConfigBase">
 		update t_sys_user_config
 		<set>
-			<if test="loginName != null  and loginName != ''">
-				login_name = #{loginName},
-			</if>
-			<if test="configKey != null  and configKey != ''">
-				config_key = #{configKey},
-			</if>
-			<if test="value != null  and value != ''">
-				value = #{value},
-			</if>
-			<if test="valType != null  and valType != ''">
-				val_type = #{valType},
-			</if>
-			<if test="tenantId != null ">
-				tenant_id = #{tenantId},
-			</if>
-			<if test="status != null ">
-				status = #{status},
-			</if>
-			<if test="createBy != null  and createBy != ''">
-				create_by = #{createBy},
-			</if>
-			<if test="createTime != null ">
-				create_time = #{createTime},
-			</if>
-			<if test="updateBy != null  and updateBy != ''">
-				update_by = #{updateBy},
-			</if>
-			<if test="updateTime != null ">
-				update_time = #{updateTime},
-			</if>
-			<if test="remark != null  and remark != ''">
-				remark = #{remark},
-			</if>
+			<if test="loginName != null  and loginName != ''">login_name = #{loginName},</if>
+			<if test="configKey != null  and configKey != ''">config_key = #{configKey},</if>
+			<if test="value != null  and value != ''">value = #{value},</if>
+			<if test="valType != null  and valType != ''">val_type = #{valType},</if>
+			<if test="tenantId != null ">tenant_id = #{tenantId},</if>
+			<if test="status != null ">status = #{status},</if>
+			<if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+			<if test="createTime != null ">create_time = #{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+			<if test="updateTime != null ">update_time = #{updateTime},</if>
+			<if test="remark != null  and remark != ''">remark = #{remark},</if>
 		</set>
 		where id = #{id}
 	</update>
+
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select <include refid="BaseColumnList" /> from t_sys_user_config t where t.id=#{id}
 	</select>
+
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select <include refid="BaseColumnList" /> from t_sys_user_config t
 		<where>
-			<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+			<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 				#{id}
 			</foreach>
 		</where>
 		limit 200
 	</select>
+
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.sys.domain.common.entity.SysUserConfigBase">
-		select 
+		select
 		<include refid="BaseColumnList" />
 		from t_sys_user_config t
 		<where>
-			<if test="loginName != null  and loginName != ''">
-				and t.login_name = #{loginName}
-			</if>
-			<if test="configKey != null  and configKey != ''">
-				and t.config_key = #{configKey}
-			</if>
-			<if test="tenantId != null ">
-				and t.tenant_id = #{tenantId}
-			</if>
+			<if test="loginName != null  and loginName != ''">and t.login_name = #{loginName}</if>
+			<if test="configKey != null  and configKey != ''">and t.config_key = #{configKey}</if>
+			<if test="tenantId != null ">and t.tenant_id = #{tenantId}</if>
 		</where>
 	</select>
 </mapper>

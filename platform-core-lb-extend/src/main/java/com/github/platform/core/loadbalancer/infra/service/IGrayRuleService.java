@@ -39,24 +39,11 @@ public interface IGrayRuleService  {
     List<GrayRuleBase> findByIds(Long[] ids);
     /**
     * 通过map参数获取列表
-    * @param params 查询参数
-    * @return List<GrayRuleBase>
-    */
-    List<GrayRuleBase> findList(Map<String,Object> params);
-    /**
-    * 通过map参数获取列表
     * @param record 查询参数
     * @return List<GrayRuleBase>
     */
     List<GrayRuleBase> findListBy(GrayRuleBase record);
-    /**
-    * 通过map参数获取列表 分页
-    * @param params 查询参数
-    * @param pageNum 页数
-    * @param pageSize 每页大小
-    * @return PageInfo<GrayRuleBase> 分页结果
-    */
-    PageInfo<GrayRuleBase> findPageInfo(Map<String,Object> params,int pageNum,int pageSize);
+
     /**
     * 通过实体参数获取列表分页
     * @param record 查询实体
@@ -65,12 +52,6 @@ public interface IGrayRuleService  {
     * @return PageInfo<GrayRuleBase> 分页结果
     */
     PageInfo<GrayRuleBase> findPageInfo(GrayRuleBase record,int pageNum,int pageSize);
-    /**
-    * 通过map参数获取 总数
-    * @param params 查询参数
-    * @return 总数
-    */
-    long findListCount(Map<String,Object> params);
     /**
     * 通过实体参数获取 总数
     * @param record 查询实体
