@@ -122,7 +122,7 @@ public class SysUserGatewayImpl extends BaseGatewayImpl implements ISysUserGatew
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public UserEntity addUser(RegisterContext context) {
+    public UserEntity addUser(AccountContext context) {
         Pair<String, PwdResult> pair = initPwd(context.getLoginName(),context.getPwd());
         SysUserBase sysUser = userInfraConvert.of(context, pair.getKey(), pair.getValue().getMd5Pwd());
         int insert = sysUserMapper.insert(sysUser);
@@ -184,7 +184,7 @@ public class SysUserGatewayImpl extends BaseGatewayImpl implements ISysUserGatew
                     @CacheEvict(cacheNames = CACHE_NAME,key = "#root.target.PREFIX_COLON +'s:'+ #context.secretKey",cacheManager = CacheConstant.cacheManager)
             }
     )
-    public void editUser(RegisterContext context) {
+    public void editUser(AccountContext context) {
         SysUserBase sysUser = userInfraConvert.of(context, "", "");
         int rows = sysUserMapper.updateById(sysUser);
         sysUserRoleGateway.addUserRole(sysUser.getId(), sysUser.getTenantId(), context.getRoleKeys());

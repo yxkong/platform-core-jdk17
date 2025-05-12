@@ -24,7 +24,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class RegisterContext extends TenantContext {
+public class AccountContext extends TenantContext {
 
     /**
      * 主键ID

@@ -3,7 +3,7 @@ package com.github.platform.core.sys.application.executor.impl;
 import com.github.platform.core.auth.application.executor.SysExecutor;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.sys.application.executor.ISysThirdUserExecutor;
-import com.github.platform.core.sys.domain.context.RegisterContext;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.SysThirdUserContext;
 import com.github.platform.core.sys.domain.context.SysThirdUserQueryContext;
 import com.github.platform.core.sys.domain.context.ThirdApproveContext;
@@ -74,7 +74,7 @@ public class SysThirdUserExecutorImpl extends SysExecutor implements ISysThirdUs
         gateway.update(thirdUser);
         SysUserDto sysUserDto = sysUserGateway.findByUserId(context.getId());
         // 更新用户状态
-        RegisterContext sysUser = RegisterContext.builder()
+        AccountContext sysUser = AccountContext.builder()
                 .id(context.getUserId())
                 .loginName(sysUserDto.getLoginName())
                 .mobile(sysUserDto.getMobile())

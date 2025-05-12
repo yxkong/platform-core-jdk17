@@ -85,7 +85,7 @@ public interface SysUserInfraConvert {
     @Mappings({
             @Mapping(target = "pwd", source = "md5Pwd"),
     })
-    SysUserBase of(RegisterContext context, String salt, String md5Pwd);
+    SysUserBase of(AccountContext context, String salt, String md5Pwd);
 
     SysUserBase of(SysUserContext context);
 
@@ -105,5 +105,5 @@ public interface SysUserInfraConvert {
     @Mappings({
             @Mapping(target = "createTime", expression = "java(com.github.platform.core.standard.util.LocalDateTimeUtil.dateTime())")
     })
-    SysUserLogBase of(RegisterContext context, String creator, UserLogBizTypeEnum bizType);
+    SysUserLogBase of(AccountContext context, String creator, UserLogBizTypeEnum bizType);
 }

@@ -9,7 +9,7 @@ import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import com.github.platform.core.sys.domain.constant.DeptConstant;
 import com.github.platform.core.sys.domain.constant.SysResultEnum;
 import com.github.platform.core.sys.domain.constant.UserLogBizTypeEnum;
-import com.github.platform.core.sys.domain.context.RegisterContext;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.SysThirdUserContext;
 import com.github.platform.core.sys.domain.dto.SysThirdUserDto;
 import com.github.platform.core.sys.domain.dto.SysUserDto;
@@ -52,7 +52,7 @@ public class SysUserService extends DomainBaseService {
      * @param context
      * @return
      */
-    public UserEntity addUser(RegisterContext context) {
+    public UserEntity addUser(AccountContext context) {
         UserEntity userEntity = userGateway.findByLoginName(context.getLoginName(),context.getTenantId());
         if (Objects.nonNull(userEntity)) {
             throw exception(SysResultEnum.REGISTERED);
@@ -108,8 +108,8 @@ public class SysUserService extends DomainBaseService {
         }
         return thirdUser;
     }
-    private RegisterContext thirdToRegisterContext(ThirdUserEntity thirdUser){
-        return RegisterContext.builder()
+    private AccountContext thirdToRegisterContext(ThirdUserEntity thirdUser){
+        return AccountContext.builder()
                 .channel(thirdUser.getChannel())
                 .loginName(thirdUser.getLoginName())
                 .userName(thirdUser.getUserName())
@@ -131,7 +131,7 @@ public class SysUserService extends DomainBaseService {
      * @param context
      * @return
      */
-    public void editUser(RegisterContext context) {
+    public void editUser(AccountContext context) {
         //获取用户信息
         SysUserDto sysUserDto = userGateway.findByUserId(context.getId());
         if (Objects.isNull(sysUserDto)) {

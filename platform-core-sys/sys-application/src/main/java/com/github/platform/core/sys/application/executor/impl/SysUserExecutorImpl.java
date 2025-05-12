@@ -12,7 +12,7 @@ import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.standard.entity.vue.OptionsDto;
 import com.github.platform.core.sys.application.constant.SysAppResultEnum;
 import com.github.platform.core.sys.application.executor.ISysUserExecutor;
-import com.github.platform.core.sys.domain.context.RegisterContext;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.ResetPwdContext;
 import com.github.platform.core.sys.domain.context.SysUserQueryContext;
 import com.github.platform.core.sys.domain.dto.SysDeptDto;
@@ -84,12 +84,12 @@ public class SysUserExecutorImpl extends SysExecutor implements ISysUserExecutor
      * @return
      */
     @Override
-    public UserEntity insert(RegisterContext context) {
+    public UserEntity insert(AccountContext context) {
         context.setTenantId(getMustTenantId(context));
         SysUserService userService = new SysUserService(userGateway);
         return userService.addUser(context);
     }
-    private Integer getMustTenantId(RegisterContext context) {
+    private Integer getMustTenantId(AccountContext context) {
         if (AuthUtil.isSuperAdmin() && Objects.nonNull(context) && Objects.nonNull(context.getTenantId())){
             return context.getTenantId();
         }
@@ -103,7 +103,7 @@ public class SysUserExecutorImpl extends SysExecutor implements ISysUserExecutor
      * @return
      */
     @Override
-    public void update(RegisterContext context) {
+    public void update(AccountContext context) {
         SysUserService userService = new SysUserService(userGateway);
         //修改用户租户，临时
         context.setTenantId(getMustTenantId(context));
@@ -113,7 +113,7 @@ public class SysUserExecutorImpl extends SysExecutor implements ISysUserExecutor
     }
 
     @Override
-    public void updateUserProfile(RegisterContext context) {
+    public void updateUserProfile(AccountContext context) {
         SysUserService userService = new SysUserService(userGateway);
         //修改用户信息
         userService.editUser(context);

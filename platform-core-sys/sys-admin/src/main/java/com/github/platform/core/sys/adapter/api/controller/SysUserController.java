@@ -23,7 +23,7 @@ import com.github.platform.core.sys.adapter.api.convert.SysUserAdapterConvert;
 import com.github.platform.core.sys.application.executor.ISysUserExecutor;
 import com.github.platform.core.sys.domain.constant.UserConstant;
 import com.github.platform.core.sys.domain.constant.UserLogBizTypeEnum;
-import com.github.platform.core.sys.domain.context.RegisterContext;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.ResetPwdContext;
 import com.github.platform.core.sys.domain.context.SysUserQueryContext;
 import com.github.platform.core.sys.domain.dto.SysUserDto;
@@ -111,7 +111,7 @@ public class SysUserController extends BaseController {
     @PostMapping(value = "/add")
     public ResultBean add(@RequestBody @Validated SysUserCmd cmd) {
         cmd.setLoginName(cmd.getLoginName().toLowerCase());
-        RegisterContext context = convert.toRegister(cmd);
+        AccountContext context = convert.toRegister(cmd);
         context.setChannel(UserChannelEnum.add);
         context.setLogBizTypeEnum(UserLogBizTypeEnum.ADD_USER);
         userExecutor.insert(context);
@@ -132,7 +132,7 @@ public class SysUserController extends BaseController {
         if (UserConstant.SUPER_ADMIN.equals(cmd.getLoginName()) && !Objects.equals(LoginUserInfoUtil.getLoginName(),cmd.getLoginName())){
             throw exception(SysAdapterResultEnum.dont_allow_opt);
         }
-        RegisterContext context = convert.toRegister(cmd);
+        AccountContext context = convert.toRegister(cmd);
         userExecutor.update(context);
         return buildSucResp();
     }
@@ -143,7 +143,7 @@ public class SysUserController extends BaseController {
     @PostMapping(value = "/updateUserProfile")
     public ResultBean updateUserProfile(@RequestBody @Validated UserProfileCmd cmd) {
         LoginUserInfo userInfo = LoginUserInfoUtil.getLoginUserInfo();
-        RegisterContext context = convert.profileToRegister(cmd);
+        AccountContext context = convert.profileToRegister(cmd);
         context.setLoginName(userInfo.getLoginName());
         if (StringUtils.isEmpty(context.getMobile())){
             context.setMobile(cmd.getMobile());

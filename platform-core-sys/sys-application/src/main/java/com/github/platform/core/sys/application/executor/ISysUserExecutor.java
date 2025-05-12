@@ -3,7 +3,7 @@ package com.github.platform.core.sys.application.executor;
 import com.github.platform.core.auth.entity.LoginUserInfo;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.standard.entity.vue.OptionsDto;
-import com.github.platform.core.sys.domain.context.RegisterContext;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.ResetPwdContext;
 import com.github.platform.core.sys.domain.context.SysUserQueryContext;
 import com.github.platform.core.sys.domain.dto.SysUserDto;
@@ -39,19 +39,19 @@ public interface ISysUserExecutor {
      * @param context
      * @return
      */
-    UserEntity insert(RegisterContext context);
+    UserEntity insert(AccountContext context);
 
     /**
      * 更新用户
      * @param context
      */
-    void update(RegisterContext context);
+    void update(AccountContext context);
 
     /**
      * 修改个人信息
      * @param context
      */
-    void updateUserProfile(RegisterContext context);
+    void updateUserProfile(AccountContext context);
 
     /**
      * 重置密码

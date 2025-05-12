@@ -5,8 +5,8 @@ import com.github.platform.core.cache.domain.constant.CacheConstant;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import com.github.platform.core.sys.domain.constant.LoginWayEnum;
 import com.github.platform.core.sys.domain.constant.SysCacheKeyPrefix;
+import com.github.platform.core.sys.domain.context.AccountContext;
 import com.github.platform.core.sys.domain.context.ModifyPwdContext;
-import com.github.platform.core.sys.domain.context.RegisterContext;
 import com.github.platform.core.sys.domain.context.ResetPwdContext;
 import com.github.platform.core.sys.domain.context.SysUserQueryContext;
 import com.github.platform.core.sys.domain.dto.SysUserDto;
@@ -133,7 +133,7 @@ public interface ISysUserGateway {
      * @param context
      * @return
      */
-    UserEntity addUser(RegisterContext context);
+    UserEntity addUser(AccountContext context);
 
     /**
      * 删除用户缓存
@@ -145,7 +145,7 @@ public interface ISysUserGateway {
      * @param context
      * @return
      */
-    void editUser(RegisterContext context);
+    void editUser(AccountContext context);
 
 
     /**
