@@ -102,7 +102,9 @@ public class GatewayRouteExecutorImpl extends SysExecutor implements IGatewayRou
         dto.setTargetService(context.getRouteBasic().getGateway());
         dto.setSourceService("gatewayAdmin");
         dto.setLoginName(LoginUserInfoUtil.getLoginName());
-        dto.setData(JsonUtils.toJson(RouteInfoUtil.getResult(context.getRouteBasic(), context.getConditions())));
+        if (!GatewayOptEnum.ROUTE_RELOAD.equals(optEnum)){
+            dto.setData(JsonUtils.toJson(RouteInfoUtil.getResult(context.getRouteBasic(), context.getConditions())));
+        }
         if (Objects.nonNull(publishService)){
             return publishService.publish(dto);
         }
@@ -229,5 +231,14 @@ public class GatewayRouteExecutorImpl extends SysExecutor implements IGatewayRou
         GatewayRouteDto route = gatewayRouteGateway.findById(id);
         List<GatewayRouteConditionDto> list = gatewayRouteConditionGateway.findByRouteId(id);
         return new GatewayRouteInfoDto(route,list);
+    }
+
+    @Override
+    public void reload(String gateway) {
+        GatewayRouteInfoContext routeInfoContext = new GatewayRouteInfoContext();
+        GatewayRouteContext gatewayRouteContext = new GatewayRouteContext();
+        gatewayRouteContext.setGateway(gateway);
+        routeInfoContext.setRouteBasic(gatewayRouteContext);
+        sendRedisEvent(routeInfoContext,GatewayOptEnum.ROUTE_RELOAD);
     }
 }

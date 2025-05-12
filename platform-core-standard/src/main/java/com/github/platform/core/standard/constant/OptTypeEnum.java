@@ -13,8 +13,9 @@ public enum OptTypeEnum {
     ADD("add","新增"),
     UPDATE("update","修改"),
     DELETE("delete","删除"),
-    SELECT("delete","删除"),
-        ;
+    QUERY("query","查询"),
+    RELOAD("reload","刷新"),
+    ;
     OptTypeEnum(String type, String desc) {
         this.type = type;
         this.desc = desc;

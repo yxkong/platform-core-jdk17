@@ -13,7 +13,7 @@ public interface RouteDataGateway {
      * 获取初始路由信息
      * @return
      */
-    void initAll();
+    void init();
 
     /**
      * 新增路由

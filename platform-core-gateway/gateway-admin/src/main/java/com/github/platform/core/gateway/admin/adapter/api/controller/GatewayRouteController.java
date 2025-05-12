@@ -1,6 +1,7 @@
 package com.github.platform.core.gateway.admin.adapter.api.controller;
 
 import com.github.platform.core.common.entity.StrIdReq;
+import com.github.platform.core.gateway.admin.adapter.api.command.GatewayReloadCmd;
 import com.github.platform.core.gateway.admin.adapter.api.command.GatewayRouteInfoCmd;
 import com.github.platform.core.gateway.admin.adapter.api.command.GatewayRouteQuery;
 import com.github.platform.core.gateway.admin.adapter.api.convert.GatewayRouteAdapterConvert;
@@ -32,7 +33,7 @@ import jakarta.annotation.Resource;
  */
 @RestController
 @Tag(name = "gatewayRoutes",description = "网关路由管理")
-@RequestMapping("api/sys/gateway/route")
+@RequestMapping("api/gateway/route")
 @Slf4j
 public class GatewayRouteController extends BaseController{
     @Resource
@@ -103,6 +104,17 @@ public class GatewayRouteController extends BaseController{
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody GatewayRouteInfoCmd cmd) {
         gatewayRouteExecutor.updateInfo(gatewayRouteConvert.toRouteInfo(cmd));
+        return buildSucResp();
+    }
+    /**
+     * 修改网关路由
+     * @return 操作结果
+     */
+    @OptLog(module="gatewayRoutes",title="重载网关路由",optType = LogOptTypeEnum.TRIGGER)
+    @Operation(summary = "重载网关路由",tags = {"gatewayRoutes"})
+    @PostMapping("/reload")
+    public ResultBean reload(@Validated @RequestBody GatewayReloadCmd cmd) {
+        gatewayRouteExecutor.reload(cmd.getGateway());
         return buildSucResp();
     }
 }

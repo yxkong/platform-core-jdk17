@@ -1,5 +1,6 @@
 package com.github.platform.core.gateway.infra.filter;
 
+import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.standard.constant.HeaderConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -77,13 +78,13 @@ public abstract class GatewayFilterBase {
         // 标记从网关过去
         builder.header(HeaderConstant.REQUEST_FROM, HeaderConstant.REQUEST_FROM_SOURCE);
         // 条件性添加头信息（你的实际实现应该已经有非空判断）
-        if (loginInfo != null) {
+        if (StringUtils.isNotEmpty(loginInfo) ) {
             builder.header(HeaderConstant.LOGIN_INFO, loginInfo);
         }
-        if (token != null) {
+        if (StringUtils.isNotEmpty(token)) {
             builder.header(HeaderConstant.TOKEN, token);
         }
-        if (requestIp != null) {
+        if (StringUtils.isNotEmpty(requestIp)) {
             builder.header(HeaderConstant.IP_HEADER_X_FORWARDED_FOR, requestIp);
         }
 

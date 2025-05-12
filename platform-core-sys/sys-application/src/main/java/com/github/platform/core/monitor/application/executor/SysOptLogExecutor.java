@@ -1,17 +1,13 @@
 package com.github.platform.core.monitor.application.executor;
 
 import com.github.platform.core.common.service.BaseExecutor;
-import com.github.platform.core.monitor.domain.context.SysOptLogContext;
 import com.github.platform.core.monitor.domain.context.SysOptLogQueryContext;
 import com.github.platform.core.monitor.domain.dto.SysOptLogDto;
 import com.github.platform.core.monitor.domain.gateway.ISysOptLogGateway;
 import com.github.platform.core.standard.entity.dto.PageBean;
-import com.github.platform.core.standard.entity.dto.ResultBean;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Service;
-
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
 * 操作日志执行器

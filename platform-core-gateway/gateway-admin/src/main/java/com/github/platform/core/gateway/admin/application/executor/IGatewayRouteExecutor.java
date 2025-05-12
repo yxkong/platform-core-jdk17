@@ -49,4 +49,9 @@ public interface IGatewayRouteExecutor {
      * @return
      */
     GatewayRouteInfoDto findRouteInfo(Long id);
+
+    /**
+     * 刷新网关
+     */
+    void reload(String gateway);
 }

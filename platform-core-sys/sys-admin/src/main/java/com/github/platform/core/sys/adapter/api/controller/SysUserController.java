@@ -148,6 +148,7 @@ public class SysUserController extends BaseController {
         if (StringUtils.isEmpty(context.getMobile())){
             context.setMobile(cmd.getMobile());
         }
+        context.setId(userInfo.getId());
         context.setLogBizTypeEnum(UserLogBizTypeEnum.PROFILE);
         userExecutor.update(context);
         return buildSucResp();

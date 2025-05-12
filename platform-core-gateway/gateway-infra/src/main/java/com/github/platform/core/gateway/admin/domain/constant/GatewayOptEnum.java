@@ -17,6 +17,7 @@ public enum GatewayOptEnum {
     ROUTE_UPDATE(OptTypeEnum.UPDATE,GatewayConstant.ROUTE_UPDATE_BEAN_NAME),
     //删除路由
     ROUTE_DELETE(OptTypeEnum.DELETE,GatewayConstant.ROUTE_DELETE_BEAN_NAME),
+    ROUTE_RELOAD(OptTypeEnum.RELOAD,GatewayConstant.ROUTE_RELOAD_BEAN_NAME),
     ;
 
     GatewayOptEnum(OptTypeEnum optType, String handlerBeanName) {

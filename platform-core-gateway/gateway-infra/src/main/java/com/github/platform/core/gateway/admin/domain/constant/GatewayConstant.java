@@ -17,4 +17,5 @@ public interface GatewayConstant {
     String ROUTE_ADD_BEAN_NAME = "routeAddEventHandler";
     String ROUTE_UPDATE_BEAN_NAME = "routeUpdateEventHandler";
     String ROUTE_DELETE_BEAN_NAME = "routeDeleteEventHandler";
+    String ROUTE_RELOAD_BEAN_NAME = "routeReloadEventHandler";
 }

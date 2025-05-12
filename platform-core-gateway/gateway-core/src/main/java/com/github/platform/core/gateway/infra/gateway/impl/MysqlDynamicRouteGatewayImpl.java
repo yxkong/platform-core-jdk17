@@ -10,12 +10,12 @@ import com.github.platform.core.gateway.admin.domain.gateway.IGatewayRouteGatewa
 import com.github.platform.core.gateway.admin.infra.util.RouteInfoUtil;
 import com.github.platform.core.gateway.domain.gateway.RouteDataGateway;
 import com.github.platform.core.gateway.infra.configuration.properties.PlatformGatewayProperties;
-import com.github.platform.core.gateway.infra.gateway.dto.RouteDto;
 import com.github.platform.core.gateway.infra.service.IRouteOperatorService;
 import com.github.platform.core.standard.constant.StatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,22 +39,26 @@ public class MysqlDynamicRouteGatewayImpl implements RouteDataGateway {
     }
 
     @Override
-    public void initAll() {
+    public void init() {
+        gatewayInit("初始化");
+    }
+
+    private void gatewayInit(String opt) {
         List<GatewayRouteDto> routes = gatewayRouteGateway.findBy(GatewayRouteContext.builder().gateway(gatewayProperties.getName()).status(StatusEnum.ON.getStatus()).build());
-        RouteDto routeDto = new RouteDto();
+        List<RouteDefinition> routeDefinitions = new ArrayList<>();
         if (CollectionUtil.isNotEmpty(routes)){
             routes.forEach(route->{
                 List<GatewayRouteConditionDto> list = gatewayRouteConditionGateway.findByRouteId(route.getId());
                 Map<String, Object> result = RouteInfoUtil.getResult(route, list);
                 RouteDefinition definition = JsonUtils.fromJson(JsonUtils.toJson(result), RouteDefinition.class);
-                routeDto.addRoute(definition);
+                routeDefinitions.add(definition);
             });
         }
-        if (CollectionUtil.isNotEmpty(routeDto.getRoutes())){
-            routeOperatorService.refresh(routeDto.getRoutes());
-            log.warn("网关：{} 初始化Mysql网关完成:{}",gatewayProperties.getName(),JsonUtils.toJson(routeDto.getRoutes()));
+        if (CollectionUtil.isNotEmpty(routeDefinitions)){
+            routeOperatorService.refresh(routeDefinitions);
+            log.warn("网关：{} {} MySql配置完成:{}",gatewayProperties.getName(), opt,JsonUtils.toJson(routeDefinitions));
         } else {
-            log.warn("网关：{} 未找到可初始化的网关配置",gatewayProperties.getName());
+            log.warn("网关：{} {} 未找到对应的MySql配置",gatewayProperties.getName(), opt);
         }
     }
 
@@ -70,5 +74,6 @@ public class MysqlDynamicRouteGatewayImpl implements RouteDataGateway {
 
     @Override
     public void refresh() {
+        gatewayInit("刷新");
     }
 }

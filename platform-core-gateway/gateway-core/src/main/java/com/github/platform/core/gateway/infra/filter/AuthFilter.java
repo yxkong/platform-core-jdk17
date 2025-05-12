@@ -64,7 +64,8 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
         // 3. 获取路由元数据中的鉴权配置,没有路由配置，直接404
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         if (route == null) {
-            log.warn("Route not found for request: {}", exchange.getRequest().getURI());
+            ServerHttpRequest request = exchange.getRequest();
+            log.warn("URI: {} {} Headers: {} Query: {} IP: {} ", request.getMethod(), request.getURI(), request.getHeaders(), request.getQueryParams(), WebUtil.getIpAddr(request));
             return buildErrorResponse(exchange, AuthErrorType.NOT_FOUND);
         }
         //获取网关配置
@@ -120,7 +121,6 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
                         .build())
                 .build());
     }
-
     private Mono<Void> buildErrorResponse(ServerWebExchange exchange, AuthErrorType errorType) {
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 

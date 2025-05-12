@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class GatewayRouteInfoContext  {
+    protected String gateway;
     /**
      * 路由配置
      */

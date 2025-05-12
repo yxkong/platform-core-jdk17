@@ -47,6 +47,8 @@ public class SendSmsContext {
     private Map<String,Object> params = new HashMap<>();
     /**短信类型*/
     private SmsType smsType;
+    /**租户id */
+    private Integer tenantId;
 
     /**
      * 验证码的时候，直接填此参数

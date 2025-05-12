@@ -24,9 +24,7 @@ public class InitGatewayImpl implements ApplicationListener<ApplicationStartedEv
     public void onApplicationEvent(ApplicationStartedEvent event) {
         try {
             //初始化网关
-            routeDataGateway.initAll();
-            //配置修改后刷新网关
-            routeDataGateway.refresh();
+            routeDataGateway.init();
         } catch (Exception e) {
             log.error("init gateway is error!", e);
         }

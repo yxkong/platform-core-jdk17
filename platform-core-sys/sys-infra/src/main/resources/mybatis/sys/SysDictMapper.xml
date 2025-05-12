@@ -27,7 +27,7 @@
 		<id column="css_class" property="cssClass"/>
 		<id column="list_class" property="listClass"/>
 		<id column="char_type" property="charType"/>
-		<id column="dict_type_name" property="dictTypeName"/>
+		<id column="dictTypeName" property="dictTypeName"/>
 		<id column="sort" property="sort"/>
 		<id column="tenant_id" property="tenantId"/>
 		<id column="status" property="status"/>
@@ -138,7 +138,7 @@
 
 	<select id="findDtoListBy" resultMap="dictDtoMap" parameterType="com.github.platform.core.sys.domain.common.entity.SysDictBase">
 		select
-		<include refid="BaseColumnList" />,dt.name as dictTypeName,dt.char_type as charType
+		<include refid="BaseColumnList" />,dt.name as dictTypeName,dt.char_type
 		from t_sys_dict t ,t_sys_dict_type dt
 		where t.dict_type = dt.type
 		<if test="key != null">and t.`key` = #{key}</if>
