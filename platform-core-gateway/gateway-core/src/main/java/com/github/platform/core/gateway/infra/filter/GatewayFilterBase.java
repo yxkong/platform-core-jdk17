@@ -75,6 +75,10 @@ public abstract class GatewayFilterBase {
                                                             Integer tenantId) {
         // 获取原始请求的mutate构建器
         ServerHttpRequest.Builder builder = exchange.getRequest().mutate();
+        builder.headers(headers -> {
+            // 保留原始Header
+            headers.addAll(exchange.getRequest().getHeaders());
+        });
         // 标记从网关过去
         builder.header(HeaderConstant.REQUEST_FROM, HeaderConstant.REQUEST_FROM_SOURCE);
         // 条件性添加头信息（你的实际实现应该已经有非空判断）

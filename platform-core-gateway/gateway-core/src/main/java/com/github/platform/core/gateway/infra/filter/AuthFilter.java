@@ -52,6 +52,11 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        String contentType = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);
+        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+            // 对 multipart 请求不做额外包装或读取
+            return chain.filter(exchange);
+        }
         // 1. 优先处理重定向逻辑（在鉴权前处理）
         Mono<Void> redirectResult = handleRedirect(exchange);
         if (redirectResult != null) {
@@ -59,7 +64,10 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
         }
         // 2. 检查是否在免鉴权列表中
         if (shouldExcludeAuth(exchange)) {
-            return chain.filter(exchange);
+            return getFilter(exchange, chain);
+        }
+        if (authorizationFilter(exchange)) {
+            return getFilter(exchange, chain);
         }
         // 3. 获取路由元数据中的鉴权配置,没有路由配置，直接404
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
@@ -144,6 +152,10 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
     private boolean shouldExcludeAuth(ServerWebExchange exchange) {
         String host = exchange.getRequest().getURI().toString();
         return configGateway.excludeHost(host) ;
+    }
+    private boolean authorizationFilter(ServerWebExchange exchange) {
+        String authorization = exchange.getRequest().getHeaders().getFirst(HeaderConstant.AUTHORIZATION);
+        return StringUtils.isNotEmpty(authorization) && (authorization.startsWith(HeaderConstant.AUTH_BEARER) || authorization.startsWith(HeaderConstant.AUTH_BASIC));
     }
 
     @Override
