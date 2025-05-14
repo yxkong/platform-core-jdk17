@@ -9,6 +9,7 @@
 		<id column="expire_time" property="expireTime" />
 		<id column="last_login_time" property="lastLoginTime" />
 		<id column="login_way" property="loginWay" />
+		<id column="login_info" property="loginInfo" />
 		<id column="tenant_id" property="tenantId" />
 		<id column="status" property="status" />
 		<id column="create_time" property="createTime" />

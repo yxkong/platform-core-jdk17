@@ -150,7 +150,7 @@ public class SysUserController extends BaseController {
         }
         context.setId(userInfo.getId());
         context.setLogBizTypeEnum(UserLogBizTypeEnum.PROFILE);
-        userExecutor.update(context);
+        userExecutor.updateUserProfile(context);
         return buildSucResp();
     }
 

@@ -40,7 +40,8 @@ public class AuthorizationServiceImpl implements IAuthorizationService {
         //有token的时候
         TokenCacheEntity tokenCacheEntity = tokenCacheGateway.findByLoginName(userEntity.getTenantId(), userEntity.getLoginName());
         if (Objects.nonNull(tokenCacheEntity)){
-            LoginUserInfoUtil.setLoginUserInfo(JsonUtils.fromJson(tokenCacheEntity.getLoginInfo(), LoginUserInfo.class));
+            LoginUserInfo userInfo = JsonUtils.fromJson(tokenCacheEntity.getLoginInfo(), LoginUserInfo.class);
+            LoginUserInfoUtil.setLoginUserInfo(userInfo);
         } else {
             sysUserGateway.generatorToken(userEntity, null, LoginWayEnum.BEARER);
         }
