@@ -185,7 +185,7 @@
 		</where>
 	</select>
 
-	<select id="findByProNo" resultType="com.github.platform.core.sms.domain.common.entity.SysSmsServiceProviderBase" parameterType="java.lang.String">
+	<select id="findByProNo" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select <include refid="BaseColumnList" /> from t_sys_sms_service_provider t where t.pro_no = #{proNo} and  t.status = 1
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Long">

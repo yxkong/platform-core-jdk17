@@ -144,7 +144,7 @@
 		</where>
 	</select>
 
-	<select id="findByMsgId" resultType="com.github.platform.core.sms.domain.common.entity.SysSmsLogBase">
+	<select id="findByMsgId" resultMap="BaseResultMap" >
 		select <include refid="BaseColumnList" /> from t_sys_sms_log t where t.msg_id = #{msgId}
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Long">

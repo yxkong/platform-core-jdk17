@@ -3,18 +3,18 @@
 <mapper namespace="com.github.platform.core.persistence.mapper.code.TablesMapper">
 
 	 <resultMap type="com.github.platform.core.persistence.entity.code.TablesBase" id="BaseResultMap">
-		  <id column="tableSchema" property="tableSchema" />
-		  <id column="tableName" property="tableName" />
+		  <id column="table_schema" property="tableSchema" />
+		  <id column="table_name" property="tableName" />
 		  <id column="engine" property="engine" />
-		  <id column="tableComment" property="tableComment" />
-		  <id column="createTime" property="createTime" />
+		  <id column="table_comment" property="tableComment" />
+		  <id column="create_time" property="createTime" />
 	 </resultMap>
     <sql id="BaseColumnList">
- 		 t.table_schema as tableSchema ,
- 		 t.table_name as tableName ,
- 		 t.engine as engine ,
- 		 t.table_comment as tableComment ,
- 		 t.create_time as createTime
+ 		 t.table_schema  ,
+ 		 t.table_name  ,
+ 		 t.engine,
+ 		 t.table_comment ,
+ 		 t.create_time
     </sql>
 	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.persistence.entity.code.TablesBase">
 		select 
@@ -32,7 +32,7 @@
 			</if>
 		</where>
 	</select>
-	<select id="findByTableName" resultType="com.github.platform.core.persistence.entity.code.TablesBase">
+	<select id="findByTableName" resultMap="BaseResultMap">
 		select
 		<include refid="BaseColumnList" />
 		from information_schema.tables  t

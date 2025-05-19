@@ -187,8 +187,7 @@
 		</where>
 	</select>
 
-	<select id="findByBeanNameNotId"
-	        resultType="com.github.platform.core.schedule.domain.common.entity.SysJobBase">
+	<select id="findByBeanNameNotId" resultMap="BaseResultMap">
 		select
 		<include refid="BaseColumnList" />
 		from t_sys_job t where t.id != #{id} and t.bean_name = #{beanName} and t.tenant_id = #{tenantId}

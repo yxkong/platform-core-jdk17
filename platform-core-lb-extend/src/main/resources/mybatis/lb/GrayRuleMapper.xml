@@ -135,7 +135,7 @@
 		</where>
 	</select>
 
-    <select id="findOne" resultType="com.github.platform.core.loadbalancer.domain.common.entity.GrayRuleBase">
+    <select id="findOne" resultMap="BaseResultMap">
 		select
 		<include refid="BaseColumnList" />
 		from t_gray_rule

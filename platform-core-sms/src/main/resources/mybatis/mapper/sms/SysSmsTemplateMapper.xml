@@ -188,7 +188,7 @@
 		</where>
 	</select>
 
-	<select id="findByTempNo" resultType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase">
+	<select id="findByTempNo" resultMap="BaseResultMap">
 		select <include refid="BaseColumnList"/> from t_sys_sms_template t where t.temp_no = #{tempNo}
 	</select>
 
