@@ -1,16 +1,14 @@
-package com.github.platform.core.sms.domain.common.entity;
+package com.github.platform.core.sms.domain.common.query;
 
-import com.github.platform.core.common.entity.BaseAdminEntity;
+import com.github.platform.core.common.entity.query.PageQueryBaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import jakarta.validation.constraints.NotEmpty;
-
 /**
-* 短信白名单模型实体
+* 短信白名单查询基类
 * @website <a href="https://www.5ycode.com/">5ycode</a>
 * @author yxkong
 * @datetime 2023-08-14 17:39:30.643
@@ -19,18 +17,18 @@ import jakarta.validation.constraints.NotEmpty;
 @Data
 @SuperBuilder
 @NoArgsConstructor
+@Schema(description = "短信白名单查询")
 @EqualsAndHashCode(callSuper=true)
-public class SysSmsWhiteListBase extends BaseAdminEntity   {
+public class SysSmsListQueryBase extends PageQueryBaseEntity {
     /** 渠道 */
     @Schema(description = "渠道")
-    @NotEmpty(message="渠道（channel）不能为空")
-    protected String channel;
+    private String channel;
     /** 姓名 */
     @Schema(description = "姓名")
-    @NotEmpty(message="姓名（name）不能为空")
-    protected String name;
+    private String name;
     /** 手机号 */
     @Schema(description = "手机号")
-    @NotEmpty(message="手机号（mobile）不能为空")
-    protected String mobile;
+    private String mobile;
+    @Schema(description = "名单类型,0白名单，1黑名单")
+    protected Integer type;
 }

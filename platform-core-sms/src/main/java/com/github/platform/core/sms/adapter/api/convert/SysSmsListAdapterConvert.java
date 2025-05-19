@@ -1,9 +1,9 @@
 package com.github.platform.core.sms.adapter.api.convert;
 
-import com.github.platform.core.sms.adapter.api.command.SysSmsWhiteListCmd;
-import com.github.platform.core.sms.adapter.api.command.SysSmsWhiteListQuery;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListContext;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListQueryContext;
+import com.github.platform.core.sms.adapter.api.command.SysSmsListCmd;
+import com.github.platform.core.sms.adapter.api.command.SysSmsListQuery;
+import com.github.platform.core.sms.domain.context.SysSmsListContext;
+import com.github.platform.core.sms.domain.context.SysSmsListQueryContext;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 /**
@@ -14,17 +14,17 @@ import org.mapstruct.MappingConstants;
 * @version 1.0
 */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SysSmsWhiteListAdapterConvert {
+public interface SysSmsListAdapterConvert {
     /**
     * 查询实体转查询上下文
     * @param query 查询实体
     * @return 查询上下文
     */
-    SysSmsWhiteListQueryContext toQuery(SysSmsWhiteListQuery query);
+    SysSmsListQueryContext toQuery(SysSmsListQuery query);
     /**
     * 操作实体转操作上下文
     * @param cmd 操作实体
     * @return 操作上下文
     */
-    SysSmsWhiteListContext toContext(SysSmsWhiteListCmd cmd);
+    SysSmsListContext toContext(SysSmsListCmd cmd);
 }

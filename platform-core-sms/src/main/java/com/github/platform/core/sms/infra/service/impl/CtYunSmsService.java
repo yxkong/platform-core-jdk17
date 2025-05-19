@@ -1,11 +1,12 @@
 package com.github.platform.core.sms.infra.service.impl;
 
 import com.github.platform.core.common.utils.JsonUtils;
+import com.github.platform.core.sms.domain.constant.SmsProviderEnum;
+import com.github.platform.core.sms.infra.convert.SendMessageConvert;
 import com.github.platform.core.sms.domain.entity.ApplyEntity;
+import com.github.platform.core.sms.domain.entity.SmsAccount;
 import com.github.platform.core.sms.domain.entity.SendSmsEntity;
 import com.github.platform.core.sms.domain.entity.SendSmsResultEntity;
-import com.github.platform.core.sms.domain.entity.SmsAccount;
-import com.github.platform.core.sms.infra.convert.SendMessageConvert;
 import com.github.platform.core.sms.infra.rpc.dto.ctyun.SendSmsCmd;
 import com.github.platform.core.sms.infra.rpc.dto.ctyun.SendSmsDto;
 import com.github.platform.core.sms.infra.rpc.external.CtyunFeignClient;
@@ -15,18 +16,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 阿里云短信实现
+ * 天翼云短信实现
  * @author: yxkong
  * @date: 2023/2/17 3:37 PM
  * @version: 1.0
  */
-@Service("aliyunSmsService")
+@Service("ctYunSmsService")
 @Slf4j
-public class AliyunSmsService implements ISmsService {
+public class CtYunSmsService implements ISmsService {
     @Autowired
     private CtyunFeignClient feignClient;
     @Autowired
     private SendMessageConvert convert;
+
+    @Override
+    public boolean support(String provider) {
+        return SmsProviderEnum.isCtYun(provider);
+    }
+
     @Override
     public SendSmsResultEntity applySign(ApplyEntity apply) {
         return null;

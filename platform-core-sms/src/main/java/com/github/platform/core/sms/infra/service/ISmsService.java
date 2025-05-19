@@ -13,9 +13,14 @@ import com.github.platform.core.sms.domain.entity.SmsAccount;
  */
 public interface ISmsService {
 
+    /**
+     * 支持的供应商，表中配置和实现要一致
+     * @param provider 从供应商表中获取
+     */
+    boolean support(String provider);
 
     /**
-     * 申请模签名
+     * 申请签名 ，需要自己转换
      * @param apply
      * @return
      */
@@ -23,7 +28,7 @@ public interface ISmsService {
 
     /**
      * 申请模板
-     * @param apply
+     * @param apply 申请实体，需要自己转换
      * @return
      */
 	SendSmsResultEntity applyTemplate(ApplyEntity apply);
@@ -37,7 +42,7 @@ public interface ISmsService {
 
     /**
      * 查询账户余额
-     * @param account
+     * @param account 需要自己转换
      * @return
      */
     int queryAmt(SmsAccount account);

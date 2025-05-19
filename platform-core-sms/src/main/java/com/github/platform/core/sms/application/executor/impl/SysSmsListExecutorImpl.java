@@ -1,12 +1,11 @@
 package com.github.platform.core.sms.application.executor.impl;
 
 import com.github.platform.core.auth.application.executor.SysExecutor;
-import com.github.platform.core.common.service.BaseExecutor;
-import com.github.platform.core.sms.application.executor.ISysSmsWhiteListExecutor;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListContext;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListQueryContext;
-import com.github.platform.core.sms.domain.dto.SysSmsWhiteListDto;
-import com.github.platform.core.sms.domain.gateway.ISysSmsWhiteListGateway;
+import com.github.platform.core.sms.application.executor.ISysSmsListExecutor;
+import com.github.platform.core.sms.domain.context.SysSmsListContext;
+import com.github.platform.core.sms.domain.context.SysSmsListQueryContext;
+import com.github.platform.core.sms.domain.dto.SysSmsListDto;
+import com.github.platform.core.sms.domain.gateway.ISysSmsListGateway;
 import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import lombok.extern.slf4j.Slf4j;
@@ -25,30 +24,30 @@ import java.util.Objects;
 */
 @Service
 @Slf4j
-public class SysSmsWhiteListExecutorImpl extends SysExecutor implements ISysSmsWhiteListExecutor {
+public class SysSmsListExecutorImpl extends SysExecutor implements ISysSmsListExecutor {
     @Resource
-    private ISysSmsWhiteListGateway gateway;
+    private ISysSmsListGateway gateway;
     @Override
-    public PageBean<SysSmsWhiteListDto> query(SysSmsWhiteListQueryContext context){
+    public PageBean<SysSmsListDto> query(SysSmsListQueryContext context){
         context.setTenantId(getTenantId(context));
         return gateway.query(context);
     };
     @Override
-    public void insert(SysSmsWhiteListContext context){
+    public void insert(SysSmsListContext context){
         context.setTenantId(getTenantId(context));
-        SysSmsWhiteListDto record = gateway.insert(context);
+        SysSmsListDto record = gateway.insert(context);
         if (Objects.isNull(record.getId())){
             throw exception(ResultStatusEnum.COMMON_INSERT_ERROR);
         }
     }
     @Override
-    public SysSmsWhiteListDto findById(Long id) {
+    public SysSmsListDto findById(Long id) {
         return gateway.findById(id);
     }
     @Override
-    public void update(SysSmsWhiteListContext context) {
+    public void update(SysSmsListContext context) {
         context.setTenantId(getTenantId(context));
-        Pair<Boolean, SysSmsWhiteListDto> update = gateway.update(context);
+        Pair<Boolean, SysSmsListDto> update = gateway.update(context);
         if (!update.getKey()){
             throw exception(ResultStatusEnum.COMMON_UPDATE_ERROR);
         }

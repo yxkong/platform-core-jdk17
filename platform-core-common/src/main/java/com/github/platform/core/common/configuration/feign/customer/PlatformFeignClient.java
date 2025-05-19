@@ -49,7 +49,15 @@ public interface PlatformFeignClient {
      */
     @RequestLine("POST")
     Response post(URI baseUri, @HeaderMap Map<String, Object> headerMap, @QueryMap Map<String, Object> requestMap);
-
+    /**
+     * restful请求返回Response
+     * @param baseUri
+     * @param headerMap
+     * @param requestBody
+     * @return
+     */
+    @RequestLine("POST")
+    Response post(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object  requestBody);
     /**
      * post请求返回ResultBean
      * @param baseUri
@@ -60,21 +68,12 @@ public interface PlatformFeignClient {
     @RequestLine("POST")
     ResultBean postResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @QueryMap Map<String, Object> requestMap);
     /**
-     * restful请求返回Response
+     * post请求返回ResultBean
      * @param baseUri
      * @param headerMap
      * @param requestBody
      * @return
      */
     @RequestLine("POST")
-    Response restful(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Map<String, Object> requestBody);
-    /**
-     * restful请求返回ResultBean
-     * @param baseUri
-     * @param headerMap
-     * @param requestBody
-     * @return
-     */
-    @RequestLine("POST")
-    ResultBean restfulResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Map<String, Object> requestBody);
+    ResultBean postResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object requestBody);
 }

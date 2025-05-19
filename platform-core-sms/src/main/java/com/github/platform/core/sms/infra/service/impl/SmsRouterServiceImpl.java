@@ -10,10 +10,13 @@ import com.github.platform.core.sms.domain.gateway.ISysSmsTemplateStatusGateway;
 import com.github.platform.core.sms.infra.constant.SmsInfraEnum;
 import com.github.platform.core.sms.infra.convert.SmsInfraConvert;
 import com.github.platform.core.sms.infra.service.ISmsRouterService;
+import com.github.platform.core.sms.infra.service.ISmsService;
 import com.github.platform.core.sms.infra.service.ISmsSpRoutingStrategy;
 import com.github.platform.core.sms.infra.utils.SmsPwdUtil;
+import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.exception.ConfigRuntimeException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +38,8 @@ public class SmsRouterServiceImpl implements ISmsRouterService {
     private ISysSmsServiceProviderGateway serviceProviderGateway;
     @Resource
     private ISysSmsTemplateStatusGateway templateStatusGateway;
-    @Autowired
-    private Map<String, ISmsSpRoutingStrategy> routingStrategyMap;
+    @Resource
+    private ObjectProvider<ISmsSpRoutingStrategy> routingStrategies;
     @Resource
     private SmsInfraConvert smsConvert;
 
@@ -48,7 +51,12 @@ public class SmsRouterServiceImpl implements ISmsRouterService {
         if (CollectionUtil.isEmpty(list)){
             throw new ConfigRuntimeException(SmsInfraEnum.CONFIG_TEMP_SP_ERROR).format(tempNo);
         }
-        ISmsSpRoutingStrategy routingStrategy = routingStrategyMap.get(smsTemplate.getRouteType()+"SmsSpRoutingStrategy");
+        ISmsSpRoutingStrategy routingStrategy = routingStrategies.stream()
+                .filter(service -> service.support(smsTemplate.getRouteType()))
+                .findFirst()
+                .orElseThrow(() -> new ConfigRuntimeException(
+                        ResultStatusEnum.CONFIG_ERROR.getStatus(),
+                        "找不到对应的路由策略: " + smsTemplate.getRouteType()));
         SysSmsTemplateStatusDto serviceProviderStatus = routingStrategy.route(smsTemplate, list);
         if (Objects.isNull(serviceProviderStatus)){
             throw new ConfigRuntimeException(SmsInfraEnum.CONFIG_ROUTE_TEMP_SP_ERROR).format(tempNo,smsTemplate.getProNo());
@@ -58,10 +66,10 @@ public class SmsRouterServiceImpl implements ISmsRouterService {
         //判断该厂商是否被禁用了
         SysSmsServiceProviderDto serviceProvider = serviceProviderGateway.findByProNo(serviceProviderStatus.getProNo());
         if (Objects.isNull(serviceProvider)){
-            String msg = String.format("未找到厂商编号%s对应的有效厂商", tempNo,serviceProvider.getProNo());
-            throw new ConfigRuntimeException(SmsInfraEnum.CONFIG_SP_DISABLE).format();
+            throw new ConfigRuntimeException(SmsInfraEnum.CONFIG_ROUTE_TEMP_SP_ERROR).format(tempNo,serviceProvider.getProNo());
         }
-        smsSpTemplate.setBeanName(serviceProvider.getBeanName());
+        smsSpTemplate.setSmsType(smsTemplate.getType());
+        smsSpTemplate.setProvider(serviceProvider.getProvider());
         smsSpTemplate.setAccountName(serviceProvider.getAccount());
         smsSpTemplate.setPassword(SmsPwdUtil.me.decode(serviceProvider.getEncryptPwd(),serviceProvider.getSalt()));
         smsSpTemplate.setTemplate(smsSpTemplate.getTemplate());

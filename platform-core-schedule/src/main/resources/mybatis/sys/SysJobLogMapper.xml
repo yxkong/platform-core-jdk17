@@ -142,9 +142,6 @@
 			<if test="result != null">and t.result = #{result}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 			<if test="status != null">and t.status = #{status}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 

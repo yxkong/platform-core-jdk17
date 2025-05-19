@@ -1,13 +1,13 @@
-package com.github.platform.core.sms.adapter.api.command;
+package com.github.platform.core.sms.domain.dto;
 
-import com.github.platform.core.sms.domain.common.entity.SysSmsWhiteListBase;
+import com.github.platform.core.sms.domain.common.entity.SysSmsListBase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 /**
-* 短信白名单增加或修改
+* 短信白名单传输实体
 * @website <a href="https://www.5ycode.com/">5ycode</a>
 * @author yxkong
 * @datetime 2023-08-14 17:39:30.643
@@ -17,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "短信白名单增加或修改")
-public class SysSmsWhiteListCmd extends SysSmsWhiteListBase {
+@Schema(description = "短信白名单传输实体")
+public class SysSmsListDto extends SysSmsListBase {
 }

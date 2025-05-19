@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder
 public class SendSmsResultEntity {
-	/**发送状态   2，已发送，1 发送成功，-1 发送失败 */
+	/**发送状态   2，已发送，1 发送成功，-1 发送失败，-2黑名单不发送 */
     @Builder.Default
 	private int status = 2;
 
@@ -23,6 +23,7 @@ public class SendSmsResultEntity {
     private String errorMsg;
     /**之所以在这返回，是因为每个厂商需要的id不一样*/
     private String templateId;
+
 
     public boolean isSuc(){
         if(status == 1){

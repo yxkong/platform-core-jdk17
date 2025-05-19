@@ -10,7 +10,6 @@ import com.github.platform.core.sms.domain.entity.SmsSpTemplateEntity;
  * @version: 1.0
  */
 public interface ISmsRouterService {
-    String DEFAULT_ROUTER = "defaultSmsRouterService";
 
     /**
      * 根据短信模板，路由到有效的厂商

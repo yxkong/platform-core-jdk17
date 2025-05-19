@@ -2,24 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.github.platform.core.persistence.mapper.sms.SysSmsTemplateStatusMapper">
 
-	<resultMap type="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase" id="BaseResultMap">
+	<resultMap type="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateStatusBase" id="BaseResultMap">
 		<id column="id" property="id"/>
 		<id column="temp_no" property="tempNo"/>
-		<id column="sms_type" property="smsType"/>
-		<id column="name" property="name"/>
-		<id column="sign_name" property="signName"/>
-		<id column="content" property="content"/>
-		<id column="route_type" property="routeType"/>
 		<id column="pro_no" property="proNo"/>
-		<id column="type" property="type"/>
-		<id column="use_time_type" property="useTimeType"/>
-		<id column="work_interval" property="workInterval"/>
-		<id column="holiday_interval" property="holidayInterval"/>
-		<id column="apply_name" property="applyName"/>
-		<id column="apply_url" property="applyUrl"/>
-		<id column="apply_reason" property="applyReason"/>
+		<id column="sign_status" property="signStatus"/>
+		<id column="sign_msg_id" property="signMsgId"/>
+		<id column="temp_status" property="tempStatus"/>
+		<id column="temp_id" property="tempId"/>
+		<id column="temp_msg_id" property="tempMsgId"/>
 		<id column="tenant_id" property="tenantId"/>
+		<id column="sort" property="sort"/>
+		<id column="weight" property="weight"/>
 		<id column="status" property="status"/>
+		<id column="type" property="type"/>
 		<id column="create_time" property="createTime"/>
 		<id column="create_by" property="createBy"/>
 		<id column="update_time" property="updateTime"/>
@@ -30,21 +26,17 @@
 	<sql id="BaseColumnList">
 		t.id,
 		t.temp_no,
-		t.sms_type,
-		t.name,
-		t.sign_name,
-		t.content,
-		t.route_type,
 		t.pro_no,
-		t.type,
-		t.use_time_type,
-		t.work_interval,
-		t.holiday_interval,
-		t.apply_name,
-		t.apply_url,
-		t.apply_reason,
+		t.sign_status,
+		t.sign_msg_id,
+		t.temp_status,
+		t.temp_id,
+		t.temp_msg_id,
 		t.tenant_id,
+		t.sort,
+		t.weight,
 		t.status,
+		t.type,
 		t.create_time,
 		t.create_by,
 		t.update_time,
@@ -52,26 +44,22 @@
 		t.remark
 	</sql>
 
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase">
-		insert into t_sys_sms_template
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateStatusBase">
+		insert into t_sys_sms_template_status
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">id,</if>
 			<if test="tempNo != null">temp_no,</if>
-			<if test="smsType != null">sms_type,</if>
-			<if test="name != null">name,</if>
-			<if test="signName != null">sign_name,</if>
-			<if test="content != null">content,</if>
-			<if test="routeType != null and routeType != ''">route_type,</if>
-			<if test="proNo != null and proNo != ''">pro_no,</if>
-			<if test="type != null">type,</if>
-			<if test="useTimeType != null">use_time_type,</if>
-			<if test="workInterval != null">work_interval,</if>
-			<if test="holidayInterval != null">holiday_interval,</if>
-			<if test="applyName != null">apply_name,</if>
-			<if test="applyUrl != null">apply_url,</if>
-			<if test="applyReason != null">apply_reason,</if>
+			<if test="proNo != null">pro_no,</if>
+			<if test="signStatus != null">sign_status,</if>
+			<if test="signMsgId != null">sign_msg_id,</if>
+			<if test="tempStatus != null">temp_status,</if>
+			<if test="tempId != null">temp_id,</if>
+			<if test="tempMsgId != null">temp_msg_id,</if>
 			<if test="tenantId != null">tenant_id,</if>
+			<if test="sort != null">sort,</if>
+			<if test="weight != null">weight,</if>
 			<if test="status != null">status,</if>
+			<if test="type != null">type,</if>
 			<if test="createTime != null">create_time,</if>
 			<if test="createBy != null">create_by,</if>
 			<if test="updateTime != null">update_time,</if>
@@ -81,21 +69,17 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">#{id},</if>
 			<if test="tempNo != null">#{tempNo},</if>
-			<if test="smsType != null">#{smsType},</if>
-			<if test="name != null">#{name},</if>
-			<if test="signName != null">#{signName},</if>
-			<if test="content != null">#{content},</if>
-			<if test="routeType != null and routeType != ''">#{routeType},</if>
-			<if test="proNo != null and proNo != ''">#{proNo},</if>
-			<if test="type != null">#{type},</if>
-			<if test="useTimeType != null">#{useTimeType},</if>
-			<if test="workInterval != null">#{workInterval},</if>
-			<if test="holidayInterval != null">#{holidayInterval},</if>
-			<if test="applyName != null">#{applyName},</if>
-			<if test="applyUrl != null">#{applyUrl},</if>
-			<if test="applyReason != null">#{applyReason},</if>
+			<if test="proNo != null">#{proNo},</if>
+			<if test="signStatus != null">#{signStatus},</if>
+			<if test="signMsgId != null">#{signMsgId},</if>
+			<if test="tempStatus != null">#{tempStatus},</if>
+			<if test="tempId != null">#{tempId},</if>
+			<if test="tempMsgId != null">#{tempMsgId},</if>
 			<if test="tenantId != null">#{tenantId},</if>
+			<if test="sort != null">#{sort},</if>
+			<if test="weight != null">#{weight},</if>
 			<if test="status != null">#{status},</if>
+			<if test="type != null">#{type},</if>
 			<if test="createTime != null">#{createTime},</if>
 			<if test="createBy != null">#{createBy},</if>
 			<if test="updateTime != null">#{updateTime},</if>
@@ -104,25 +88,21 @@
 		</trim>
 	</insert>
 
-	<update id="updateById" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase">
-		update t_sys_sms_template
+	<update id="updateById" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateStatusBase">
+		update t_sys_sms_template_status
 		<set>
 			<if test="tempNo != null">temp_no = #{tempNo},</if>
-			<if test="smsType != null">sms_type = #{smsType},</if>
-			<if test="name != null">name = #{name},</if>
-			<if test="signName != null">sign_name = #{signName},</if>
-			<if test="content != null">content = #{content},</if>
-			<if test="routeType != null and routeType != ''">route_type = #{routeType},</if>
-			<if test="proNo != null and proNo != ''">pro_no = #{proNo},</if>
-			<if test="type != null">type = #{type},</if>
-			<if test="useTimeType != null">use_time_type = #{useTimeType},</if>
-			<if test="workInterval != null">work_interval = #{workInterval},</if>
-			<if test="holidayInterval != null">holiday_interval = #{holidayInterval},</if>
-			<if test="applyName != null">apply_name = #{applyName},</if>
-			<if test="applyUrl != null">apply_url = #{applyUrl},</if>
-			<if test="applyReason != null">apply_reason = #{applyReason},</if>
+			<if test="proNo != null">pro_no = #{proNo},</if>
+			<if test="signStatus != null">sign_status = #{signStatus},</if>
+			<if test="signMsgId != null">sign_msg_id = #{signMsgId},</if>
+			<if test="tempStatus != null">temp_status = #{tempStatus},</if>
+			<if test="tempId != null">temp_id = #{tempId},</if>
+			<if test="tempMsgId != null">temp_msg_id = #{tempMsgId},</if>
 			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="weight != null">weight = #{weight},</if>
+			<if test="sort != null">sort = #{sort},</if>
 			<if test="status != null">status = #{status},</if>
+			<if test="type != null">type = #{type},</if>
 			<if test="createTime != null">create_time = #{createTime},</if>
 			<if test="createBy != null">create_by = #{createBy},</if>
 			<if test="updateTime != null">update_time = #{updateTime},</if>
@@ -133,11 +113,11 @@
 	</update>
 
 	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList"/> from t_sys_sms_template t where t.id=#{id}
+		select <include refid="BaseColumnList"/> from t_sys_sms_template_status t where t.id=#{id}
 	</select>
 
 	<select id="findByIds" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select <include refid="BaseColumnList"/> from t_sys_sms_template
+		select <include refid="BaseColumnList"/> from t_sys_sms_template_status
 		<where>
 			<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 				#{id}
@@ -146,69 +126,50 @@
 		limit 200
 	</select>
 
-	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase">
-		select
-		<include refid="BaseColumnList"/>
-		from t_sys_sms_template t
+	<select id="findListBy" resultMap="BaseResultMap" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateStatusBase">
+		select <include refid="BaseColumnList"/> from t_sys_sms_template_status t
 		<where>
 			<if test="id!= null">and t.id = #{id}</if>
 			<if test="tempNo!= null">and t.temp_no = #{tempNo}</if>
-			<if test="smsType!= null">and t.sms_type = #{smsType}</if>
-			<if test="name!= null">and t.name like concat('%',#{name},'%')</if>
-			<if test="signName!= null">and t.sign_name = #{signName}</if>
-			<if test="content!= null">and t.content = #{content}</if>
-			<if test="type!= null">and t.type = #{type}</if>
-			<if test="useTimeType!= null">and t.use_time_type = #{useTimeType}</if>
-			<if test="workInterval!= null">and t.work_interval = #{workInterval}</if>
-			<if test="holidayInterval!= null">and t.holiday_interval = #{holidayInterval}</if>
-			<if test="applyName!= null">and t.apply_name = #{applyName}</if>
-			<if test="applyUrl!= null">and t.apply_url = #{applyUrl}</if>
-			<if test="applyReason!= null">and t.apply_reason = #{applyReason}</if>
+			<if test="proNo!= null">and t.pro_no = #{proNo}</if>
+			<if test="signStatus!= null">and t.sign_status = #{signStatus}</if>
+			<if test="signMsgId!= null">and t.sign_msg_id = #{signMsgId}</if>
+			<if test="tempStatus!= null">and t.temp_status = #{tempStatus}</if>
+			<if test="tempId!= null">and t.temp_id = #{tempId}</if>
+			<if test="tempMsgId!= null">and t.temp_msg_id = #{tempMsgId}</if>
 			<if test="tenantId!= null">and t.tenant_id = #{tenantId}</if>
 			<if test="status!= null">and t.status = #{status}</if>
-			<if test="createTime!= null">and t.create_time = #{createTime}</if>
-			<if test="createBy!= null">and t.create_by = #{createBy}</if>
-			<if test="updateTime!= null">and t.update_time = #{updateTime}</if>
-			<if test="updateBy!= null">and t.update_by = #{updateBy}</if>
-			<if test="remark!= null">and t.remark = #{remark}</if>
+			<if test="type!= null">and t.type = #{type}</if>
 		</where>
+		<if test="tempNo!= null"> order by t.sort</if>
 	</select>
 
-	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateBase">
-		select count(t.id) from t_sys_sms_template t
+	<select id="findListByCount" resultType="java.lang.Long" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsTemplateStatusBase">
+		select count(t.id) from t_sys_sms_template_status t
 		<where>
 			<if test="id != null">and t.id = #{id}</if>
 			<if test="tempNo != null">and t.temp_no = #{tempNo}</if>
-			<if test="smsType != null">and t.sms_type = #{smsType}</if>
-			<if test="name != null">and t.name = #{name}</if>
-			<if test="signName != null">and t.sign_name = #{signName}</if>
-			<if test="content != null">and t.content = #{content}</if>
-			<if test="type != null">and t.type = #{type}</if>
-			<if test="useTimeType != null">and t.use_time_type = #{useTimeType}</if>
-			<if test="workInterval != null">and t.work_interval = #{workInterval}</if>
-			<if test="holidayInterval != null">and t.holiday_interval = #{holidayInterval}</if>
-			<if test="applyName != null">and t.apply_name = #{applyName}</if>
-			<if test="applyUrl != null">and t.apply_url = #{applyUrl}</if>
-			<if test="applyReason != null">and t.apply_reason = #{applyReason}</if>
+			<if test="proNo != null">and t.pro_no = #{proNo}</if>
+			<if test="signStatus != null">and t.sign_status = #{signStatus}</if>
+			<if test="signMsgId != null">and t.sign_msg_id = #{signMsgId}</if>
+			<if test="tempStatus != null">and t.temp_status = #{tempStatus}</if>
+			<if test="tempId != null">and t.temp_id = #{tempId}</if>
+			<if test="tempMsgId != null">and t.temp_msg_id = #{tempMsgId}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 			<if test="status != null">and t.status = #{status}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="updateTime != null">and t.update_time = #{updateTime}</if>
-			<if test="updateBy != null">and t.update_by = #{updateBy}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
+			<if test="type != null">and t.type = #{type}</if>
 		</where>
 	</select>
 
 	<delete id="deleteById" parameterType="java.lang.Long">
 		delete from t_sys_sms_template_status where id = #{id}
 	</delete>
+
 	<delete id="deleteByIds" parameterType="java.lang.Long">
-		<!--没有传入数据抛异常，不会全删-->
 		<if test="ids != null and ids.length>0">
 			delete from t_sys_sms_template_status
 			<where>
-				<foreach item="id"  collection="ids" open="id  in (" separator="," close=")" >
+				<foreach item="id" collection="ids" open="id in (" separator="," close=")">
 					#{id}
 				</foreach>
 			</where>

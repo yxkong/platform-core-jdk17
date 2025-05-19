@@ -1,12 +1,12 @@
 package com.github.platform.core.sms.domain.context;
 
-import com.github.platform.core.sms.domain.common.query.SysSmsWhiteListQueryBase;
+import com.github.platform.core.sms.domain.common.entity.SysSmsListBase;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 /**
-* 短信白名单查询上下文
+* 短信白名单增加或修改上下文
 * @website <a href="https://www.5ycode.com/">5ycode</a>
 * @author yxkong
 * @datetime 2023-08-14 17:39:30.643
@@ -16,5 +16,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class SysSmsWhiteListQueryContext extends SysSmsWhiteListQueryBase {
+public class SysSmsListContext extends SysSmsListBase {
 }

@@ -184,11 +184,6 @@
 			<if test="jobStatus != null">and t.job_status = #{jobStatus}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 			<if test="status != null">and t.status = #{status}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="updateTime != null">and t.update_time = #{updateTime}</if>
-			<if test="updateBy != null">and t.update_by = #{updateBy}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 

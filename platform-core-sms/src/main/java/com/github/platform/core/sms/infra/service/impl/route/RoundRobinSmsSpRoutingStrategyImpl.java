@@ -1,5 +1,6 @@
 package com.github.platform.core.sms.infra.service.impl.route;
 
+import com.github.platform.core.sms.domain.constant.SmsRouteEnum;
 import com.github.platform.core.sms.domain.dto.SysSmsTemplateDto;
 import com.github.platform.core.sms.domain.dto.SysSmsTemplateStatusDto;
 import com.github.platform.core.sms.infra.service.ISmsSpRoutingStrategy;
@@ -15,27 +16,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date: 2024/3/27 
  * @version: 1.0
  */
-@Service("roundRobinSmsSpRoutingStrategy")
+@Service
 @Slf4j
 public class RoundRobinSmsSpRoutingStrategyImpl implements ISmsSpRoutingStrategy {
-    private AtomicInteger currentIndex = new AtomicInteger(0);
-    private final Integer  MAX = Integer.MAX_VALUE/2;
+    private final AtomicInteger counter = new AtomicInteger(0);
+    // 安全阈值
+    private static final int RESET_THRESHOLD = Integer.MAX_VALUE - 1000;
+    @Override
+    public boolean support(String strategy) {
+        return SmsRouteEnum.isRoundRobin(strategy);
+    }
     @Override
     public SysSmsTemplateStatusDto route(SysSmsTemplateDto smsRoute, List<SysSmsTemplateStatusDto> list) {
-        // 模运算确保索引始终在列表范围内
-        int current;
-        while (true) {
-            current = currentIndex.get();
-            if (current >= MAX.intValue()) {
-                // 使用CAS操作原子性地更新currentIndex
-                if (currentIndex.compareAndSet(MAX, 0)) {
-                    break;
-                }
-            } else {
-                break;
-            }
+        if (list == null || list.isEmpty()) {
+            throw new IllegalArgumentException("SMS provider list cannot be empty");
         }
-        int index = currentIndex.incrementAndGet() % list.size();
-        return list.get(index);
+        // 获取并递增计数器，自动处理整数溢出
+        int nextIndex = counter.getAndUpdate(prev ->
+                (prev >= RESET_THRESHOLD) ? 0 : prev + 1
+        );
+        return list.get(Math.abs(nextIndex % list.size()));
     }
 }

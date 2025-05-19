@@ -7,16 +7,18 @@
 		<id column="pro_no" property="proNo"/>
 		<id column="pro_alias" property="proAlias"/>
 		<id column="pro_name" property="proName"/>
-		<id column="bean_name" property="beanName"/>
+		<id column="provider" property="provider"/>
 		<id column="interface_url" property="interfaceUrl"/>
 		<id column="account" property="account"/>
 		<id column="encrypt_pwd" property="encryptPwd"/>
 		<id column="salt" property="salt"/>
-		<id column="tenant_id" property="tenantId"/>
-		<id column="status" property="status"/>
-		<id column="usable_num" property="usableNum"/>
+		<id column="usable_type" property="usableType"/>
+		<id column="usable" property="usable"/>
 		<id column="alarm_threshold" property="alarmThreshold"/>
+		<id column="sync_status" property="syncStatus"/>
+		<id column="tenant_id" property="tenantId"/>
 		<id column="sort" property="sort"/>
+		<id column="status" property="status"/>
 		<id column="create_time" property="createTime"/>
 		<id column="create_by" property="createBy"/>
 		<id column="update_time" property="updateTime"/>
@@ -29,16 +31,18 @@
 		t.pro_no,
 		t.pro_alias,
 		t.pro_name,
-		t.bean_name,
+		t.provider,
 		t.interface_url,
 		t.account,
 		t.encrypt_pwd,
 		t.salt,
+		t.usable_type,
+		t.usable,
+		t.alarm_threshold,
+		t.sync_status,
+		t.sort,
 		t.tenant_id,
 		t.status,
-		t.usable_num,
-		t.alarm_threshold,
-		t.sort,
 		t.create_time,
 		t.create_by,
 		t.update_time,
@@ -50,19 +54,21 @@
 		insert into t_sys_sms_service_provider
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">id,</if>
-			<if test="proNo != null">pro_no,</if>
-			<if test="proAlias != null">pro_alias,</if>
-			<if test="proName != null">pro_name,</if>
-			<if test="beanName != null">bean_name,</if>
-			<if test="interfaceUrl != null">interface_url,</if>
-			<if test="account != null">account,</if>
-			<if test="encryptPwd != null">encrypt_pwd,</if>
-			<if test="salt != null">salt,</if>
+			<if test="proNo != null and proNo != ''">pro_no,</if>
+			<if test="proAlias != null and proAlias != ''">pro_alias,</if>
+			<if test="proName != null and proName != ''">pro_name,</if>
+			<if test="provider != null and provider != ''">provider,</if>
+			<if test="interfaceUrl != null and interfaceUrl != ''">interface_url,</if>
+			<if test="account != null and account != ''">account,</if>
+			<if test="encryptPwd != null and encryptPwd != ''">encrypt_pwd,</if>
+			<if test="salt != null and salt != ''">salt,</if>
+			<if test="usableType != null">usable_type,</if>
+			<if test="usable != null">usable,</if>
+			<if test="alarmThreshold != null">alarm_threshold,</if>
+			<if test="syncStatus != null">sync_status,</if>
+			<if test="sort != null">sort,</if>
 			<if test="tenantId != null">tenant_id,</if>
 			<if test="status != null">status,</if>
-			<if test="usableNum != null">usable_num,</if>
-			<if test="alarmThreshold != null">alarm_threshold,</if>
-			<if test="sort != null">sort,</if>
 			<if test="createTime != null">create_time,</if>
 			<if test="createBy != null">create_by,</if>
 			<if test="updateTime != null">update_time,</if>
@@ -71,19 +77,21 @@
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">#{id},</if>
-			<if test="proNo != null">#{proNo},</if>
-			<if test="proAlias != null">#{proAlias},</if>
-			<if test="proName != null">#{proName},</if>
-			<if test="beanName != null">#{beanName},</if>
-			<if test="interfaceUrl != null">#{interfaceUrl},</if>
-			<if test="account != null">#{account},</if>
-			<if test="encryptPwd != null">#{encryptPwd},</if>
-			<if test="salt != null">#{salt},</if>
+			<if test="proNo != null and proNo != ''">#{proNo},</if>
+			<if test="proAlias != null and proAlias != ''">#{proAlias},</if>
+			<if test="proName != null and proName != ''">#{proName},</if>
+			<if test="provider != null and provider != ''">#{provider},</if>
+			<if test="interfaceUrl != null and interfaceUrl != ''">#{interfaceUrl},</if>
+			<if test="account != null and account != ''">#{account},</if>
+			<if test="encryptPwd != null and encryptPwd != ''">#{encryptPwd},</if>
+			<if test="salt != null and salt != ''">#{salt},</if>
+			<if test="usableType != null">#{usableType},</if>
+			<if test="usable != null">#{usable},</if>
+			<if test="alarmThreshold != null">#{alarmThreshold},</if>
+			<if test="syncStatus != null">#{syncStatus},</if>
+			<if test="sort != null">#{sort},</if>
 			<if test="tenantId != null">#{tenantId},</if>
 			<if test="status != null">#{status},</if>
-			<if test="usableNum != null">#{usableNum},</if>
-			<if test="alarmThreshold != null">#{alarmThreshold},</if>
-			<if test="sort != null">#{sort},</if>
 			<if test="createTime != null">#{createTime},</if>
 			<if test="createBy != null">#{createBy},</if>
 			<if test="updateTime != null">#{updateTime},</if>
@@ -95,19 +103,21 @@
 	<update id="updateById" parameterType="com.github.platform.core.sms.domain.common.entity.SysSmsServiceProviderBase">
 		update t_sys_sms_service_provider
 		<set>
-			<if test="proNo != null">pro_no = #{proNo},</if>
-			<if test="proAlias != null">pro_alias = #{proAlias},</if>
-			<if test="proName != null">pro_name = #{proName},</if>
-			<if test="beanName != null">bean_name = #{beanName},</if>
-			<if test="interfaceUrl != null">interface_url = #{interfaceUrl},</if>
-			<if test="account != null">account = #{account},</if>
-			<if test="encryptPwd != null">encrypt_pwd = #{encryptPwd},</if>
-			<if test="salt != null">salt = #{salt},</if>
+			<if test="proNo != null and proNo != ''">pro_no = #{proNo},</if>
+			<if test="proAlias != null and proAlias != ''">pro_alias = #{proAlias},</if>
+			<if test="proName != null and proName != ''">pro_name = #{proName},</if>
+			<if test="provider != null and provider != ''">provider = #{provider},</if>
+			<if test="interfaceUrl != null and interfaceUrl != ''">interface_url = #{interfaceUrl},</if>
+			<if test="account != null and account != ''">account = #{account},</if>
+			<if test="encryptPwd != null and encryptPwd != ''">encrypt_pwd = #{encryptPwd},</if>
+			<if test="salt != null and salt != ''">salt = #{salt},</if>
+			<if test="usableType != null">usable_type = #{usableType},</if>
+			<if test="usable != null">usable = #{usable},</if>
+			<if test="alarmThreshold != null">alarm_threshold = #{alarmThreshold},</if>
+			<if test="syncStatus != null">sync_status = #{syncStatus},</if>
+			<if test="sort != null">sort = #{sort},</if>
 			<if test="tenantId != null">tenant_id = #{tenantId},</if>
 			<if test="status != null">status = #{status},</if>
-			<if test="usableNum != null">usable_num = #{usableNum},</if>
-			<if test="alarmThreshold != null">alarm_threshold = #{alarmThreshold},</if>
-			<if test="sort != null">sort = #{sort},</if>
 			<if test="createTime != null">create_time = #{createTime},</if>
 			<if test="createBy != null">create_by = #{createBy},</if>
 			<if test="updateTime != null">update_time = #{updateTime},</if>
@@ -137,24 +147,20 @@
 		from t_sys_sms_service_provider t
 		<where>
 			<if test="id!= null">and t.id = #{id}</if>
-			<if test="proNo!= null">and t.pro_no = #{proNo}</if>
-			<if test="proAlias!= null">and t.pro_alias = #{proAlias}</if>
-			<if test="proName!= null">and t.pro_name like concat('%',#{proName},'%')</if>
-			<if test="beanName!= null">and t.bean_name = #{beanName}</if>
-			<if test="interfaceUrl!= null">and t.interface_url = #{interfaceUrl}</if>
-			<if test="account!= null">and t.account = #{account}</if>
-			<if test="encryptPwd!= null">and t.encrypt_pwd = #{encryptPwd}</if>
-			<if test="salt!= null">and t.salt = #{salt}</if>
+			<if test="proNo!= null and proNo != ''">and t.pro_no = #{proNo}</if>
+			<if test="proAlias!= null and proAlias != ''">and t.pro_alias = #{proAlias}</if>
+			<if test="proName!= null and proName != ''">and t.pro_name like concat('%',#{proName},'%')</if>
+			<if test="provider!= null and provider != ''">and t.provider = #{provider}</if>
+			<if test="interfaceUrl!= null and interfaceUrl != ''">and t.interface_url = #{interfaceUrl}</if>
+			<if test="account!= null and account != ''">and t.account = #{account}</if>
+			<if test="salt!= null and salt != ''">and t.salt = #{salt}</if>
+			<if test="usableType!= null">and t.usable_type = #{usableType}</if>
+			<if test="usable!= null">and t.usable = #{usable}</if>
+			<if test="alarmThreshold!= null">and t.alarm_threshold = #{alarmThreshold}</if>
+			<if test="syncStatus != null">and t.sync_status = #{syncStatus}</if>
+			<if test="sort!= null">and t.sort = #{sort}</if>
 			<if test="tenantId!= null">and t.tenant_id = #{tenantId}</if>
 			<if test="status!= null">and t.status = #{status}</if>
-			<if test="usableNum!= null">and t.usable_num = #{usableNum}</if>
-			<if test="alarmThreshold!= null">and t.alarm_threshold = #{alarmThreshold}</if>
-			<if test="sort!= null">and t.sort = #{sort}</if>
-			<if test="createTime!= null">and t.create_time = #{createTime}</if>
-			<if test="createBy!= null">and t.create_by = #{createBy}</if>
-			<if test="updateTime!= null">and t.update_time = #{updateTime}</if>
-			<if test="updateBy!= null">and t.update_by = #{updateBy}</if>
-			<if test="remark!= null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 
@@ -162,24 +168,20 @@
 		select count(t.id) from t_sys_sms_service_provider t
 		<where>
 			<if test="id != null">and t.id = #{id}</if>
-			<if test="proNo != null">and t.pro_no = #{proNo}</if>
-			<if test="proAlias != null">and t.pro_alias = #{proAlias}</if>
-			<if test="proName != null">and t.pro_name = #{proName}</if>
-			<if test="beanName != null">and t.bean_name = #{beanName}</if>
-			<if test="interfaceUrl != null">and t.interface_url = #{interfaceUrl}</if>
-			<if test="account != null">and t.account = #{account}</if>
-			<if test="encryptPwd != null">and t.encrypt_pwd = #{encryptPwd}</if>
-			<if test="salt != null">and t.salt = #{salt}</if>
+			<if test="proNo!= null and proNo != ''">and t.pro_no = #{proNo}</if>
+			<if test="proAlias!= null and proAlias != ''">and t.pro_alias = #{proAlias}</if>
+			<if test="proName!= null and proName != ''">and t.pro_name like concat('%',#{proName},'%')</if>
+			<if test="provider!= null and provider != ''">and t.provider = #{provider}</if>
+			<if test="interfaceUrl!= null and interfaceUrl != ''">and t.interface_url = #{interfaceUrl}</if>
+			<if test="account!= null and account != ''">and t.account = #{account}</if>
+			<if test="salt!= null and salt != ''">and t.salt = #{salt}</if>
+			<if test="usableType!= null">and t.usable_type = #{usableType}</if>
+			<if test="usable!= null">and t.usable = #{usable}</if>
+			<if test="alarmThreshold!= null">and t.alarm_threshold = #{alarmThreshold}</if>
+			<if test="syncStatus != null">and t.sync_status = #{syncStatus}</if>
+			<if test="sort != null">and t.sort = #{sort}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 			<if test="status != null">and t.status = #{status}</if>
-			<if test="usableNum != null">and t.usable_num = #{usableNum}</if>
-			<if test="alarmThreshold != null">and t.alarm_threshold = #{alarmThreshold}</if>
-			<if test="sort != null">and t.sort = #{sort}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="updateTime != null">and t.update_time = #{updateTime}</if>
-			<if test="updateBy != null">and t.update_by = #{updateBy}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 

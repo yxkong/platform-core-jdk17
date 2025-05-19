@@ -133,7 +133,7 @@
 		<where>
 			<if test="id != null">and t.id = #{id}</if>
 			<if test="proNo != null">and t.pro_no = #{proNo}</if>
-			<if test="mobile != null">and t.mobile = #{mobile</if>
+			<if test="mobile != null">and t.mobile = #{mobile}</if>
 			<if test="msgId != null">and t.msg_id = #{msgId}</if>
 			<if test="thirdMsgId != null">and t.third_msg_id = #{thirdMsgId}</if>
 			<if test="tempNo != null">and t.temp_no = #{tempNo}</if>
@@ -141,10 +141,6 @@
 			<if test="status != null">and t.status = #{status}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
 			<if test="sendStatus != null">and t.send_status = #{sendStatus}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="updateTime != null">and t.update_time = #{updateTime}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 

@@ -1,6 +1,6 @@
 package com.github.platform.core.sms.adapter.api.command;
 
-import com.github.platform.core.sms.domain.common.query.SysSmsWhiteListQueryBase;
+import com.github.platform.core.sms.domain.common.query.SysSmsListQueryBase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,5 +18,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "短信白名单查询")
-public class SysSmsWhiteListQuery extends SysSmsWhiteListQueryBase {
+public class SysSmsListQuery extends SysSmsListQueryBase {
 }

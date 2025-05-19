@@ -33,5 +33,7 @@ public class SmsSpTemplateEntity extends SmsServiceProviderEntity {
      * 模板内容
      */
     private String template;
+    //短信类型
+    private String smsType;
 
 }

@@ -1,10 +1,11 @@
 package com.github.platform.core.sms.domain.context;
 
-import com.github.platform.core.sms.domain.constant.SmsType;
+import com.github.platform.core.sms.domain.constant.SmsTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class SendSmsContext {
     /**
      * 验证码专用
@@ -32,7 +33,6 @@ public class SendSmsContext {
         this.mobile = mobile;
         this.tempNo = tempNo;
         this.params.put("verifyCode",verifyCode);
-        this.smsType = SmsType.VERIFY_CODE;
         this.msgId = msgId;
     }
 
@@ -46,7 +46,7 @@ public class SendSmsContext {
     @Builder.Default
     private Map<String,Object> params = new HashMap<>();
     /**短信类型*/
-    private SmsType smsType;
+    private String smsType;
     /**租户id */
     private Integer tenantId;
 

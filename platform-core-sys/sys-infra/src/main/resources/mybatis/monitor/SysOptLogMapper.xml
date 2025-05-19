@@ -153,9 +153,6 @@
 			<if test="exception != null">and t.exception = #{exception}</if>
 			<if test="executeTime != null">and t.execute_time = #{executeTime}</if>
 			<if test="tenantId != null">and t.tenant_id = #{tenantId}</if>
-			<if test="createBy != null">and t.create_by = #{createBy}</if>
-			<if test="createTime != null">and t.create_time = #{createTime}</if>
-			<if test="remark != null">and t.remark = #{remark}</if>
 		</where>
 	</select>
 

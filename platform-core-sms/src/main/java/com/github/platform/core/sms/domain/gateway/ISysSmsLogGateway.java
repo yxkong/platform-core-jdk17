@@ -1,11 +1,9 @@
 package com.github.platform.core.sms.domain.gateway;
 
-import com.github.platform.core.sms.domain.common.entity.SysSmsLogBase;
-import com.github.platform.core.sms.domain.context.SysSmsLogContext;
 import com.github.platform.core.sms.domain.context.SmsLogQueryContext;
+import com.github.platform.core.sms.domain.context.SysSmsLogContext;
 import com.github.platform.core.sms.domain.dto.SysSmsLogDto;
 import com.github.platform.core.standard.entity.dto.PageBean;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
 * 短信日志网关层，隔离模型和实现

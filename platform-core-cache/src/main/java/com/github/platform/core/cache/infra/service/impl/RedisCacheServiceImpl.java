@@ -53,6 +53,10 @@ public class RedisCacheServiceImpl implements ICacheService {
 
     @Override
     public String getLock(String lockKey, long expireTime) {
+        return this.acquireLock(lockKey, expireTime);
+    }
+    @Override
+    public String acquireLock(String lockKey, long expireTime) {
         // 当前时间
         try {
             String lockId = StringUtils.uuidRmLine();
@@ -70,7 +74,6 @@ public class RedisCacheServiceImpl implements ICacheService {
         }
         return null;
     }
-
     private String getLockLuaScript(){
         StringBuffer luaScript = new StringBuffer();
         luaScript.append("if redis.call('setnx',KEYS[1],ARGV[1]) == 1 then  ")
@@ -83,6 +86,10 @@ public class RedisCacheServiceImpl implements ICacheService {
     }
     @Override
     public boolean getLock(String lockKey, String lockId, long expireTime, long waitTimeout) {
+        return this.acquireLock(lockKey, lockId, expireTime, waitTimeout);
+    }
+    @Override
+    public boolean acquireLock(String lockKey, String lockId, long expireTime, long waitTimeout) {
         // 当前时间
         long nanoTime = System.nanoTime();
         try {
@@ -105,7 +112,6 @@ public class RedisCacheServiceImpl implements ICacheService {
         }
         return false;
     }
-
     private boolean redisLuaScriptExecute(String lockKey, String lockId, long expireTime, String lockLuaScript, int count, List<String> lockKeyList) {
         RedisScript<Long> redisScript = new DefaultRedisScript<>(lockLuaScript, Long.class);
         if (log.isTraceEnabled()) {

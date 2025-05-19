@@ -1,10 +1,10 @@
 package com.github.platform.core.sms.infra.convert;
 
 import com.github.pagehelper.PageInfo;
-import com.github.platform.core.sms.domain.common.entity.SysSmsWhiteListBase;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListContext;
-import com.github.platform.core.sms.domain.context.SysSmsWhiteListQueryContext;
-import com.github.platform.core.sms.domain.dto.SysSmsWhiteListDto;
+import com.github.platform.core.sms.domain.common.entity.SysSmsListBase;
+import com.github.platform.core.sms.domain.context.SysSmsListContext;
+import com.github.platform.core.sms.domain.context.SysSmsListQueryContext;
+import com.github.platform.core.sms.domain.dto.SysSmsListDto;
 import com.github.platform.core.standard.entity.dto.PageBean;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,13 +20,13 @@ import java.util.List;
 * @version 1.0
 */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SysSmsWhiteListInfraConvert {
+public interface SysSmsListInfraConvert {
     /**
     * 数据库实体列表转dto列表
     * @param list 数据库实体列表
     * @return dto列表
     */
-    List<SysSmsWhiteListDto> toDtos(List<SysSmsWhiteListBase> list);
+    List<SysSmsListDto> toDtos(List<SysSmsListBase> list);
     /**
     * 数据库实体转dto
     * @param entity 数据库实体
@@ -36,7 +36,7 @@ public interface SysSmsWhiteListInfraConvert {
             @Mapping(target = "strId", expression = "java(com.github.platform.core.common.utils.SignUtil.getStrId(entity.getId()))"),
             
     })
-    SysSmsWhiteListDto toDto(SysSmsWhiteListBase entity);
+    SysSmsListDto toDto(SysSmsListBase entity);
     /**
     * 数据库分页转业务分页
     * @param pageInfo 数据库分页
@@ -46,18 +46,18 @@ public interface SysSmsWhiteListInfraConvert {
         @Mapping(target = "totalSize", source = "total"),
         @Mapping(target = "data", source = "list"),
     })
-    PageBean<SysSmsWhiteListDto> ofPageBean(PageInfo<SysSmsWhiteListBase> pageInfo);
+    PageBean<SysSmsListDto> ofPageBean(PageInfo<SysSmsListBase> pageInfo);
 
     /**
     * 查询上下文转数据库实体
     * @param context 数据库分页
     * @return 数据库实体
     */
-    SysSmsWhiteListBase toSmsWhiteListBase(SysSmsWhiteListQueryContext context);
+    SysSmsListBase toSmsListBase(SysSmsListQueryContext context);
     /**
     * 实体上下文转数据库实体
     * @param context 实体上下文
     * @return 数据库实体
     */
-    SysSmsWhiteListBase toSmsWhiteListBase(SysSmsWhiteListContext context);
+    SysSmsListBase toSmsListBase(SysSmsListContext context);
 }

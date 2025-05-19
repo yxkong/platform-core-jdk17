@@ -44,6 +44,8 @@ public class SysSmsTemplateStatusBase extends BaseAdminEntity   {
     /** 模板申请三方消息id */
     @Schema(description = "模板申请三方消息id")
     protected String tempMsgId;
+    @Schema(description = "加权权重")
+    protected Integer weight;
     /** 排序 */
     @Schema(description = "排序")
     protected Integer sort;

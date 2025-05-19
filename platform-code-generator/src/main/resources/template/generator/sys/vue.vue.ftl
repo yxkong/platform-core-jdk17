@@ -183,7 +183,13 @@
         </#list>
     </#if>
     ]);
-    const dialogForm = ref({});
+    const dialogForm = ref({
+      <#if formColumns??>
+      <#list formColumns as column>
+      ${column.lowerColumnName}: undefined,
+      </#list>
+      </#if>
+    });
     const showObject = ref({});
     const showFields = ref([
       <#if columns??>
@@ -221,20 +227,13 @@
     /** 修改按钮操作 */
     function handleUpdate(row) {
         reset();
-        const {
-            <#if formColumns??>
-            <#list formColumns as column>
-            ${column.lowerColumnName},
-            </#list>
-            </#if>
-        } = row;
-        dialogForm.value = Object.assign(dialogForm.value, {
-            <#if formColumns??>
-            <#list formColumns as column>
-            ${column.lowerColumnName},
-            </#list>
-            </#if>
-        });
+        // 合并原有值和行数据
+        dialogForm.value = { ...dialogForm.value, ...row };
+        // const {
+        //   // 解构时排除无关字段（如 createdAt 等）
+        //   createdAt, updatedAt, ...rest
+        // } = row;
+        // dialogForm.value = { ...dialogForm.value, ...rest };
         open.value = true;
         dialogTitle.value = "修改${apiAlias}";
     }

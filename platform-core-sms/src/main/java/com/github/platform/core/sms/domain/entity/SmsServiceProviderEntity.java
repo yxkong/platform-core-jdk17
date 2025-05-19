@@ -20,8 +20,8 @@ import lombok.NoArgsConstructor;
 public class SmsServiceProviderEntity extends SmsAccount {
     /**厂商编码，具备唯一性*/
     private String proNo;
-    /**厂商的bean名称*/
-    private String beanName;
+    /**厂商名称*/
+    private String provider;
 
 
 }

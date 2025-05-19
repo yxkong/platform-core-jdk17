@@ -33,9 +33,9 @@ public class SysSmsServiceProviderBase extends BaseAdminEntity   {
     @NotEmpty(message="厂商名称（proName）不能为空")
     protected String proName;
     /** 厂商服务的bean名称 */
-    @Schema(description = "厂商服务的bean名称")
-    @NotEmpty(message="厂商服务的bean名称（beanName）不能为空")
-    protected String beanName;
+    @Schema(description = "厂商唯一标识")
+    @NotEmpty(message="厂商唯一标识（provider）不能为空")
+    protected String provider;
     /** 厂商接口url */
     @Schema(description = "厂商接口url")
     @NotEmpty(message="厂商接口url（interfaceUrl）不能为空")
@@ -49,12 +49,14 @@ public class SysSmsServiceProviderBase extends BaseAdminEntity   {
     /** 加密盐值 */
     @Schema(description = "加密盐值")
     protected String salt;
-    /** 可用条数 */
-    @Schema(description = "可用条数")
-    protected Integer usableNum;
-    /** 报警阈值 */
+    @Schema(description = "可用类型，0条数，1余额")
+    protected Integer usableType;
+    @Schema(description = "可用条数或余额，余额为分")
+    protected Integer usable;
     @Schema(description = "报警阈值")
     protected Integer alarmThreshold;
+    @Schema(description = "同步状态，0 不同步，1同步")
+    protected Integer syncStatus;
     /** 排序 */
     @Schema(description = "排序")
     protected Integer sort;

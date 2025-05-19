@@ -31,7 +31,15 @@ public interface ICacheService {
      * @param expireTime 单位秒|你认为此方法需要多少时间，设置一个最长时间，此时间必须大于需要调用锁的业务方法逻辑的最大时间，否则锁会冲突
      * @return 返回加锁id
      */
+    @Deprecated
     String getLock(String lockKey, long expireTime);
+    /**
+     * 获取分布式锁：一次性
+     * @param lockKey 锁key
+     * @param expireTime 单位秒|你认为此方法需要多少时间，设置一个最长时间，此时间必须大于需要调用锁的业务方法逻辑的最大时间，否则锁会冲突
+     * @return 返回加锁id
+     */
+    String acquireLock(String lockKey, long expireTime);
     /**
      * 获取分布式锁，等待一定时间waitTimeout
      * @param lockKey     锁key
@@ -41,7 +49,18 @@ public interface ICacheService {
      *                    CacheService.getLock("lock", uuid, 10, 1500) 调用方法的业务逻辑最多需要1秒执行完成，1500毫秒一直等待（默认休眠500毫秒一次轮回）线程不执行，等到1500毫秒到了，才执行完整个方法
      * @return 是否获取成功
      */
+    @Deprecated
     boolean getLock(String lockKey, String lockId, long expireTime, long waitTimeout);
+    /**
+     * 获取分布式锁，等待一定时间waitTimeout
+     * @param lockKey     锁key
+     * @param lockId    锁id,自己加的锁，自己能释放
+     * @param expireTime  单位秒|你认为此方法需要多少时间，设置一个最长时间，此时间必须大于需要调用锁的业务方法逻辑的最大时间，否则锁会冲突
+     * @param waitTimeout 单位毫秒|如果拿不到锁，那么休眠，然后反反复复重试，直到拿到锁为止
+     *                    CacheService.getLock("lock", uuid, 10, 1500) 调用方法的业务逻辑最多需要1秒执行完成，1500毫秒一直等待（默认休眠500毫秒一次轮回）线程不执行，等到1500毫秒到了，才执行完整个方法
+     * @return 是否获取成功
+     */
+    boolean acquireLock(String lockKey, String lockId, long expireTime, long waitTimeout);
 
     /**
      * 释放锁

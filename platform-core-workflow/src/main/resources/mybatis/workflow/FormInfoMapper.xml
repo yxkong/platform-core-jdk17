@@ -23,24 +23,24 @@
 		<id column="remark" property="remark"/>
 	</resultMap>
 	<sql id="BaseColumnList">
-	t.id,
-	t.form_no,
-	t.type,
-	t.label,
-	t.name,
-	t.group_name,
-	t.len,
-	t.required,
-	t.sort,
-	t.option_name,
-	t.status,
-	t.default_val,
-	t.tenant_id,
-	t.create_time,
-	t.update_time,
-	t.update_by,
-	t.create_by,
-	t.remark
+		t.id,
+		t.form_no,
+		t.type,
+		t.label,
+		t.name,
+		t.group_name,
+		t.len,
+		t.required,
+		t.sort,
+		t.option_name,
+		t.status,
+		t.default_val,
+		t.tenant_id,
+		t.create_time,
+		t.update_time,
+		t.update_by,
+		t.create_by,
+		t.remark
 	</sql>
 
 	<insert id="insert" useGeneratedKeys="true" keyColumn="id" parameterType="com.github.platform.core.workflow.domain.common.entity.FormInfoBase">

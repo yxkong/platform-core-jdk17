@@ -14,6 +14,10 @@ import java.util.List;
  */
 public interface ISmsSpRoutingStrategy {
     /**
+     * 支持策略
+     */
+    boolean support(String strategy);
+    /**
      * 路由
      * @param smsRoute
      * @param list
