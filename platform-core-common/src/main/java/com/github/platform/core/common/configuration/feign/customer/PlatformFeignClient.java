@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * 平台自定义feign 客户端
+ * 外面设置post请求，默认为表单方式，即用@QueryMap
+ * restful 相关的默认使用body方式
  * @author: yxkong
  * @date: 2023/5/24 8:34 PM
  * @version: 1.0
@@ -49,15 +51,7 @@ public interface PlatformFeignClient {
      */
     @RequestLine("POST")
     Response post(URI baseUri, @HeaderMap Map<String, Object> headerMap, @QueryMap Map<String, Object> requestMap);
-    /**
-     * restful请求返回Response
-     * @param baseUri
-     * @param headerMap
-     * @param requestBody
-     * @return
-     */
-    @RequestLine("POST")
-    Response post(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object  requestBody);
+
     /**
      * post请求返回ResultBean
      * @param baseUri
@@ -68,12 +62,21 @@ public interface PlatformFeignClient {
     @RequestLine("POST")
     ResultBean postResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @QueryMap Map<String, Object> requestMap);
     /**
-     * post请求返回ResultBean
+     * restful请求返回Response
      * @param baseUri
      * @param headerMap
      * @param requestBody
      * @return
      */
     @RequestLine("POST")
-    ResultBean postResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object requestBody);
+    Response restful(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object requestBody);
+    /**
+     * restful请求返回ResultBean
+     * @param baseUri
+     * @param headerMap
+     * @param requestBody
+     * @return
+     */
+    @RequestLine("POST")
+    ResultBean restfulResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object requestBody);
 }
