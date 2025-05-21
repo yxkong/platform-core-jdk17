@@ -1,6 +1,7 @@
 package com.github.platform.core.log.infra.event;
 
 import com.github.platform.core.log.domain.entity.OptLogEntity;
+import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationEvent;
  * @date: 2023/5/4 11:04 AM
  * @version: 1.0
  */
+@Getter
 public class OptLogEvent extends ApplicationEvent {
 
     private OptLogEntity optLog;
@@ -17,7 +19,4 @@ public class OptLogEvent extends ApplicationEvent {
         this.optLog = optLog;
     }
 
-    public OptLogEntity getOptLog() {
-        return optLog;
-    }
 }

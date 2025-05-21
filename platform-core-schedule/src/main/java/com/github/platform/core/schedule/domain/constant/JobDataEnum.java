@@ -17,6 +17,7 @@ public enum JobDataEnum {
     RETRY_INTERVAL("retry_interval","重试间隔"),
     EXECUTE_USER("executeUser","执行用户"),
     EXECUTE_ID("executeId","执行id"),
+    TRIGGER("trigger","触发"),
     ;
     private final String key;
     private final String desc;

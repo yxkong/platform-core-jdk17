@@ -1,5 +1,6 @@
 package com.github.platform.core.schedule.infra.configuration;
 
+import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.schedule.domain.common.entity.SysJobBase;
 import com.github.platform.core.schedule.domain.constant.JobDataEnum;
 import com.github.platform.core.schedule.infra.handler.JobHandlerExecutor;
@@ -190,13 +191,15 @@ public class ScheduleManager {
         data.put(JobDataEnum.HANDLER_NAME.getKey(), handlerName);
         data.put(JobDataEnum.HANDLER_PARAM.getKey(), handlerParam);
         data.put(JobDataEnum.EXECUTE_USER.getKey(), executeUser);
-        data.put(JobDataEnum.EXECUTE_ID.getKey(), executeId);
+        data.put(JobDataEnum.TRIGGER.getKey(), JobDataEnum.TRIGGER.getKey());
+        data.put(JobDataEnum.EXECUTE_ID.getKey(), executeId == null ? StringUtils.uuidRmLine() : executeId);
 
         if (!isExist(handlerName)) {
             log.warn("任务 [{}] 不存在，创建新任务", handlerName);
             createJob(id, handlerName, handlerName, handlerParam, cronExpression, retryCount, retryInterval, new Date(), null, StatusEnum.ON.getStatus());
         }
-        scheduler.triggerJob(getJobKey(handlerName), data);
+        JobKey jobKey = getJobKey(handlerName);
+        scheduler.triggerJob(jobKey, data);
     }
 
     /**

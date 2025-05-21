@@ -50,10 +50,15 @@ public class JobHandlerExecutor extends QuartzJobBean {
         Long jobId = context.getMergedJobDataMap().getLong(JobDataEnum.ID.getKey());
         String executeUser = context.getMergedJobDataMap().getString(JobDataEnum.EXECUTE_USER.getKey());
         executeUser = StringUtils.isEmpty(executeUser) ? JobConstant.DEFAULT_USER : executeUser;
-
         SysJobDto jobDto = sysJobGateway.findById(jobId);
         if (!isJobExecutable(jobDto)) {
             return;
+        }
+        // 如果手动触发，则临时覆盖参数
+        String trigger = context.getMergedJobDataMap().getString(JobDataEnum.TRIGGER.getKey());
+        if (StringUtils.isNotEmpty(trigger)){
+            String handlerParam = context.getMergedJobDataMap().getString(JobDataEnum.HANDLER_PARAM.getKey());
+            jobDto.setHandlerParam(handlerParam);
         }
 
         String executeId = getExecuteId(jobDto.getId(), context);
