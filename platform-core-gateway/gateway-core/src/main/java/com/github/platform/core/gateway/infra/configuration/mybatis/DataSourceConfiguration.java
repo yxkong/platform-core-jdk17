@@ -1,10 +1,9 @@
 package com.github.platform.core.gateway.infra.configuration.mybatis;
 
-import com.alibaba.druid.filter.Filter;
-import com.alibaba.druid.pool.DruidDataSource;
 import com.github.platform.core.common.constant.SpringBeanOrderConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * druid数据源配置
@@ -25,15 +22,13 @@ import java.util.List;
  */
 @Configuration
 @Order(SpringBeanOrderConstant.DB_INIT)
-public class DruidConfiguration {
-
-    private static final Logger log = LoggerFactory.getLogger(DruidConfiguration.class);
-
-    private List<Filter> getFilters() {
-        List<Filter> filters = new ArrayList<>();
-        return filters;
+@Slf4j
+public class DataSourceConfiguration {
+    // 添加连接池监控
+    @Bean
+    public HikariPoolMXBean hikariPoolMXBean() {
+        return ((HikariDataSource) sysDataSource()).getHikariPoolMXBean();
     }
-
     /**
      * arbitration库（可能多个）
      * ConfigurationProperties会去自动读取YAML中datasource.loan开头的配置
@@ -44,9 +39,7 @@ public class DruidConfiguration {
     @ConfigurationProperties(prefix = "datasource.sys")
     @Primary
     public DataSource sysDataSource() {
-        log.info("-------------------- sysDataSource init ---------------------");
-        DruidDataSource dataSource = DataSourceBuilder.create().type(DruidDataSource.class).build();
-        dataSource.setProxyFilters(getFilters());
-        return dataSource;
+        log.info("-------------------- Initializing HikariCP DataSource ---------------------");
+        return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
 }
