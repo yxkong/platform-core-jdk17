@@ -73,10 +73,15 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-brave</artifactId>
         </dependency>
-        <!-- 用于收集应用程序的度量数据-->
+        <!-- 用于收集应用程序的度量数据 Context Propagation for Reactive-->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-observation</artifactId>
+        </dependency>
+        <!-- Context Propagation for Reactive -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>context-propagation</artifactId>
         </dependency>
         <!-- 用于收集客户端请求的度量数据-->
         <dependency>

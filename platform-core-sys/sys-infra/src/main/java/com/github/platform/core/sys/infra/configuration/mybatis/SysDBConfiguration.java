@@ -47,7 +47,13 @@ public class SysDBConfiguration {
         factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mybatis/**/*Mapper.xml"));
         // 设置类型别名包
         factoryBean.setTypeAliasesPackage("com.github..*.infra.domain.common.entity");
-
+        // 添加性能优化配置
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        // 优化查询性能,默认查询2000条
+        configuration.setDefaultFetchSize(2000);
+        // 自动驼峰转换
+        configuration.setMapUnderscoreToCamelCase(true);
+        factoryBean.setConfiguration(configuration);
         return factoryBean.getObject();
     }
 

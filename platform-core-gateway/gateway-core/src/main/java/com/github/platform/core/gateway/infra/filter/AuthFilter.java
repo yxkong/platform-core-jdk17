@@ -1,5 +1,6 @@
 package com.github.platform.core.gateway.infra.filter;
 
+import com.github.platform.core.common.constant.SpringBeanOrderConstant;
 import com.github.platform.core.common.utils.JsonUtils;
 import com.github.platform.core.common.utils.StringUtils;
 import com.github.platform.core.gateway.admin.domain.constant.GatewayAuthEnum;
@@ -19,14 +20,18 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -36,7 +41,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-
 /**
  * 权限过滤器
  * @Author: yxkong
@@ -53,76 +57,75 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String contentType = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);
-        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
-            // 对 multipart 请求不做额外包装或读取
-            return chain.filter(exchange);
-        }
-        // 1. 优先处理重定向逻辑（在鉴权前处理）
+        // 1. 优先处理重定向逻辑
         Mono<Void> redirectResult = handleRedirect(exchange);
         if (redirectResult != null) {
             return redirectResult;
         }
-        // 2. 检查是否在免鉴权列表中
-        if (shouldExcludeAuth(exchange)) {
+
+        // 2. 处理multipart请求
+        if (contentType != null && contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+            return chain.filter(exchange);
+        }
+
+        // 3. 检查免鉴权
+        if (shouldExcludeAuth(exchange) || authorizationFilter(exchange)) {
             return getFilter(exchange, chain);
         }
-        if (authorizationFilter(exchange)) {
-            return getFilter(exchange, chain);
-        }
-        // 3. 获取路由元数据中的鉴权配置,没有路由配置，直接404
+
+        // 4. 获取路由配置
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         if (route == null) {
-            ServerHttpRequest request = exchange.getRequest();
-            log.warn("URI: {} {} Headers: {} Query: {} IP: {} ", request.getMethod(), request.getURI(), request.getHeaders(), request.getQueryParams(), WebUtil.getIpAddr(request));
+            log.warn("No route found for URI: {}", exchange.getRequest().getURI());
             return buildErrorResponse(exchange, AuthErrorType.NOT_FOUND);
         }
-        //获取网关配置
+        // 5. 处理鉴权配置
         Map<String, Object> metadata = route.getMetadata();
         String authType = (String) metadata.getOrDefault(GatewayConstant.AUTH_TYPE, GatewayAuthEnum.NONE.getType());
-        //不鉴权逻辑
-        if (GatewayAuthEnum.NONE.getType().equals(authType)) {
+
+        if (GatewayAuthEnum.NONE.getType().equals(authType) ||
+                isAuthExclusion(metadata, exchange.getRequest().getPath().value())) {
             return getFilter(exchange, chain);
         }
-        // 获取配置的认证排除
-        if (metadata.containsKey(GatewayConstant.AUTH_EXCLUSION)){
-            List<String> authExclusions = (List<String>) metadata.get(GatewayConstant.AUTH_EXCLUSION);
-            String path = exchange.getRequest().getPath().value();
-            if (authExclusions.stream().anyMatch(pattern ->
-                    PATH_MATCHER.match(pattern, path))) {
-                return getFilter(exchange, chain);
-            }
-        }
-        // 3. 获取并执行对应的验证器
-        AuthValidator validator = authValidators.stream()
+
+        // 6. 执行验证器
+        AuthValidator validator = getValidator(authType);
+        return validator.validate(exchange)
+                .then(Mono.defer(() -> {
+                    String loginInfoStr = (String) exchange.getAttributes().get(HeaderConstant.LOGIN_INFO);
+                    // 构建转发请求
+                    ServerHttpRequest newRequest = buildForwardRequest(
+                            exchange,
+                            exchange.getRequest().getHeaders().getFirst(HeaderConstant.TOKEN),
+                            URLEncoder.encode(loginInfoStr, StandardCharsets.UTF_8),
+                            WebUtil.getIpAddr(exchange.getRequest()),
+                            (Integer) exchange.getAttributes().get(HeaderConstant.TENANT_ID)
+                    ).build();
+
+                    return chain.filter(corsConfig(exchange).mutate()
+                            .request(newRequest)
+                            .build());
+                }))
+                .onErrorResume(e -> handleAuthError(exchange, e));
+    }
+    private boolean isAuthExclusion(Map<String, Object> metadata, String path) {
+        if (!metadata.containsKey(GatewayConstant.AUTH_EXCLUSION)) return false;
+
+        List<String> authExclusions = (List<String>) metadata.get(GatewayConstant.AUTH_EXCLUSION);
+        return authExclusions.stream().anyMatch(pattern -> PATH_MATCHER.match(pattern, path));
+    }
+    private AuthValidator getValidator(String authType) {
+        return authValidators.stream()
                 .filter(v -> v.support(authType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No validator for auth type: " + authType));
-
-        return validator.validate(exchange)
-                .then(Mono.defer(() -> {
-                    // 验证通过后处理请求头
-                    String token = exchange.getRequest().getHeaders().getFirst(HeaderConstant.TOKEN);
-                    //获取用户登录信息
-                    String loginInfoStr = (String) exchange.getAttributes().get(HeaderConstant.LOGIN_INFO);
-                    Integer tenantId = (Integer) exchange.getAttributes().get(HeaderConstant.TENANT_ID);
-                    String requestIp = WebUtil.getIpAddr(exchange.getRequest());
-                    // 根据不同的authType设置不同的请求头
-                    ServerHttpRequest.Builder requestBuilder = buildForwardRequest(exchange, token,
-                            URLEncoder.encode(loginInfoStr,StandardCharsets.UTF_8),
-                            requestIp, tenantId);
-
-                    return chain.filter(corsConfig(exchange).mutate()
-                            .request(requestBuilder.build())
-                            .build());
-                }))
-                .onErrorResume(e -> {
-                    log.error("Auth validation failed: {}", e.getMessage(),e);
-                    boolean isTokenError = e instanceof AuthException &&
-                            (e.getMessage().contains("token") || e.getMessage().contains("Token"));
-                    return authFail(exchange, isTokenError);
-                });
     }
-
+    private Mono<Void> handleAuthError(ServerWebExchange exchange, Throwable e) {
+        log.error("Auth validation failed", e);
+        boolean isTokenError = e instanceof AuthException &&
+                (e.getMessage().contains("token") || e.getMessage().contains("Token"));
+        return authFail(exchange, isTokenError);
+    }
     private Mono<Void> getFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         return chain.filter(corsConfig(exchange).mutate()
                 .request(buildForwardRequest(exchange, null, null, null, null)
@@ -160,7 +163,7 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
 
     @Override
     public int getOrder() {
-        return  100;
+        return  SpringBeanOrderConstant.GATEWAY_AUTH;
     }
     // 错误类型枚举
     private enum AuthErrorType {
@@ -245,5 +248,4 @@ public class AuthFilter extends GatewayFilterBase implements GlobalFilter, Order
             return false;
         }
     }
-
 }

@@ -12,5 +12,10 @@ import lombok.Getter;
 public enum RequestTypeEnum {
     GET,
     POST,
-    RESTFUL
+    RESTFUL,
+    SSE,
+    // Server-Sent Events
+    ASYNC,
+    // JSON Lines
+    STREAM
 }

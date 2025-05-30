@@ -77,6 +77,7 @@ public interface PropertyConstant {
     /**项目配置*/
     String DATA_PM = "platform.pm";
     String FEIGN = "feign";
+    String FEIGN_CLIENT_CONFIG = "feign.client.config";
     /**redis发布开关*/
     String CON_REDIS_PUBLISH_ENABLED = "platform.redis.publish.enabled";
     /**redis订阅开关*/

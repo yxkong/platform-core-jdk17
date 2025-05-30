@@ -74,8 +74,8 @@ public interface SpringBeanOrderConstant extends Ordered {
     int LOAD_BALANCER_CLIENT_FILTER_ORDER = 10100;
     int GATEWAY_TRACING_REQUEST = -3;
     int GATEWAY_TRACING_RESPONSE = -1;
-    int GATEWAY_TRACING = 10;
-    int GATEWAY_AUTH_API = 100;
+    int GATEWAY_TRACING = 101;
+    int GATEWAY_AUTH = 100;
     int GATEWAY_AUTH_SYS = 100;
 
     /**DB初始化排序*/

@@ -1,15 +1,13 @@
 package com.github.platform.core.common.configuration.feign.customer;
 
 import com.github.platform.core.standard.entity.dto.ResultBean;
-import feign.HeaderMap;
-import feign.QueryMap;
-import feign.RequestLine;
-import feign.Response;
+import feign.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 平台自定义feign 客户端
@@ -79,4 +77,15 @@ public interface PlatformFeignClient {
      */
     @RequestLine("POST")
     ResultBean restfulResultBean(URI baseUri, @HeaderMap Map<String, Object> headerMap, @RequestBody Object requestBody);
+
+    /**
+     * 异步请求
+     * @param baseUri
+     * @param headerMap
+     * @param requestBody
+     * @return
+     */
+    @RequestLine("POST")
+    @Headers({"Content-Type: application/octet-stream", "Accept: application/octet-stream"})
+    Response streamRequest(URI baseUri, @HeaderMap Map<String, Object> headerMap,@RequestBody Object requestBody);
 }

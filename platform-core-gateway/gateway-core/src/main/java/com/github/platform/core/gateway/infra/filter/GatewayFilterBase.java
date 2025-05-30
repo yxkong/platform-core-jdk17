@@ -43,6 +43,11 @@ public abstract class GatewayFilterBase {
             log.debug("请求地址:{}, header:{}", request.getURI().getPath(), request.getHeaders());
         }
     }
+    protected boolean isMultipartRequest(ServerWebExchange exchange) {
+        String contentType = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);
+        return contentType != null && contentType.toLowerCase().startsWith("multipart/");
+    }
+
     /**
      * 鉴权失败响应
      */
@@ -73,14 +78,9 @@ public abstract class GatewayFilterBase {
     protected ServerHttpRequest.Builder buildForwardRequest(ServerWebExchange exchange, String token,
                                                             String loginInfo, String requestIp,
                                                             Integer tenantId) {
-        // 获取原始请求的mutate构建器
-        ServerHttpRequest.Builder builder = exchange.getRequest().mutate();
-        builder.headers(headers -> {
-            // 保留原始Header
-            headers.addAll(exchange.getRequest().getHeaders());
-        });
-        // 标记从网关过去
-        builder.header(HeaderConstant.REQUEST_FROM, HeaderConstant.REQUEST_FROM_SOURCE);
+        // 直接复用原始请求的Headers（避免重复添加）
+        ServerHttpRequest.Builder builder = exchange.getRequest().mutate()
+                .header(HeaderConstant.REQUEST_FROM, HeaderConstant.REQUEST_FROM_SOURCE);
         // 条件性添加头信息（你的实际实现应该已经有非空判断）
         if (StringUtils.isNotEmpty(loginInfo) ) {
             builder.header(HeaderConstant.LOGIN_INFO, loginInfo);

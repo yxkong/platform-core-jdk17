@@ -38,7 +38,7 @@ import java.util.Set;
 @Component
 @Slf4j
 public class GatewayTracingFilter implements GlobalFilter, Ordered {
-
+    private static final int MAX_RESPONSE_BODY_SIZE = 1024 * 10;
     private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
     private static final Set<String> EXCLUDE_URI_SET = Set.of(
             "actuator/health", "html", "css", "js", "png", "gif", "configure",
@@ -51,69 +51,86 @@ public class GatewayTracingFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        // 检查是否需要排除
+        // 1. 检查是否需要排除
         if (shouldExclude(request)) {
             return chain.filter(exchange);
         }
 
-        processRequest(exchange, request);
+        // 2. 处理请求元数据（头部和查询参数）
+        processRequestMetadata(exchange);
 
-        // 检查是否需要追踪
-        if (!isTracing(request)) {
+        // 3. 检查是否需要追踪响应体
+        boolean shouldTraceBody = isTracing(request);
+        if (!shouldTraceBody) {
             return chain.filter(exchange);
         }
 
-        String token = request.getHeaders().getFirst(HeaderConstant.TOKEN);
-        String url = request.getPath().toString();
+        // 4. 创建响应装饰器来捕获完整响应体
+        ServerHttpResponse originalResponse = exchange.getResponse();
+        ResponseBodyRecorder responseRecorder = new ResponseBodyRecorder(originalResponse, tracer);
 
-        DataBufferUtils.join(exchange.getRequest().getBody())
+        // 5. 处理请求体
+        if (exchange.getAttributeOrDefault("cachedRequestBody", null) != null) {
+            return processWithCachedBody(exchange, chain, responseRecorder);
+        }
+
+        return DataBufferUtils.join(exchange.getRequest().getBody())
                 .flatMap(dataBuffer -> {
                     try {
-                        byte[] requestBodyBytes = dataBufferToBytes(dataBuffer); // 转换 DataBuffer
-                        String requestBody = newString(requestBodyBytes);
-                        putSpan("request.body", requestBody);
-
-                        ServerHttpRequest newRequest = new ServerHttpRequestDecorator(request) {
-                            @Override
-                            public Flux<DataBuffer> getBody() {
-                                DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(requestBodyBytes);
-                                return Flux.just(buffer);
-                            }
-                        };
-
-                        ServerHttpResponse decoratedResponse = new ServerHttpResponseDecorator(exchange.getResponse()) {
-                            @Override
-                            public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-                                if (body instanceof Flux) {
-                                    Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
-                                    return super.writeWith(
-                                            fluxBody.buffer().map(dataBuffers -> {
-                                                DataBuffer joinedBuffer = exchange.getResponse().bufferFactory().join(dataBuffers);
-                                                byte[] contentBytes = dataBufferToBytes(joinedBuffer);
-                                                String result = newString(contentBytes);
-                                                putResult(result);
-                                                return exchange.getResponse().bufferFactory().wrap(contentBytes);
-                                            })
-                                    );
-                                }
-                                return super.writeWith(body);
-                            }
-
-                            @Override
-                            public Mono<Void> writeAndFlushWith(Publisher<? extends Publisher<? extends DataBuffer>> body) {
-                                return writeWith(Flux.from(body).flatMapSequential(p -> p));
-                            }
-                        };
-
-                        return chain.filter(exchange.mutate().request(newRequest).response(decoratedResponse).build());
-                    } catch (Exception e) {
-                        log.error("token:{} url:{} 链路追踪异常", token, url, e);
-                        return Mono.error(e); // 返回异常
+                        byte[] requestBodyBytes = dataBufferToBytes(dataBuffer);
+                        putSpan("request.body", newString(requestBodyBytes));
+                        return processWithCachedBody(exchange, chain, responseRecorder, requestBodyBytes);
                     } finally {
-                        DataBufferUtils.release(dataBuffer); // 确保释放资源
+                        DataBufferUtils.release(dataBuffer);
                     }
-                });
-        return chain.filter(exchange);
+                })
+                .switchIfEmpty(chain.filter(
+                        exchange.mutate().response(responseRecorder).build()
+                ));
+    }
+    private void processRequestMetadata(ServerWebExchange exchange) {
+        ServerHttpRequest request = exchange.getRequest();
+        processRequestHeaders(request.getHeaders());
+        processQueryParameters(request);
+    }
+
+    private Mono<Void> processWithCachedBody(ServerWebExchange exchange,
+                                             GatewayFilterChain chain,
+                                             ResponseBodyRecorder responseRecorder) {
+        byte[] requestBodyBytes = exchange.getAttribute("cachedRequestBody");
+        return processWithCachedBody(exchange, chain, responseRecorder, requestBodyBytes);
+    }
+
+    private Mono<Void> processWithCachedBody(ServerWebExchange exchange,
+                                             GatewayFilterChain chain,
+                                             ResponseBodyRecorder responseRecorder,
+                                             byte[] requestBodyBytes) {
+        try {
+            // 1. 记录请求体
+            if (requestBodyBytes != null) {
+                putSpan("request.body", newString(requestBodyBytes));
+            }
+
+            // 2. 创建请求装饰器
+            ServerHttpRequest newRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                @Override
+                public Flux<DataBuffer> getBody() {
+                    if (requestBodyBytes != null) {
+                        return Flux.just(exchange.getResponse().bufferFactory().wrap(requestBodyBytes));
+                    }
+                    return super.getBody();
+                }
+            };
+
+            // 3. 使用响应记录器
+            return chain.filter(exchange.mutate()
+                    .request(newRequest)
+                    .response(responseRecorder)
+                    .build());
+        } catch (Exception e) {
+            log.error("Tracing processing failed for URI: {}", exchange.getRequest().getURI(), e);
+            return chain.filter(exchange); // 出错时继续处理请求
+        }
     }
 
     private boolean shouldExclude(ServerHttpRequest request) {
@@ -129,23 +146,39 @@ public class GatewayTracingFilter implements GlobalFilter, Ordered {
                 && contentType != null && contentType.contains(HeaderConstant.CONTENT_TYPE_JSON);
     }
 
-    private void processRequest(ServerWebExchange exchange, ServerHttpRequest request) {
-        processRequestHeaders(request.getHeaders());
-        processQueryParameters( request);
-    }
-
-    private void processRequestHeaders( HttpHeaders headers) {
+    private void processRequestHeaders(HttpHeaders headers) {
         headers.entrySet().stream()
                 .filter(entry -> !SkipHeaderEnum.contains(entry.getKey()))
-                .forEach(entry -> putSpan( "request.headers." + entry.getKey(), String.join(",", entry.getValue())));
+                .forEach(entry -> putSpan("request.headers." + entry.getKey(), String.join(",", entry.getValue())));
     }
-
-    private void processQueryParameters( ServerHttpRequest request) {
+    private void processQueryParameters(ServerHttpRequest request) {
         String queryStr = request.getURI().getQuery();
         if (StringUtils.isNotEmpty(queryStr)) {
             putSpan("request.queryString", queryStr);
         }
     }
+    private void putSpan(String key, String value) {
+        Span currentSpan = tracer.currentSpan();
+        if (currentSpan != null) {
+            currentSpan.tag(key, value);
+        }
+    }
+
+    private byte[] dataBufferToBytes(DataBuffer dataBuffer) {
+        byte[] content = new byte[dataBuffer.readableByteCount()];
+        dataBuffer.read(content);
+        return content;
+    }
+    /**
+     * 解析contentBytes
+     * @param contentBytes
+     * @return
+     */
+    private String newString(byte[] contentBytes) {
+        return new String(contentBytes, StandardCharsets.UTF_8);
+    }
+
+
 
     private void putResult( String result) {
         try {
@@ -160,29 +193,62 @@ public class GatewayTracingFilter implements GlobalFilter, Ordered {
         }
     }
 
-    private void putSpan( String key, String value) {
-        Span currentSpan = tracer.currentSpan();
-        if (currentSpan != null) {
-            currentSpan.tag(key, value);
-        }
-    }
-    /**
-     * 解析contentBytes
-     * @param contentBytes
-     * @return
-     */
-    private String newString(byte[] contentBytes) {
-        return new String(contentBytes, StandardCharsets.UTF_8);
-    }
-    private byte[] dataBufferToBytes(DataBuffer dataBuffer) {
-        byte[] content = new byte[dataBuffer.readableByteCount()];
-        dataBuffer.read(content);
-        return content;
-    }
 
     @Override
     public int getOrder() {
         return SpringBeanOrderConstant.GATEWAY_TRACING;
+    }
+
+    // 内部类用于记录完整响应体
+    private static class ResponseBodyRecorder extends ServerHttpResponseDecorator {
+        private final Tracer tracer;
+        private final StringBuilder responseBody = new StringBuilder();
+        private final int maxSize;
+
+        public ResponseBodyRecorder(ServerHttpResponse delegate, Tracer tracer) {
+            super(delegate);
+            this.tracer = tracer;
+            this.maxSize = MAX_RESPONSE_BODY_SIZE;
+        }
+
+        @Override
+        public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+            return super.writeWith(Flux.from(body).map(dataBuffer -> {
+                // 记录响应体，但限制最大大小
+                byte[] content = new byte[dataBuffer.readableByteCount()];
+                dataBuffer.read(content);
+                String contentStr = new String(content, StandardCharsets.UTF_8);
+
+                if (responseBody.length() + contentStr.length() <= maxSize) {
+                    responseBody.append(contentStr);
+                } else if (responseBody.length() < maxSize) {
+                    // 只记录最大允许的部分
+                    int remaining = maxSize - responseBody.length();
+                    responseBody.append(contentStr, 0, remaining);
+                }
+
+                return bufferFactory().wrap(content);
+            }));
+        }
+
+        @Override
+        public Mono<Void> setComplete() {
+            recordResponse();
+            return super.setComplete();
+        }
+
+        private void recordResponse() {
+            if (!responseBody.isEmpty()) {
+                putSpan("response.body", responseBody.toString());
+            }
+        }
+
+        private void putSpan(String key, String value) {
+            Span currentSpan = tracer.currentSpan();
+            if (currentSpan != null) {
+                currentSpan.tag(key, value);
+            }
+        }
     }
 }
 
