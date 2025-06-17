@@ -11,125 +11,41 @@
 - feduser 前端开发
 - beduser 后端开发
 
-## 部署架构
-![img.png](doc/deploy.png)
-### 外网域名
-- 外网只有一个域名,挂到h5上
-### 前端nginx
-- 部署h5
-- 路由转发api,防止跨域
-- 后台管理前端会在后端接口前加上 动态参数 用于网关中的转发
-### 后端网关
-- 后端项目外部调用必须走网关
-- 对后端项目的登录鉴权
-- 灰度管控；
-- 流量控制
-- 后端服务的路由（移除动态参数 后根据项目前缀路由）
+## 架构
+[架构指南](./docs/architecture/architecture.md)
 
-## 模块管理
-本平台模块定义为三层，最底层是平台底层，管理依赖、交互标准依赖，平台的公共功能封装。
+## 开发约定
+### 提交约定
+```markdown
+feat:     增加新功能
+fix:      修复bug
+merge:    分支合并
+release:  发布版本
+docs:     只改动了文档相关的内容
+style:    代码格式的更改，例如去掉空格、改变缩进、增删分号
+build:    构造工具的或者外部依赖的改动，例如maven
+refactor: 代码重构时使用
+revert:   版本回退
+test:     添加测试或者修改现有测试
+perf:     性能优化提高性能的改动
+ci:       与CI（持续集成服务）有关的改动
+chore:    不修改src或者test的其余修改，例如构建过程或辅助工具的变动
+```
+### 模块约定
+在新起的项目中，建议使用如下的parent，会引入所有的platform-core的包
+```xml
+    <parent>
+        <groupId>com.github.platform.core</groupId>
+        <artifactId>core</artifactId>
+        <version>对应的版本</version>
+    </parent>
+```
+### 代码包结构
+#### 统一的包结构
+当有数据库实体引入
+- mapper前缀使用 `com.github.platform.core.persistence.mapper`
+- entity前缀使用 `com.github.platform.core.persistence.entity`
 
-![img_1.png](doc/modules.png)
-
-### 平台底层
-- platform-dependencies 所有版本的管理
-- platform-core-standard  交互标准，基础标准
-    - 通用返回码
-    - 出入参标准
-    - 事件标准
-- platform-core-common 通用功能封装
-    - 自定义条件注解
-        - @ConditionalOnPropertyInList 判断是否在列表里
-    - 配置
-        - feign配置
-    - 常量
-        - 属性常量`PropertyConstant`
-        - 全局bean名称常量 `SpringBeanNameConstant`
-        - 全局bean排序常量 `SpringBeanOrderConstant`
-    - 工具类
-        - 获取bean工具类`ApplicationContextHolder`
-        - 集合操作工具类`CollectionUtil`
-        - md5加密工具类`EncryptUtil`
-        - 分布式id工具类 `IdWorker`
-        - 占位符替换工具类`PlaceholderUtil`
-        - json操作工具类 `JsonUtils`
-        - ip操作工具类 ，用于获取本机 `IPUtil`
-        - 字符串操作工具类 `StringUtils`
-        - yam解析工具类 `YmalUtil`
-
-### 组件层
-一方面是对功能的分离封装，定义为功能组件，用于其他项目组合使用，想用哪个用哪个；
-另一方面是应用的封装，能力的快速复用，定义为应用组件。比较适用于交付类，如果是自己内部的项目，相应的应用应该封装成服务。
-文件、短信，扩展性还是比较强的，能快速的拉出文件服务、短信服务。
-#### 功能组件
-- platform-core-log 日志组件
-    - 定义了日志注解和日志对应的实体
-    - 后期可能会统一日志
-- platform-core-web web组件
-    - web相关功能的引入
-    - web切面实现
-    - swagger
-    - cors配置
-    - MockMvc乱码问题解决
-    - 接口版本实现
-    - web工具类
-- platform-core-cloud 分布式组件
-    - springCloud相关依赖的引入
-    - 后续对于cloud的扩展也会放这里
-    - 比如：自定义拉取配置中心的配置
-- platform-core-cache 缓存组件
-    - 定义公共的config 和 字典（统一由sys写入缓存和删除缓存）
-    - redis的引入以及相关操作的实现
-    - gateway、api等模块可以引入 cache包进行缓存查询；
-- platform-core-lb 负载均衡组件
-- platform-core-kafka 工kafka组件
-- platform-core-auth 授权统一
-    - 定义统一的登录注解`RequiredLogin`
-    - 定义统一的threadLocal操作
-    - 默认token操作
-- platform-core-auth-sys 后台系统鉴权模块
-    - token转化为loginInfo切面`LoginInfoConvertAspect`
-    - 登陆,角色,权限校验切面`AuthorizeAspect`
-    - dataScope切面`DataScopeAspect`（暂时不用）
-- platform-core-auth-api  to C 接口鉴权模块
-    - token转化为loginInfo切面`LoginInfoConvertAspect`
-#### 应用组件，可以集成到后台管理里
-- platform-core-file 文件组件
-    - 多种方式的文件上传以及预览，已实现本地+天翼云
-- platform-core-sms 短信组件
-    - 默认路由
-    - 短信模板
-    - 短信发送及回调
-- platform-core-schedule 任务组件
-    - 基于quartz封装的动态任务管理
-- platform-core-lb-extend 负载均衡灰度组件，灰度管理
-    - 灰度规则的管理
-- platform-core-workflow 工作流组件
-- platform-code-generator 代码生成
-    - 同步当前连接数据库的所有的表
-    - 根据表配置可以一键生成代码
-### 应用层
-- platform-core-sys 后台管理基础功能封装
-    - 后台管理系统,标准的4层，后续会加一个client层，这里会包装外部使用的交互实体
-    - sys模块实现了管理系统的基本操作
-    - monitor模块实现了监控相关的操作
-- platform-core-gateway 网关通用功能封装
-    - 基于nacos开发的动态网关
-    - 已实现基于nacos配置中心的的网关规则发布
-    - 已实现灰度路由功能
-    - 已实现鉴权
-        - api项目的鉴权`ApiAuthFilter`
-        - sys项目的鉴权`SysAuthFilter`
-### 示例demo
-- sys 后台管理系统使用
-- gateway 网关使用
-- api toc的示例
-- service 示例
-
-## 约定
-> platform-core所有子包，如果需要引入数据库，
-> mapper前缀使用 `com.github.platform.core.persistence.mapper`
-> entity前缀使用 `com.github.platform.core.persistence.entity`
 
 方便在集成的时候扫描到mapper
 
@@ -149,14 +65,16 @@
 
 ## 开发使用
 ### 环境
-- jdk8
-- maven
-- mysql
+- jdk
+  - 该版本最低支持jdk17,jdk8 版本已经不维护了
+- maven 
+  - 目前使用3.9.8 （建议3.6以上）
+- mysql 建议5.7及以上
     - 需要设置大小写不敏感 [mysqld] 下设置 `lower_case_table_names=1`
     - 需要支持非`only_full_group_by` 模式 ，设置`sql_mode = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"`
 - nacos 2.1
 - redis
-    - redis 最好是5.0以上，可以用其中的stream消息
+    - redis 5.0以上，可以用其中的stream消息
 - kafka 可选
   - 设置服务器上单条消息的最大字节数 message.max.bytes=10485760  # 10MB
   - 设置生产者可以发送的最大消息大小 max.request.size=10485760  # 10MB
@@ -255,24 +173,24 @@ ResultBean嵌套PageBean
 | 系统管理    | 同步钉钉部门，同步钉钉用户             | yxkong | 已完成接口      |
 | 短信功能    | 集成阿里云、腾讯云的短信              |        |            |
 | 消息中心    | 短信重构为消息中心                 |        |            |
-| 灰度发布    | 通过redis订阅发到各在线节点          | yxkong |            |
+| 灰度发布    | 通过redis订阅发到各在线节点          | yxkong | 已完成        |
 | 灰度发布    | 熔断限流发布                    |        |            |
 | 流程管理    | 标准工作流                     | yxkong | 已完成        |
 | 模块管理    | 首页改造，以及其他系统集成）            |        |            |
 | 流程管理    | 钉钉权限审批                    |        |            |
 | 菜单      | 增加系统模块                    | yxkong | 已完成        |
 | 缓存管理    | 统一放入zset，分页               | yxkong |            |
-| 系统监控    | 系统日志中无请求头和body的问题         | yxkong |            |
-| redis监控 | 添加redis的简单监控，以及根据key前缀scan扫描key |        |            |
+| 系统监控    | 系统日志中无请求头和body的问题         | yxkong | 已完成        |
+| redis监控 | 添加redis的简单监控，以及根据key前缀scan扫描key |        | 已完成        |
 | 公共      | 增加指定账户演示模式                |        |
 | 公共      | 同一个用户可多处登录                | yxkong | 通过配置可以     |
 | 工作流     | 工作流支持部门人员，部门负责人           |        |            |          |     
-| 项目管理    | 需求支持内容+链接                 |        |            |          |   
-| 工作流     | 表单支持附件                    |        |            |          |
+| 项目管理    | 需求支持内容+链接                 |        |            |   已完成       |   
+| 工作流     | 表单支持附件                    |        |            |  已完成        |
 | 工作流     | 流程回退                      |        |            |      |
 | 低代码     | 低代码平台的设计                  |        |            |      |
 | 项目管理    | 需求节点评分                    |        |            |      |
-| 项目管理    | 增加bug登记                   |        |            |      |
+| 项目管理    | 增加bug登记                   |        |            |   已完成   |
 | 项目管理    | 自动生成开发任务                  | yxkong | 已完成，通过hook |      |
-| 项目管理    | 增加评论备注功能                  |        |            |      |
-| 系统管理    | 配置抽到数据库(ldap,钉钉，附件等)      |        |            |      |
+| 项目管理    | 增加评论备注功能                  |        |            |  已完成    |
+| 系统管理    | 配置抽到数据库(ldap,钉钉，附件等)      |        |            |   已完成   |

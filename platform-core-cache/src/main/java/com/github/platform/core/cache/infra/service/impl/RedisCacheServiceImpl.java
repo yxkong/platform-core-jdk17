@@ -34,6 +34,10 @@ public class RedisCacheServiceImpl implements ICacheService {
 
     @Override
     public boolean getLock(String lockKey, String lockId, long expireTime) {
+        return this.acquireLock(lockKey, lockId, expireTime);
+    }
+    @Override
+    public boolean acquireLock(String lockKey, String lockId, long expireTime) {
         // 当前时间
         try {
             String lockLuaScript = getLockLuaScript();

@@ -13,6 +13,7 @@
 
     <dependencies>
         <!--公共实体-->
+
         <dependency>
            <groupId>com.github.platform.core</groupId>
             <artifactId>common</artifactId>

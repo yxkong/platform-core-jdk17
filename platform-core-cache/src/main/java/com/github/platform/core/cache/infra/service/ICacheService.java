@@ -28,6 +28,14 @@ public interface ICacheService {
     /**
      * 获取分布式锁：一次性
      * @param lockKey 锁key
+     * @param lockId 锁id,自己加的锁，自己能释放
+     * @param expireTime 单位秒|你认为此方法需要多少时间，设置一个最长时间，此时间必须大于需要调用锁的业务方法逻辑的最大时间，否则锁会冲突
+     * @return 是否获取成功
+     */
+    boolean acquireLock(String lockKey, String lockId, long expireTime);
+    /**
+     * 获取分布式锁：一次性
+     * @param lockKey 锁key
      * @param expireTime 单位秒|你认为此方法需要多少时间，设置一个最长时间，此时间必须大于需要调用锁的业务方法逻辑的最大时间，否则锁会冲突
      * @return 返回加锁id
      */

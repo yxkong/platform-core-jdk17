@@ -20,6 +20,8 @@ public class TypeUtil {
             case "longtext":
             case "mediumtext":
             case "varchar":
+            case "set":
+            case "enum":
             case "text":
             case "blob":
             case "tinyblob":

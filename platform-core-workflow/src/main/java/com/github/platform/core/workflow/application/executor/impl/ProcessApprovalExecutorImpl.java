@@ -1,10 +1,13 @@
 package com.github.platform.core.workflow.application.executor.impl;
 
 import com.github.platform.core.auth.util.LoginUserInfoUtil;
+import com.github.platform.core.cache.domain.constant.CacheConstant;
+import com.github.platform.core.cache.infra.service.ICacheService;
 import com.github.platform.core.cache.infra.utils.SequenceUtil;
 import com.github.platform.core.common.service.BaseExecutor;
 import com.github.platform.core.common.utils.ApplicationContextHolder;
 import com.github.platform.core.common.utils.StringUtils;
+import com.github.platform.core.standard.constant.ResultStatusEnum;
 import com.github.platform.core.standard.constant.SymbolConstant;
 import com.github.platform.core.standard.util.LocalDateTimeUtil;
 import com.github.platform.core.workflow.application.constant.WorkflowApplicationEnum;
@@ -53,6 +56,8 @@ public class ProcessApprovalExecutorImpl extends BaseExecutor implements IProces
 
     @Resource(name="flowableProcessTaskService")
     private IProcessTaskService processTaskService;
+    @Resource
+    private ICacheService cacheService;
 
     @Override
     public void submit(ProcessOptTypeEnum optType,String bizNo, String taskKey){
@@ -74,44 +79,55 @@ public class ProcessApprovalExecutorImpl extends BaseExecutor implements IProces
                 .task(task)
                 .build();
         submit(context);
+
+
     }
     @Override
     public void submit(ApprovalContext context) {
-        /** ①校验任务类型是否实现*/
-        ProcessOptTypeEnum optType = context.getOptTypeEnum();
-        IProcessApprovalGateway approvalGateway = ApplicationContextHolder.getBean(optType.getBean(), IProcessApprovalGateway.class);
-        ProcessInstanceDto instanceDto = context.getProcessInstanceDto();
-        if (Objects.isNull(instanceDto)){
-            instanceDto = instanceGateway.findByInstanceId(context.getInstanceId());
-        }
-        /** ②校验任务是否存在*/
-        String assignee = LoginUserInfoUtil.getLoginName();
+        String lockKey = "approval:" + context.getInstanceId() ;
+        String lockId = cacheService.acquireLock(lockKey, CacheConstant.distributeLockTime_30);
+        try {
+            if (StringUtils.isEmpty(lockId)){
+                throw exception(ResultStatusEnum.REPEAT);
+            }
+            /** ①校验任务类型是否实现*/
+            ProcessOptTypeEnum optType = context.getOptTypeEnum();
+            IProcessApprovalGateway approvalGateway = ApplicationContextHolder.getBean(optType.getBean(), IProcessApprovalGateway.class);
+            ProcessInstanceDto instanceDto = context.getProcessInstanceDto();
+            if (Objects.isNull(instanceDto)){
+                instanceDto = instanceGateway.findByInstanceId(context.getInstanceId());
+            }
+            /** ②校验任务是否存在*/
+            String assignee = LoginUserInfoUtil.getLoginName();
 
-        Task task = context.getTask();
-        if (Objects.isNull(task)){
-            task = processTaskService.getTask(context.getTaskId());
-        }
-        if (Objects.isNull(task)){
-            throw exception(WorkflowApplicationEnum.PROCESS_TASK_NOT_EXIST);
-        }
-        /** ③根据策略执行任务*/
-        approvalGateway.execute(processTaskService,task,context);
-        /** ④抄送用户处理*/
+            Task task = context.getTask();
+            if (Objects.isNull(task)){
+                task = processTaskService.getTask(context.getTaskId());
+            }
+            if (Objects.isNull(task)){
+                throw exception(WorkflowApplicationEnum.PROCESS_TASK_NOT_EXIST);
+            }
+            /** ③根据策略执行任务*/
+            approvalGateway.execute(processTaskService,task,context);
+            /** ④抄送用户处理*/
 
 
-        /** ⑤表单实例数据记录*/
-        String formInstNo = SequenceUtil.nextSequenceNum(WorkFlowSequenceEnum.FORM_INSTANCE);
-//        if (StringUtils.isEmpty(instanceDto.getFormInstNo())){
-//            String formInstNo = SequenceUtil.nextSequenceNum(SequenceEnum.FORM_INSTANCE);
-//            instanceDto.setFormInstNo(formInstNo);
-//            ProcessInstanceContext instanceContext = ProcessInstanceContext.builder().id(instanceDto.getId()).bizNo(instanceDto.getBizNo()).instanceId(instanceDto.getInstanceId()).formInstNo(formInstNo).build();
-//            instanceGateway.update(instanceContext);
-//        }
-        formDataExecutor.formDataHandler(context.getTaskFormInfo(), instanceDto.getInstanceNo(),formInstNo);
-        /**
-         * ⑥ 日志记录
-         */
-        logRecord(context, task, assignee, instanceDto, formInstNo);
+            /** ⑤表单实例数据记录*/
+            String formInstNo = SequenceUtil.nextSequenceNum(WorkFlowSequenceEnum.FORM_INSTANCE);
+    //        if (StringUtils.isEmpty(instanceDto.getFormInstNo())){
+    //            String formInstNo = SequenceUtil.nextSequenceNum(SequenceEnum.FORM_INSTANCE);
+    //            instanceDto.setFormInstNo(formInstNo);
+    //            ProcessInstanceContext instanceContext = ProcessInstanceContext.builder().id(instanceDto.getId()).bizNo(instanceDto.getBizNo()).instanceId(instanceDto.getInstanceId()).formInstNo(formInstNo).build();
+    //            instanceGateway.update(instanceContext);
+    //        }
+            formDataExecutor.formDataHandler(context.getTaskFormInfo(), instanceDto.getInstanceNo(),formInstNo);
+            /**
+             * ⑥ 日志记录
+             */
+            logRecord(context, task, assignee, instanceDto, formInstNo);
+        } finally {
+            cacheService.releaseLock(lockKey, lockId);
+        }
     }
 
     @Override

@@ -55,7 +55,7 @@ public class ${entityName}Controller extends BaseController{
     * @param cmd 新增实体
     * @return 操作结果
     */
-    @OptLog(module="${lowerEntityName}",title="新增${apiAlias}",optType = LogOptTypeEnum.add)
+    @OptLog(module="${lowerEntityName}",title="新增${apiAlias}",optType = LogOptTypeEnum.ADD)
     @Operation(summary = "新增${apiAlias}",tags = {"${lowerEntityName}"})
     @PostMapping("/add")
     public ResultBean<String> add(@Validated @RequestBody ${entityName}Cmd cmd) {
@@ -69,7 +69,7 @@ public class ${entityName}Controller extends BaseController{
     * @param id 主键id
     * @return 单条记录
     */
-    @OptLog(module="${lowerEntityName}",title="根据id查询${apiAlias}明细",optType = LogOptTypeEnum.detail,persistent = false)
+    @OptLog(module="${lowerEntityName}",title="根据id查询${apiAlias}明细",optType = LogOptTypeEnum.DETAIL,persistent = false)
     @Operation(summary = "根据id查询${apiAlias}明细",tags = {"${lowerEntityName}"})
     @PostMapping("/detail")
     public ResultBean<${entityName}Dto> detail(@Validated @RequestBody StrIdReq id) {
@@ -82,7 +82,7 @@ public class ${entityName}Controller extends BaseController{
      * @param id 主键id
      * @return 操作结果
      */
-    @OptLog(module="${lowerEntityName}",title="根据id删除${apiAlias}记录",optType = LogOptTypeEnum.delete)
+    @OptLog(module="${lowerEntityName}",title="根据id删除${apiAlias}记录",optType = LogOptTypeEnum.DELETE)
     @Operation(summary = "根据id删除${apiAlias}记录",tags = {"${lowerEntityName}"})
     @PostMapping("/delete")
     public ResultBean delete(@Validated @RequestBody StrIdReq id) {
@@ -95,7 +95,7 @@ public class ${entityName}Controller extends BaseController{
      * @param cmd 修改实体
      * @return 操作结果
      */
-    @OptLog(module="${lowerEntityName}",title="修改${apiAlias}",optType = LogOptTypeEnum.modify)
+    @OptLog(module="${lowerEntityName}",title="修改${apiAlias}",optType = LogOptTypeEnum.MODIFY)
     @Operation(summary = "修改${apiAlias}",tags = {"${lowerEntityName}"})
     @PostMapping("/modify")
     public ResultBean modify(@Validated @RequestBody ${entityName}Cmd cmd) {

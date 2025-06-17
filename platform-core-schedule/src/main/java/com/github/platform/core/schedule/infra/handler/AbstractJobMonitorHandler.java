@@ -31,7 +31,7 @@ public abstract class AbstractJobMonitorHandler implements IJobMonitorHandler{
         String lockId = getLockId();
         String lockKey = getLockKey(jobDto);
         ICacheService cacheService = ApplicationContextHolder.getBean(ICacheService.class);
-        boolean lock = cacheService.getLock(lockKey,lockId , lockTime);
+        boolean lock = cacheService.acquireLock(lockKey,lockId , lockTime);
         if (!lock){
             return Pair.of(true,"其他节点执行");
         }

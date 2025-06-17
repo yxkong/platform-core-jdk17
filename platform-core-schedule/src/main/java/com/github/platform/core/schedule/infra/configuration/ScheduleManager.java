@@ -155,6 +155,9 @@ public class ScheduleManager {
             scheduler.deleteJob(getJobKey(handlerName));
         }
     }
+    public void deleteJobByKey(JobKey jobKey) throws SchedulerException {
+        scheduler.deleteJob(jobKey);
+    }
     private JobKey getJobKey(String handlerName){
         return new JobKey(handlerName);
     }

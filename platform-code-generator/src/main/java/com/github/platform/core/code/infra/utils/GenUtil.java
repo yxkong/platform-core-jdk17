@@ -555,7 +555,7 @@ public class GenUtil {
     private static String getFilePath(String rootPath, String path, String module, String subModule, String packageName) {
         StringBuffer sb = new StringBuffer();
         if (StringUtils.isNotEmpty(rootPath)){
-            sb.append(rootPath).append(SymbolConstant.PERIOD);
+            sb.append(rootPath);
         }
         if (StringUtils.isNotEmpty(path)) {
             sb.append(path).append(SymbolConstant.PERIOD);

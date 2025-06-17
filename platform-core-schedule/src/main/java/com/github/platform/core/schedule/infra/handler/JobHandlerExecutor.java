@@ -22,6 +22,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 任务执行器 IJobMonitorHandler 的执行器
@@ -51,6 +52,14 @@ public class JobHandlerExecutor extends QuartzJobBean {
         String executeUser = context.getMergedJobDataMap().getString(JobDataEnum.EXECUTE_USER.getKey());
         executeUser = StringUtils.isEmpty(executeUser) ? JobConstant.DEFAULT_USER : executeUser;
         SysJobDto jobDto = sysJobGateway.findById(jobId);
+        if (Objects.isNull(jobDto)){
+            try {
+                ApplicationContextHolder.getBean(ScheduleManager.class).deleteJobByKey(context.getJobDetail().getKey());
+            } catch (SchedulerException e) {
+                log.error("删除job失败: jobId={}", jobId, e);
+            }
+            return;
+        }
         if (!isJobExecutable(jobDto)) {
             return;
         }

@@ -17,6 +17,7 @@ import com.github.platform.core.workflow.infra.event.WorkFlowTaskEvent;
 import com.github.platform.core.workflow.infra.event.WorkflowActivityEvent;
 import com.github.platform.core.workflow.infra.event.WorkflowProcessEvent;
 import com.github.platform.core.workflow.infra.util.BpmnModelUtils;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.constants.BpmnXMLConstants;
 import org.flowable.bpmn.model.FlowElement;
@@ -37,7 +38,6 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -129,15 +129,15 @@ public class GlobalEventListener extends AbstractFlowableEngineEventListener {
     }
 
 
-    @Override
-    protected void taskCreated(FlowableEngineEntityEvent event) {
-        handlerTask(event,FlwConstant.TASK_CREATED);
-    }
-
-    @Override
-    protected void taskCompleted(FlowableEngineEntityEvent event) {
-        handlerTask(event,FlwConstant.TASK_COMPLETED);
-    }
+//    @Override
+//    protected void taskCreated(FlowableEngineEntityEvent event) {
+//        handlerTask(event,FlwConstant.TASK_CREATED);
+//    }
+//
+//    @Override
+//    protected void taskCompleted(FlowableEngineEntityEvent event) {
+//        handlerTask(event,FlwConstant.TASK_COMPLETED);
+//    }
     private void handlerTask(FlowableEngineEntityEvent event,String eventType){
         if (!(event.getEntity() instanceof TaskEntity)) {
             log.info("非TaskEntity任创建：executionId={}, instanceId={}, entity class={} result:{}", event.getExecutionId(), event.getProcessInstanceId(), event.getEntity().getClass(), JsonUtils.toJson(event.getEntity()));
@@ -185,45 +185,68 @@ public class GlobalEventListener extends AbstractFlowableEngineEventListener {
     protected void activityStarted(FlowableActivityEvent event) {
         handleActivityEvent(event,FlwConstant.ACTIVITY_STARTED);
     }
+
+    @Override
+    protected void activityCompleted(FlowableActivityEvent event) {
+        handleActivityEvent(event, FlwConstant.ACTIVITY_COMPLETED);
+    }
+
+    // 统一节点事件处理
     private void handleActivityEvent(FlowableActivityEvent event, String eventType) {
         DelegateExecution execution = ((FlowableActivityEventImpl) event).getExecution();
         FlowElement flowElement = execution.getCurrentFlowElement();
+        String activityType = event.getActivityType();
+
+        if (!BpmnXMLConstants.ELEMENT_TASK_USER.equals(activityType)) {
+            return;
+        }
+
+        Map<String, Object> variables = execution.getVariables();
+        String processType = (String) variables.get(FlwConstant.PROCESS_TYPE);
+        if (!ProcessTypeEnum.isPm(processType)) {
+            return;
+        }
+        // 节点id
         String instanceId = event.getProcessInstanceId();
         String activityId = event.getActivityId();
         String activityName = event.getActivityName();
-        String activityType = event.getActivityType();
-        log.warn("activity事件 {} instanceId:{} activityName:{}  activityType：{} type:{}",
-                eventType,execution.getProcessInstanceId(), flowElement.getName(), event.getActivityName(), event.getClass().getName());
-        if (BpmnXMLConstants.ELEMENT_TASK_USER.equals(activityType)){
-            Map<String, Object> variables = execution.getVariables();
-            String instanceNo = (String) variables.get(FlwConstant.INSTANCE_NO);
-            String bizNo = (String) variables.get(FlwConstant.BIZ_NO);
-            String processType = (String) variables.get(FlwConstant.PROCESS_TYPE);
-            if (!ProcessTypeEnum.isPm(processType)){
-                return;
-            }
-            String processNo = (String) variables.get(FlwConstant.PROCESS_NO);
-            Integer version = (Integer) variables.get(FlwConstant.PROCESS_VERSION);
-            ProcessDefinitionDto definitionDto = processDefinitionGateway.findByProcessNo(processNo, version);
-            String executionId = execution.getId();
-            String roles = null;
-            UserTask userTask = (UserTask) flowElement;
-            List<String> candidateGroups = userTask.getCandidateGroups();
-            if (CollectionUtil.isNotEmpty(candidateGroups)){
-                roles = String.join(SymbolConstant.COMMA,candidateGroups);
-            }
-            String mainRole = getMainRole(flowElement,roles);
-            WorkflowActivityEntity activityEntity = WorkflowActivityEntity.builder()
-                    .executionId(executionId).taskKey(activityId).taskName(activityName)
-                    .eventType(eventType).activityType(activityType)
-                    .bizNo(bizNo).processType(processType).processTypeName(definitionDto.getProcessName())
-                    .instanceId(instanceId).instanceNo(instanceNo)
-                    .mainRole(mainRole).roles(roles)
-                    .variables(variables)
-                    .sendTime(LocalDateTimeUtil.dateTime()).currentActivityId(flowElement.getId())
-                    .build();
-           applicationContext.publishEvent(new WorkflowActivityEvent(activityEntity));
-        }
+        String instanceNo = (String) variables.get(FlwConstant.INSTANCE_NO);
+        String bizNo = (String) variables.get(FlwConstant.BIZ_NO);
+        String processNo = (String) variables.get(FlwConstant.PROCESS_NO);
+        Integer version = (Integer) variables.get(FlwConstant.PROCESS_VERSION);
+        String executionId = execution.getId();
+
+        ProcessDefinitionDto definitionDto = processDefinitionGateway.findByProcessNo(processNo, version);
+        UserTask userTask = (UserTask) flowElement;
+
+        // 获取角色信息
+        List<String> candidateGroups = userTask.getCandidateGroups();
+        String roles = CollectionUtil.isNotEmpty(candidateGroups) ?
+                String.join(SymbolConstant.COMMA, candidateGroups) : null;
+        String mainRole = getMainRole(flowElement, roles);
+        String formKey = BpmnModelUtils.getFormKey(flowElement);
+        // 构建事件实体
+        WorkflowActivityEntity activityEntity = WorkflowActivityEntity.builder()
+                .executionId(executionId)
+                .taskKey(activityId)
+                .taskName(activityName)
+                .eventType(eventType)
+                .activityType(activityType)
+                .bizNo(bizNo)
+                .processType(processType)
+                .processTypeName(definitionDto.getProcessName())
+                .instanceId(instanceId)
+                .instanceNo(instanceNo)
+                .mainRole(mainRole)
+                .roles(roles)
+                .variables(variables)
+                .sendTime(LocalDateTimeUtil.dateTime())
+                .currentActivityId(flowElement.getId())
+                .formKey(formKey)
+                .build();
+
+        // 发布节点事件
+        applicationContext.publishEvent(new WorkflowActivityEvent(activityEntity));
     }
 
 
