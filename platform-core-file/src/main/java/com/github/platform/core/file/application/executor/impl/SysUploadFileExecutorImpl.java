@@ -36,8 +36,12 @@ public class SysUploadFileExecutorImpl extends SysExecutor implements ISysUpload
         PageBean<SysUploadFileDto> page = gateway.query(context);
         if (Objects.nonNull(page) && CollectionUtil.isNotEmpty(page.getData())){
             page.getData().forEach(s->{
-                s.setUrl(uploadFileExecutor.getUrl(s));
-                s.setThumbUrl(uploadFileExecutor.getThumbUrl(s));
+                try {
+                    s.setUrl(uploadFileExecutor.getUrl(s));
+                    s.setThumbUrl(uploadFileExecutor.getThumbUrl(s));
+                } catch (Exception e) {
+                    log.error("获取文件url失败",e);
+                }
             });
         }
         return page;

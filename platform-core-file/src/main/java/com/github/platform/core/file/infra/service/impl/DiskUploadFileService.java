@@ -61,8 +61,10 @@ public class DiskUploadFileService extends AbstractUploadFileService {
             return relativePath.append(File.separator).append(uploadFileName).toString();
         } catch (FileNotFoundException e) {
             log.error("未找到对应的文件", e);
+            throw new RuntimeException(e);
         } catch (IOException e) {
             log.error("文件io异常", e);
+            throw new RuntimeException(e);
         } finally {
             if (out != null) {
                 try {
@@ -71,7 +73,6 @@ public class DiskUploadFileService extends AbstractUploadFileService {
                 }
             }
         }
-        return null;
     }
 
     @Override

@@ -28,20 +28,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!--aws sdk 需要的依赖-->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+        </dependency>
         <!--天翼云oos-sdk 需要的依赖-->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
         <!--天翼云sdk，需要推送到自己的私服上-->
-        <dependency>
-            <groupId>cn.ctyun.oos</groupId>
-            <artifactId>oos-sdk</artifactId>
-            <version>6.5.0</version>
-<!--            <scope>system</scope>-->
-<!--            <systemPath>${project.basedir}/src/main/resources/lib/oos-sdk-6.5.0.jar</systemPath>-->
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.ctyun.oos</groupId>-->
+<!--            <artifactId>oos-sdk</artifactId>-->
+<!--            <version>6.5.0</version>-->
+<!--&lt;!&ndash;            <scope>system</scope>&ndash;&gt;-->
+<!--&lt;!&ndash;            <systemPath>${project.basedir}/src/main/resources/lib/oos-sdk-6.5.0.jar</systemPath>&ndash;&gt;-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>

@@ -30,9 +30,12 @@ import java.util.Objects;
 @Slf4j
 public class AliYunFileUploadFileService extends AbstractUploadFileService{
     private final OSS ossClient;
-    public AliYunFileUploadFileService(OSS ossClient, SysUploadFileMapper uploadFileMapper, UploadProperties properties, SysUploadFileInfraConvert convert) {
+    private final UploadProperties.OssProperties ossProperties;
+    public AliYunFileUploadFileService(OSS ossClient, SysUploadFileMapper uploadFileMapper
+            , UploadProperties properties, UploadProperties.OssProperties ossProperties, SysUploadFileInfraConvert convert) {
         this.uploadFileMapper = uploadFileMapper;
         this.uploadProperties = properties;
+        this.ossProperties = ossProperties;
         this.ossClient = ossClient;
         this.convert = convert;
     }
@@ -44,7 +47,7 @@ public class AliYunFileUploadFileService extends AbstractUploadFileService{
 
     @Override
     protected UploadProperties.OssProperties getProperties() {
-        return this.uploadProperties.getAliyun();
+        return this.ossProperties;
     }
     @Override
     public String upload(String module, String bizNo, String uploadFileName, InputStream is) {
@@ -57,15 +60,16 @@ public class AliYunFileUploadFileService extends AbstractUploadFileService{
             return objectName;
         }catch (OSSException oe) {
             log.error("上传阿里云oss服务端异常，code:{},message:{},requestId:{},hostId:{}",oe.getErrorCode(),oe.getMessage(),oe.getRequestId(),oe.getHostId());
+            throw oe;
         } catch (ClientException ce) {
             log.error("上传阿里云oss客户端异常,code:{},message:{},requestId:{}",ce.getErrorCode(),ce.getMessage(),ce.getRequestId());
+            throw ce;
         }
-        return null;
     }
 
     @Override
     public String getUrl(SysUploadFileDto dto) {
-        //这里，oss必须设置为外网可访问
+        //这里，oss必须设置cname访问
         String cnameUrl = getCnameUrl(dto);
         if (StringUtils.isNotEmpty(cnameUrl)){
             return cnameUrl;
@@ -83,14 +87,14 @@ public class AliYunFileUploadFileService extends AbstractUploadFileService{
     private String getUrlStr(SysUploadFileDto dto,String style) {
         GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(getProperties().getBucketName(), dto.getFilePath());
         // 设置失效时间
-        int activeMinutes = Objects.equals(dto.getPermanent() ,Boolean.TRUE) ? Integer.MAX_VALUE :
-                Objects.isNull(getProperties().getLinkExpireMinutes()) ? 30 : getProperties().getLinkExpireMinutes();
+        int activeMinutes = Objects.equals(dto.getPermanent() ,Boolean.TRUE) ? 10080  :
+                Objects.isNull(getProperties().getLinkExpireMinutes()) ? 60 : getProperties().getLinkExpireMinutes();
         req.setExpiration(DateUtils.addDays(new Date(), activeMinutes));
         if (StringUtils.isNotEmpty(style)){
             req.setProcess(style);
         }
         URL url  = ossClient.generatePresignedUrl(req);
-        return getThumbCnameUrl(url.toString(),getUrl(dto));
+        return url.toString();
     }
 
     @Override
@@ -98,11 +102,17 @@ public class AliYunFileUploadFileService extends AbstractUploadFileService{
         if (!dto.isImage()){
             return null;
         }
+        //如果不开启压缩直接返回
+        String url = getUrl(dto);
+        if (!this.getProperties().getThumbSwitch()){
+            return url;
+        }
         /**
          *  m_lfit 等比例缩放
          */
         String style = "image/resize,m_lfit,w_100,h_100";
-        return getUrlStr(dto,style);
+        String thumbUrl = getUrlStr(dto, style);
+        return getThumbCnameUrl(thumbUrl,url);
     }
 
 }

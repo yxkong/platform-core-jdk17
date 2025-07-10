@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-           <groupId>com.github.platform.core</groupId>
+            <groupId>com.github.platform.core</groupId>
             <artifactId>common</artifactId>
         </dependency>
         <dependency>

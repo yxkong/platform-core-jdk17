@@ -42,6 +42,10 @@ public class UploadProperties {
      * 阿里云存储
      */
     private OssProperties aliyun = new OssProperties();
+    /**
+     * ucloud
+     */
+    private OssProperties uCloud = new OssProperties();
 
     /**
      * 磁盘上传配置
@@ -59,13 +63,15 @@ public class UploadProperties {
         private String fileRoot;
     }
     /**
-     * oss配置
+     * s3配置
      */
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class OssProperties {
+        /**云的存储类型*/
+        private String storageType ;
         /**云的endpoint*/
         private String endpoint;
         /**云的cname*/
@@ -82,7 +88,14 @@ public class UploadProperties {
         /**云的socketTimeout*/
         @Builder.Default
         private Integer socketTimeout = 30 * 1000;
+        @Builder.Default
+        private String region = "default";
         /**链接过期时间*/
-        private Integer linkExpireMinutes;
+        private Integer linkExpireMinutes = 60;
+        /**缩略图开关*/
+        private Boolean thumbSwitch = false;
+        /**是否永久链接*/
+        private Boolean permanent = false;
+
     }
 }

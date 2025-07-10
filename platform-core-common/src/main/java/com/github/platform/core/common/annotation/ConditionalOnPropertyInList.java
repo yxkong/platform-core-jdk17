@@ -14,30 +14,26 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@Conditional({InListConditional.class})
+@Conditional(InListConditional.class)
 public @interface ConditionalOnPropertyInList {
+
     /**
-     * 前缀
-     * @return
+     * 属性名前缀
      */
     String prefix() default "";
 
     /**
-     * 直接定位到属性的名称
-     * @return
+     * 要检查的属性名
      */
-    String[] name() default {};
+    String[] name();
 
     /**
-     * 是否有对应的值
-     * @return
+     * 需要匹配的值
      */
-    String havingValue() default "";
+    String havingValue();
 
     /**
-     * 确实匹配的时候默认值
-     * @return
+     * 当属性不存在时是否匹配
      */
     boolean matchIfMissing() default false;
-
 }

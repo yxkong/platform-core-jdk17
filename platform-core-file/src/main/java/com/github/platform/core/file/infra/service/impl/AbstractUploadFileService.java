@@ -72,9 +72,11 @@ public abstract class AbstractUploadFileService implements IUploadFileService {
             if (log.isWarnEnabled()){
                 log.warn("module:{} bizNo:{} fileName:{} relativeFile:{} uploadName:{}",module,bizNo,fileName,relativeFile,uploadFileName);
             }
+            if (StringUtils.isEmpty(relativeFile)) {
+                return null;
+            }
         } catch (Exception e) {
-            log.error("Failed to upload file to OSS.", e);
-            return null;
+            throw new RuntimeException("Failed to upload file.", e);
         }
         //记录上传日志
         SysUploadFileBase record = SysUploadFileBase.builder()

@@ -127,10 +127,9 @@ public class ProcessDefinitionExecutorImpl extends SysExecutor implements IProce
         if (StringUtils.isEmpty(xmlFile)){
             throw exception(WorkflowApplicationEnum.start_file_illegality);
         }
-        ProcessDefinitionContext context = ProcessDefinitionContext.builder().id(id)
-                .status(ProcessStatusEnum.ON.getStatus())
-                .processFile(xmlFile)
-                .build();
+        ProcessDefinitionContext context = convert.toContext(dto);
+        context.setStatus(ProcessStatusEnum.ON.getStatus());
+        context.setProcessFile(xmlFile);
         //审批流部署 ， 部署时processName需要加 bpmn 才能正常启动流程（ 因为部署使用addString的第一个参数必须有bpmn）
         String deployId = processManagerService.deploy(dto.getProcessType(),dto.getProcessNo(),dto.getVersion(), dto.getProcessName(), xmlFile);
         context.setDeployId(deployId);

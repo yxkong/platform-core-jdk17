@@ -11,20 +11,19 @@ import com.github.platform.core.file.infra.configuration.properties.UploadProper
 import com.github.platform.core.file.infra.convert.SysUploadFileInfraConvert;
 import com.github.platform.core.file.infra.service.IUploadFileService;
 import com.github.platform.core.standard.constant.ResultStatusEnum;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -33,7 +32,7 @@ import java.util.Objects;
  * @date: 2022/8/3 3:54 PM
  * @version: 1.0
  */
-@Service("uploadFileExecutor1")
+@Service("uploadFileExecutor")
 @Slf4j
 public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileExecutor {
     @Resource
@@ -52,6 +51,7 @@ public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileE
         //上传的时候用系统配置的
         IUploadFileService uploadFileService = getUploadFileService(properties.getStorage());
         SysUploadFileDto uploadFileDto = uploadFileService.uploadAndSave(module, bizNo, fileName, fileSize, fileBytes);
+
         uploadFileDto.setPermanent(true);
         return UploadEntity.builder()
                 .storage(properties.getStorage())
@@ -62,8 +62,9 @@ public class UploadFileExecutorImpl extends BaseExecutor implements IUploadFileE
     }
 
     private IUploadFileService getUploadFileService(String storage) {
+
         return uploadFileServices.stream()
-                .filter(v -> v.support(storage))
+                .filter(v ->  v.support(storage))
                 .findFirst()
                 .orElseThrow(() ->exception(ResultStatusEnum.NO_FOUND_IMPLEMENT));
     }
